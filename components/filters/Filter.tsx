@@ -44,13 +44,17 @@ const Filter: React.FC<FilterProps> = ({
                     onClick={() => setIsUnwrapped(prev => !prev)}
                 >
                     <p>{name}</p>
-                    <UnwrappingElementIcon
-                        className={clsx(
-                            'w-3',
-                            'transition-all duration-200',
-                            isUnwrapped && 'rotate-180'
-                        )}
-                    />
+                    <div className={clsx(
+                        'h-2'
+                    )}>
+                        <UnwrappingElementIcon
+                            className={clsx(
+                                'w-auto h-full',
+                                'transition-all duration-200',
+                                isUnwrapped && 'rotate-180'
+                            )}
+                        />
+                    </div>
                 </div>
             :
                 <p className={clsx(

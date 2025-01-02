@@ -31,13 +31,17 @@ const FilterSet: React.FC<FilterSetProps> = ({
                 onClick={() => setIsUnwrapped(prev => !prev)}
             >
                 <p>{name}</p>
-                <UnwrappingElementIcon 
-                    className={clsx(
-                        'w-3',
-                        'transition-all duration-200',
-                        isUnwrapped && 'rotate-180'
-                    )}
-                />
+                <div className={clsx(
+                    'h-2'
+                )}>
+                    <UnwrappingElementIcon 
+                        className={clsx(
+                            'w-auto h-full',
+                            'transition-all duration-200',
+                            isUnwrapped && 'rotate-180'
+                        )}
+                    />
+                </div>
             </div>
             <div className={clsx(
                 'flex flex-col gap-4',
