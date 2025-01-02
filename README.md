@@ -2,8 +2,7 @@
 
 ## License
 
-This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.  
-You can view the full license at [https://creativecommons.org/licenses/by-nc/4.0/](https://creativecommons.org/licenses/by-nc/4.0/).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file or the full text at [MIT License](https://opensource.org/licenses/MIT) for details.
 
 ## Overview
 
