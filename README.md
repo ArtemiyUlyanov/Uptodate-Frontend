@@ -1,11 +1,16 @@
-# Uptodate Front-end v1.0.0 
+# Uptodate Front-end v1.0.0
+
+## License
+
+This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.  
+You can view the full license at [https://creativecommons.org/licenses/by-nc/4.0/](https://creativecommons.org/licenses/by-nc/4.0/).
 
 ## Overview
 
 This is a nextjs-based web application that represents the Front-end of Uptodate. 
 Uptodate is a service intended to empower consumers to publish their articles and find out necessary information.
 
-![Демонстрация работы](/git/uptodate.gif)
+![Example of work](/git/uptodate.gif)
 
 [Check out the Back-end](https://github.com/Artem340dev/Uptodate)
 
