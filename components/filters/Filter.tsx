@@ -45,7 +45,7 @@ const Filter: React.FC<FilterProps> = ({
                 >
                     <p>{name}</p>
                     <div className={clsx(
-                        'h-2'
+                        'h-1.5'
                     )}>
                         <UnwrappingElementIcon
                             className={clsx(

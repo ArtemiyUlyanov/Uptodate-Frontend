@@ -32,7 +32,7 @@ const FilterSet: React.FC<FilterSetProps> = ({
             >
                 <p>{name}</p>
                 <div className={clsx(
-                    'h-2'
+                    'h-1.5'
                 )}>
                     <UnwrappingElementIcon 
                         className={clsx(
