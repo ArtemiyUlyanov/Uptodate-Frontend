@@ -1,4 +1,4 @@
-import { FiltersType } from "@/hooks/useFilters"
+import { FiltersType } from "@/hooks/explore/useFilters"
 import { Article } from "@/models/article"
 import axios from "axios"
 

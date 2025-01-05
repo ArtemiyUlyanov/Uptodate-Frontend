@@ -1,15 +1,13 @@
 import clsx from "clsx";
 import Link from "next/link";
+import { CustomButtonProps } from "./custom_button_props";
 
-export type DefaultButtonProps = React.HTMLProps<HTMLDivElement> & {
-    text: string
-    link: string
-    className?: string
-}
+export type DefaultButtonProps = CustomButtonProps
 
 const DefaultButton: React.FC<DefaultButtonProps> = ({
     text,
     link,
+    onClickButton,
     className
 }) => {
     return (
@@ -21,7 +19,8 @@ const DefaultButton: React.FC<DefaultButtonProps> = ({
                 'active:opacity-[0.5] sm:active:opacity',
                 className
             )}
-            href={link}
+            onClick={onClickButton}
+            href={link || ''}
         >
             {text}
         </Link>

@@ -1,7 +1,7 @@
 import BlueButton from "@/components/buttons/BlueButton";
 import { ArticleCoverIcon } from "@/components/icons/ArticleCoverIcon";
 import { UserCoverIcon } from "@/components/icons/UserCoverIcon";
-import { useSearch } from "@/hooks/useSearch";
+import { useSearch } from "@/hooks/explore/useSearch";
 import { ArticleTopic } from "@/models/article_topic";
 import { User } from "@/models/user";
 import user_icon_1 from "@/public/images/user_icon_1.png";
@@ -96,7 +96,7 @@ const ArticleCover: React.FC<ArticleCoverProps> = ({
                     )}>{splitQueryText(capitalizeText(heading), query, 'bg-blueText text-primaryText')}</p>
                     <p className={clsx(
                         'font-interTight font-medium text text-base sm:text-sm lg:text-base text-secondaryText text-left line-clamp-3'
-                    )}>{splitQueryText(capitalizeText(description), query, 'bg-blueText text-primaryText')}</p>
+                    )}>{splitQueryText(description, query, 'bg-blueText text-primaryText')}</p>
                 </div>
 
                 <div className={clsx(

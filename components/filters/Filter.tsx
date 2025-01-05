@@ -1,9 +1,13 @@
-import { useFilters } from "@/hooks/useFilters"
+import { useFilters } from "@/hooks/explore/useFilters"
 import clsx from "clsx"
 import { FiltersIcon } from "../icons/FiltersIcon"
 import { CheckboxCheckedIcon } from "../icons/CheckboxCheckedIcon"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { UnwrappingElementIcon } from "../icons/UnwrappingElementIcon"
+import { useLocalSearch, UseLocalSearchResponse } from "@/hooks/explore/useLocalSearch"
+import { splitQueryText } from "@/utils/text_utils"
+import IconInput from "../inputs/IconInput"
+import { SearchIcon } from "../icons/SearchIcon"
 
 export type FilterProps = React.HTMLProps<HTMLDivElement> & {
     name: string
@@ -11,8 +15,14 @@ export type FilterProps = React.HTMLProps<HTMLDivElement> & {
     applyFilter: (option: string) => void
     isSelected: (option: string) => boolean
     unwrapping: boolean
+    searchProperties?: FilterSearchProps
     multiple: boolean
-} 
+}
+
+export type FilterSearchProps = {
+    displaySearch: boolean
+    providedLocalSearch?: UseLocalSearchResponse
+}
 
 const Filter: React.FC<FilterProps> = ({
     name,
@@ -20,10 +30,26 @@ const Filter: React.FC<FilterProps> = ({
     applyFilter,
     isSelected,
     unwrapping,
+    searchProperties,
     multiple
 }) => {
     const [isUnwrapped, setIsUnwrapped] = useState(false);
     const { filters, setFilter } = useFilters();
+
+    const { displaySearch } = searchProperties || {displaySearch: false};
+    const { searchInput, query, setQuery } = searchProperties?.providedLocalSearch || useLocalSearch(
+        <IconInput
+            placeholder={`Search ${name.toLowerCase()}`}
+            className='w-full'
+            inputClassName='text-base'
+            fullBordered={true}
+            icon={<SearchIcon />}
+        />
+    );
+
+    const filteredOptions = useMemo(() => 
+        options.filter(option => option.toLowerCase().includes(query.toLowerCase()))
+    , [query]);
 
     return (
         <div className={clsx(
@@ -31,9 +57,10 @@ const Filter: React.FC<FilterProps> = ({
             'transition-all duration-200',
             !unwrapping && 'gap-2',
             unwrapping && isUnwrapped && 'gap-2',
-            unwrapping && !isUnwrapped && 'gap-0'
+            unwrapping && !isUnwrapped && 'gap-0',
+            searchProperties?.providedLocalSearch && filteredOptions.length <= 0 && 'hidden'
         )}>
-            {unwrapping ?
+            {(unwrapping ?
                 <div
                     className={clsx(
                         'flex flex-row items-center select-none gap-2',
@@ -60,7 +87,7 @@ const Filter: React.FC<FilterProps> = ({
                 <p className={clsx(
                     'font-interTight font-medium text-secondaryText text-sm'
                 )}>{name}</p>
-            }
+            )}
             <ul className={clsx(
                 'flex flex-wrap gap-2',
                 'transition-all duration-200',
@@ -70,10 +97,17 @@ const Filter: React.FC<FilterProps> = ({
                 unwrapping && isUnwrapped && 'max-h-auto',
                 unwrapping && !isUnwrapped && 'max-h-0'
             )}>
-                {multiple && options.map(option =>
+                {displaySearch && 
+                    <div className={clsx(
+                        'w-full sm:w-1/2'
+                    )}>
+                        {searchInput}
+                    </div>
+                }
+                {multiple && filteredOptions.map(option =>
                     <li
                         className={clsx(
-                            'flex flex-row items-center gap-2 pr-2 pl-2 pt-1 pb-1',
+                            'select-none pr-2 pl-2 pt-1 pb-1',
                             'rounded-full',
                             'border border-borderColor',
                             'font-interTight font-medium text-sm',
@@ -82,13 +116,13 @@ const Filter: React.FC<FilterProps> = ({
                         )}
                         onClick={() => applyFilter(option)}
                     >
-                        {option}
+                        {splitQueryText(option, query, 'bg-blueText text-primaryText')}
                     </li>
                 )}
-                {!multiple && options.map(option =>
+                {!multiple && filteredOptions.filter(option => option.toLowerCase().includes(query.toLowerCase())).map(option =>
                     <li
                         className={clsx(
-                            'flex flex-row items-center gap-2',
+                            'select-none flex flex-row items-center gap-2',
                             'font-interTight font-medium text-sm',
                             'transition-all duration-200',
                         )}
@@ -104,7 +138,7 @@ const Filter: React.FC<FilterProps> = ({
                                 !isSelected(option) && 'opacity-0'
                             )}></span>
                         </div>
-                        {option}
+                        {splitQueryText(option, query, 'bg-blueText text-primaryText')}
                     </li>
                 )}
             </ul>

@@ -1,6 +1,6 @@
 import { SearchIcon } from "@/components/icons/SearchIcon";
 import IconInput from "@/components/inputs/IconInput";
-import { useSearch } from "@/hooks/useSearch";
+import { useSearch } from "@/hooks/explore/useSearch";
 import clsx from "clsx";
 import ExplorePageFilters from "./ExplorePageFilters";
 import BlueButton from "@/components/buttons/BlueButton";
@@ -30,14 +30,10 @@ const ExplorePageSearch: React.FC<ExplorePageSearchProps> = ({
                         placeholder='Search by name'
                         className='w-full'
                         inputClassName='text-base'
-                        onValueChange={value => setQuery(value)}
+                        handleChange={(value) => setQuery(value)}
+                        fullBordered={true}
                         icon={<SearchIcon />}
                     />
-                    {/* <BlueButton
-                        text='Search'
-                        onClickButton={() => performSearch()}
-                        className='font-interTight font-medium text-sm rounded-md'
-                    /> */}
                 </div>
                 <ExplorePageFilters />
             </div>

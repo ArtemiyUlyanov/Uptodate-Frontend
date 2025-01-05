@@ -1,16 +1,43 @@
 import clsx from "clsx";
-import { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { UnwrappingElementIcon } from "../icons/UnwrappingElementIcon";
+import { useLocalSearch, UseLocalSearchResponse } from "@/hooks/explore/useLocalSearch";
+import { FilterProps, FilterSearchProps } from "./Filter";
+import IconInput from "../inputs/IconInput";
+import { SearchIcon } from "../icons/SearchIcon";
 
 export type FilterSetProps = React.HTMLProps<HTMLDivElement> & {
     name: string
+    searchProperties: FilterSetSearchProps
+}
+
+export type FilterSetSearchProps = {
+    searchAllowed: boolean
 }
 
 const FilterSet: React.FC<FilterSetProps> = ({
     name,
+    searchProperties,
     children
 }) => {
     const [isUnwrapped, setIsUnwrapped] = useState(false);
+
+    const { searchAllowed } = searchProperties;
+    const { searchInput, query, setQuery } = useLocalSearch(
+        <IconInput
+            placeholder={`Search ${name.toLowerCase()}`}
+            className='w-full'
+            inputClassName='text-base'
+            fullBordered={true}
+            icon={<SearchIcon />}
+        />
+    );
+
+    const updatedChildren = React.Children.map(children, (child) =>
+        React.isValidElement(child)
+            ? React.cloneElement(child as ReactElement<FilterProps>, { searchProperties: {displaySearch: false, providedLocalSearch: {searchInput, query, setQuery} } })
+            : child
+    );
 
     return (
         <div
@@ -50,7 +77,14 @@ const FilterSet: React.FC<FilterSetProps> = ({
                 isUnwrapped && 'max-h-auto',
                 !isUnwrapped && 'max-h-0'
             )}>
-                {children}
+                {searchAllowed &&
+                    <div className={clsx(
+                        'w-full sm:w-1/2'
+                    )}>
+                        {searchInput}
+                    </div>
+                }
+                {updatedChildren}
             </div>
         </div>
     );

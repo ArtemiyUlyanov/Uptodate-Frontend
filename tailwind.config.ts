@@ -4,6 +4,7 @@ const beforePropertiesPlugin = require('tailwindcss-pseudo-elements');
 const textShadowPlugin = require("tailwindcss-textshadow");
 const scrollbarHidePlugin = require('tailwind-scrollbar-hide');
 const scrollbarPlugin = require('tailwind-scrollbar');
+const animatePlugin = require('tailwindcss-animate');
 
 export default {
   content: [
@@ -62,8 +63,10 @@ export default {
         backgroundColor: "#090909",
         primaryColor: "#FFFFFF",
         emphasizingColor: "#111010",
-        emphasizingColor2: "#202020",
+        emphasizingColor2: "#181818",
+        emphasizingColor3: "#202020",
         blueColor: "#0769FF",
+        warnColor: "#FF4C4C",
 
         borderColor: "#292929",
         
@@ -81,5 +84,5 @@ export default {
       },
     },
   },
-  plugins: [beforePropertiesPlugin, textShadowPlugin, scrollbarHidePlugin, scrollbarPlugin],
+  plugins: [beforePropertiesPlugin, textShadowPlugin, scrollbarHidePlugin, scrollbarPlugin, animatePlugin],
 } satisfies Config;

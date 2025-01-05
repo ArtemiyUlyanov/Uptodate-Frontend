@@ -11,6 +11,7 @@ export type User = {
     roles: UserRole[]
     articles?: Article[]
     comments?: ArticleComment[]
+    jwt_token?: string
 }
 
 export type UserRole = {

@@ -1,11 +1,8 @@
 import clsx from "clsx";
 import Link from "next/link";
+import { CustomButtonProps } from "./custom_button_props";
 
-export type TransparentButtonProps = React.HTMLProps<HTMLDivElement> & {
-    text: string
-    link: string
-    className?: string
-}
+export type TransparentButtonProps = CustomButtonProps
 
 const TransparentButton: React.FC<TransparentButtonProps> = ({
     text,
@@ -22,7 +19,7 @@ const TransparentButton: React.FC<TransparentButtonProps> = ({
                 'border border-solid border-borderColor',
                 className
             )}
-            href={link}
+            href={link || ''}
         >
             {text}
         </Link>

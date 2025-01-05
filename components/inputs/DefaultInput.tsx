@@ -4,13 +4,10 @@ import clsx from "clsx";
 import { use, useEffect, useState } from "react";
 import { CustomInputProps } from "./custom_input_props";
 
-export type IconInputProps = CustomInputProps & {
-    icon?: React.ReactNode
-}
+export type DefaultInputProps = CustomInputProps;
 
-const IconInput: React.FC<IconInputProps> = ({
+const DefaultInput: React.FC<DefaultInputProps> = ({
     placeholder,
-    icon,
     className,
     fullBordered,
     inputClassName,
@@ -33,11 +30,6 @@ const IconInput: React.FC<IconInputProps> = ({
             'transition-all duration-200',
             className
         )}>
-            <div className={clsx(
-                'h-4'
-            )}>
-                {icon}
-            </div>
             <input 
                 placeholder={placeholder}
                 value={value}
@@ -46,8 +38,8 @@ const IconInput: React.FC<IconInputProps> = ({
                     inputClassName
                 )}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setValue(event.target.value);
-                    handleChange && handleChange(event.target.value);   
+                        setValue(event.target.value);
+                        handleChange && handleChange(event.target.value);   
                 }}
                 {...props}
             />
@@ -56,7 +48,7 @@ const IconInput: React.FC<IconInputProps> = ({
                     'font-interTight font-medium text-md text-secondaryText select-none',
                     'transition-all duration-200',
                     'active:opacity-[0.5] sm:active:opacity sm:hover:opacity-[0.5]',
-                    value?.toString() && value.toString().length > 0 ? 'pointer' : 'opacity-[0] pointer-events-none'
+                    value.length > 0 ? 'pointer' : 'opacity-[0] pointer-events-none'
                 )}
                 onClick={clearInput}
             >
@@ -66,4 +58,4 @@ const IconInput: React.FC<IconInputProps> = ({
     );
 }
 
-export default IconInput;
+export default DefaultInput;

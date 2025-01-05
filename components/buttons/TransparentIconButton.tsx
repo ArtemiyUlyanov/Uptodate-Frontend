@@ -1,17 +1,16 @@
 import clsx from "clsx";
 import { StaticImageData } from "next/image";
+import { CustomButtonProps } from "./custom_button_props";
 
-export type TransparentIconButtonProps = React.HTMLProps<HTMLDivElement> & {
+export type TransparentIconButtonProps = CustomButtonProps & {
     text?: string
     image: React.ReactNode
-    onClickEvent?: () => void
-    className?: string
 }
 
 const TransparentIconButton: React.FC<TransparentIconButtonProps> = ({
     text,
     image,
-    onClickEvent,
+    onClickButton,
     className
 }) => {
     return (
@@ -24,7 +23,7 @@ const TransparentIconButton: React.FC<TransparentIconButtonProps> = ({
                 'active:bg-emphasizingColor sm:active:bg',
                 className
             )}
-            onClick={onClickEvent}
+            onClick={onClickButton}
         >
             {image}
             {text}

@@ -11,5 +11,6 @@ export type Article = {
     createdAt: string
     comments?: ArticleComment[]
     topics: ArticleTopic[]
+    jwt_token?: string
     author?: User
 }

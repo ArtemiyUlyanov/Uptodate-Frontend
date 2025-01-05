@@ -1,11 +1,12 @@
 import ArticleCover from "@/components/articles/covers/ArticleCover";
-import { useSearch } from "@/hooks/useSearch";
+import { useSearch } from "@/hooks/explore/useSearch";
 import { useTopics } from "@/hooks/useTopics";
+import { RootState } from "@/store/store";
 import clsx from "clsx";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export type ExplorePageArticlesProps = React.HTMLProps<HTMLDivElement> & {
-
 }
 
 const ExplorePageArticles: React.FC<ExplorePageArticlesProps> = ({
