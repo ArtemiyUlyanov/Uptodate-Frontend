@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { useSearch } from "./useSearch";
 
 export type FiltersType = {
     topics: string[]

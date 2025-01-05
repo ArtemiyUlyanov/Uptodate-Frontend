@@ -6,6 +6,9 @@ import localFont from "next/font/local";
 import './globals.css';
 import clsx from "clsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Provider } from 'react-redux';
+import { persistor, store } from "@/store/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 // const interTight = localFont({
 //   src: [
@@ -26,18 +29,22 @@ const RootLayout = ({
   children: React.ReactNode
 }>) => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <html lang="en">
-        <body
-          className={clsx(
-            'bg-backgroundColor',
-            'antialiased'
-          )}
-        >
-          {children}
-        </body>
-      </html>
-    </QueryClientProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <QueryClientProvider client={queryClient}>
+          <html lang="en">
+            <body
+              className={clsx(
+                'bg-backgroundColor',
+                'antialiased'
+              )}
+            >
+              {children}
+            </body>
+          </html>
+        </QueryClientProvider>
+      </PersistGate>
+    </Provider>
   );
 }
 

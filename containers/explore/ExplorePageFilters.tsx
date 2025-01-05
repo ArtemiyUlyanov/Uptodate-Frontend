@@ -1,10 +1,12 @@
 import Filter from "@/components/filters/Filter"
 import FilterSet from "@/components/filters/FilterSet"
+import { FiltersAscendingIcon } from "@/components/icons/FiltersAscendingIcon"
 import { FiltersIcon } from "@/components/icons/FiltersIcon"
-import { useFilters } from "@/hooks/useFilters"
+import { useFilters } from "@/hooks/explore/useFilters"
 import { useTopics } from "@/hooks/useTopics"
+import { splitTextBySubtexts } from "@/utils/text_utils"
 import clsx from "clsx"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export type ExplorePageFiltersProps = React.HTMLProps<HTMLDivElement> & {
 
@@ -17,6 +19,8 @@ const ExplorePageFilters: React.FC<ExplorePageFiltersProps> = ({
     const { topics } = useTopics();
 
     const [isUnwrapped, setIsUnwrapped] = useState(false);
+
+    useEffect(() => console.log(splitTextBySubtexts('Real Estate', ['es'])), []);
 
     return (
         <div className={clsx(
@@ -53,9 +57,19 @@ const ExplorePageFilters: React.FC<ExplorePageFiltersProps> = ({
                     options={['Ascending', 'Descending', 'Alphabetically']}
                     multiple={false}
                     unwrapping={true}
+                    searchProperties={
+                        {
+                            displaySearch: false
+                        }
+                    }
                 />
                 <FilterSet
                     name='Topics'
+                    searchProperties={
+                        {
+                            searchAllowed: true
+                        }
+                    }
                 >
                     {Array.from(new Set(topics.map(topic => topic.parent))).map(parent => 
                         <Filter

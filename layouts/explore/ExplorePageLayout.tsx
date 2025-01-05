@@ -1,4 +1,4 @@
-import { FiltersContext, FiltersProvider } from '@/hooks/useFilters';
+import { FiltersContext, FiltersProvider } from '@/hooks/explore/useFilters';
 import clsx from 'clsx';
 import React from 'react';
 

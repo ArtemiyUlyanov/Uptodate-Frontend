@@ -1,17 +1,23 @@
-"use client";
+'use client';
 
 import clsx from "clsx";
 import { UptodateIcon } from "../icons/UptodateIcon";
-import TopMenuLink from "./TopMenuLink";
 import DefaultButton from "../buttons/DefaultButton";
 import TransparentButton from "../buttons/TransparentButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IconInput from "../inputs/IconInput";
 import { SearchIcon } from "../icons/SearchIcon";
 import HoveredText from "../texts/HoveredText";
 import TextButton from "../buttons/TextButton";
-import WhiteUnderlinedLink from "../links/WhiteUnderlinedLink";
+import { UserCoverIcon } from "../icons/UserCoverIcon";
+import { EllipsisIcon } from "../icons/EllipsisIcon";
 import WhiteLink from "../links/WhiteLink";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { logout } from "@/store/features/auth/authSlice";
+import { SettingsIcon } from "../icons/SettingsIcon";
+import { LogoutIcon } from "../icons/LogoutIcon";
+import TopMenuAccountOptionbar from "./TopMenuAccountOptionbar";
 
 export type TopMenuProps = React.HTMLProps<HTMLDivElement> & {
     templates: TopMenuTemplate[]
@@ -27,16 +33,23 @@ export type TopMenuTemplate = {
 const TopMenu: React.FC<TopMenuProps> = ({
     templates
 }) => {
-    const [menuStatus, setMenuStatus] = useState(false);
+    const { user, isAuthenticated } = useSelector((state: RootState) => state.auth);
+    const dispatch = useDispatch();
 
-    const changeMenuStatus = () => {
-        setMenuStatus(!menuStatus);
+    const [isProfileSettingsUnwrapped, setIsProfileSettingsUnwrapped] = useState<boolean>(false);
+    const [menuStatus, setMenuStatus] = useState(false);
+    
+    const toggleMenuStatus = () => {
+        setMenuStatus(prev => !prev);
     }
+
+    useEffect(() => {
+        console.log(`is user authenticated: ${isAuthenticated}`);
+    }, [isAuthenticated]);
 
     return [
         <div className={clsx(
             'fixed flex w-[90%] sm:w-[75%] h-[60px] z-[9999] bg-backgroundColor/75 backdrop-blur-2xl',
-            // 'border-b border-b-borderColor'
         )}>
             <div className={clsx(
                 'absolute left-0 flex flex-row items-center w-auto h-full gap-8'
@@ -52,59 +65,24 @@ const TopMenu: React.FC<TopMenuProps> = ({
             <div className={clsx(
                 'hidden lg:flex flex-row items-center gap-8 w-auto h-[100%] mx-auto'
             )}>
-                {/* <IconInput
-                    placeholder='Search by name'
-                    className='w-full hidden lg:flex'
-                    inputClassName='text-sm'
-                    icon={<SearchIcon />}
-                /> */}
                 <div className={clsx(
                     'flex flex-row items-center gap-8 hidden md:flex'
                 )}>
                     {templates.map(template => 
-                        <TopMenuLink
+                        <WhiteLink
                             text={template.text}
                             link={template.link}
                             actived={!template.selected}
-                            
+                            underliningActived={true}
                             className={clsx(
                                 'text-sm font-medium',
                                 'transition-all duration-200',
                                 template.selected && 'text-primaryText',
                                 !template.selected && 'text-secondaryText hover:text-primaryText',
-                                // template.selected && 'font-bold text-primaryText',
                                 template.className
                             )}
                         />
                     )}
-                    
-                    {/* <TopMenuLink
-                        text="Explore" 
-                        link="/explore"
-                        className={clsx(
-                            'font-semibold text-sm text-secondaryText',
-                            'transition-all duration-200',
-                            'hover:text-primaryText'
-                        )}
-                    />
-                    <TopMenuLink
-                        text="About us" 
-                        link="/about-us"
-                        className={clsx(
-                            'font-semibold text-sm text-secondaryText',
-                            'transition-all duration-200',
-                            'hover:text-primaryText'
-                        )}
-                    />
-                    <TopMenuLink
-                        text="Categories" 
-                        link="/categories"
-                        className={clsx(
-                            'font-semibold text-sm text-secondaryText',
-                            'transition-all duration-200',
-                            'hover:text-primaryText'
-                        )}
-                    /> */}
                 </div>
                 <div 
                     className={clsx(
@@ -112,7 +90,7 @@ const TopMenu: React.FC<TopMenuProps> = ({
                         'transition-all duration-200',
                         'hover:opacity-[0.5]'
                     )}
-                    onClick={() => changeMenuStatus()}
+                    onClick={() => toggleMenuStatus()}
                 >
                     <span className={clsx(
                         'w-7 h-1 bg-[#FFFFFF] rounded-full',
@@ -131,12 +109,84 @@ const TopMenu: React.FC<TopMenuProps> = ({
                     )}></span>
                 </div>
             </div>
-            <div className={clsx(
+            {isAuthenticated && 
+                <div
+                    className={clsx(
+                        'flex flex-row w-auto h-[100%] hidden md:flex right-0 absolute'
+                    )}
+                >
+                    <div
+                        className={clsx(
+                            'flex flex-row items-center gap-3 select-none h-auto',
+                            'transition-all duration-200',
+                            'sm:hover:opacity-50',
+                            'active:opacity-50 sm:active:opacity'
+                        )}
+                        onClick={() => setIsProfileSettingsUnwrapped(prev => !prev)}
+                    >
+                        <div className={clsx(
+                            'relative w-6 aspect-square overflow-hidden rounded-full'
+                        )}>
+                            <UserCoverIcon 
+                                url={'/api/files/get?path=' + (user?.icon)}
+                                className='w-full h-full object-cover'
+                            />
+                        </div>
+                        <p className={clsx(
+                            'font-interTight font-medium text-sm'
+                        )}>{`${user?.firstName} ${user?.lastName}`}</p>
+                    </div>
+                    {/* <div
+                        className={clsx(
+                            'flex flex-col items-center',
+                            'h-3 aspect-square',
+                            'transition-all duration-200',
+                            'sm:hover:opacity-50',
+                            'active:opacity-50 sm:active:opacity'
+                        )}
+                        onClick={() => setIsProfileSettingsUnwrapped(prev => !prev)}
+                    >
+                        <EllipsisIcon
+                            className='w-auto h-full'
+                        />
+                    </div> */}
+                    <div className={clsx(
+                        'flex flex-col gap-1',
+                        'absolute right-0 w-[200px] rounded-md p-2 bg-emphasizingColor',
+                        'transition-all duration-200',
+                        'overflow-hidden',
+                        isProfileSettingsUnwrapped && 'top-full',
+                        !isProfileSettingsUnwrapped && 'top-0 opacity-0 pointer-events-none'
+                    )}>
+                        <TopMenuAccountOptionbar
+                            options={[
+                                {
+                                    text: 'Settings',
+                                    link: '/account/settings',
+                                    textClassName: 'text-primaryText',
+                                    icon: <SettingsIcon />
+                                },
+                                {
+                                    text: 'Log out',
+                                    link: '/logout',
+                                    textClassName: 'text-red-500',
+                                    icon: <LogoutIcon />
+                                }
+                            ]}
+                        />
+                    </div>
+                </div>
+            }
+            {!isAuthenticated && 
+                <div className={clsx(
                     'flex flex-row items-center gap-4 w-auto h-[100%] hidden md:flex right-0 absolute'
                 )}>
-                    <WhiteLink 
+                    <WhiteLink
                         text="Sign up"
-                        link="/reigster"
+                        link="/register"
+                        actived={true}
+                        arrowActived={false}
+                        underliningActived={false}
                         className="font-medium text-sm"
                     />
                     <DefaultButton
@@ -145,6 +195,7 @@ const TopMenu: React.FC<TopMenuProps> = ({
                         className="font-semibold text-sm"
                     />
                 </div>
+            }
         </div>,
         <div className={clsx(
             'flex flex-col gap-4',
@@ -164,7 +215,7 @@ const TopMenu: React.FC<TopMenuProps> = ({
                         'transition-all duration-200',
                         'hover:opacity-[0.5]'
                     )}
-                    onClick={() => changeMenuStatus()}
+                    onClick={() => toggleMenuStatus()}
                 >
                     <span className={clsx(
                         'w-7 h-1 bg-[#FFFFFF] rounded-full',
