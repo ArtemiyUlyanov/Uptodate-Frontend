@@ -1,4 +1,8 @@
-# Uptodate Front-end v1.0.0
+# Uptodate Front-end v1.1.0
+
+The second issue called *Uptodate-frontend v1.1.0* is meant to implement **the login page** that enables customers to get logged-in. It also contains **some Top Menu changes** and the new **Logout page** with its specific **/logout** URL.
+
+![The applied changes](/git/auth%20system.gif)
 
 ## License
 
