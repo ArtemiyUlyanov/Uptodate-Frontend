@@ -19,7 +19,6 @@ Uptodate is a service intended to empower consumers to publish their articles an
 
 ## What's new
 
-The first issue of the application contains lots of features cooperating with the Back-end facility but limited to the Explore page that is the only one implemented now.
-  - Displaying all the articles
-  - The article filters system
-  - The article search system
+The issue applies some changes in authorization system:
+  - The **/login** and the **/logout** pages are implemented now 
+  - There are some menu structure changes connected to the **Top Menu** when the user is authorized
