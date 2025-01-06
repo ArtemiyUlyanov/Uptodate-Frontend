@@ -3,9 +3,9 @@ import authReducer from "./features/auth/authSlice";
 import { persistReducer, persistStore, WebStorage } from 'redux-persist';
 
 const storage: WebStorage = {
-  getItem: (key) => Promise.resolve(localStorage.getItem(key) || null),
-  setItem: (key, value) => Promise.resolve(localStorage.setItem(key, value)),
-  removeItem: (key) => Promise.resolve(localStorage.removeItem(key)),
+  getItem: (key) => Promise.resolve((typeof window !== 'undefined' && localStorage.getItem(key)) || null),
+  setItem: (key, value) => Promise.resolve(typeof window !== 'undefined' ? localStorage.setItem(key, value) : undefined),
+  removeItem: (key) => Promise.resolve(typeof window !== 'undefined' ? localStorage.removeItem(key) : undefined),
 };
 
 const persistConfig = {

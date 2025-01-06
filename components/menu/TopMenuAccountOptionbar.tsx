@@ -25,8 +25,9 @@ const TopMenuAccountOptionbar: React.FC<TopMenuAccountOptionbarProps> = ({
             <div className={clsx(
                 'flex flex-col gap-1'
             )}>
-                {options.map(({ text, link, textClassName, icon }) =>
-                    <Link 
+                {options.map(({ text, link, textClassName, icon }, index) =>
+                    <Link
+                        key={index}
                         className={clsx(
                             'flex flex-row items-center gap-2',
                             'font-interTight font-medium pt-1 pb-1 pr-2 pl-2 rounded-md text-sm text-red-500',

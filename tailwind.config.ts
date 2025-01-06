@@ -2,8 +2,6 @@ import type { Config } from "tailwindcss";
 
 const beforePropertiesPlugin = require('tailwindcss-pseudo-elements');
 const textShadowPlugin = require("tailwindcss-textshadow");
-const scrollbarHidePlugin = require('tailwind-scrollbar-hide');
-const scrollbarPlugin = require('tailwind-scrollbar');
 const animatePlugin = require('tailwindcss-animate');
 
 export default {
@@ -11,6 +9,7 @@ export default {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./containers/**/*.{js,ts,jsx,tsx,mdx}",
+    "./hooks/**/*.{js,ts,jsx,tsx,mdx}",
     "./layouts/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
@@ -84,5 +83,5 @@ export default {
       },
     },
   },
-  plugins: [beforePropertiesPlugin, textShadowPlugin, scrollbarHidePlugin, scrollbarPlugin, animatePlugin],
+  plugins: [beforePropertiesPlugin, textShadowPlugin, animatePlugin],
 } satisfies Config;

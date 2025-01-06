@@ -59,6 +59,7 @@ export const useNotifications = (): UseNotificationsResponse => {
     const notifications = useMemo(() =>
         notificationList.map((notification, index) => 
             <Notification 
+                key={index}
                 text={notification}
                 index={index}
                 deleteNotification={deleteNotification}

@@ -104,8 +104,9 @@ const Filter: React.FC<FilterProps> = ({
                         {searchInput}
                     </div>
                 }
-                {multiple && filteredOptions.map(option =>
+                {multiple && filteredOptions.map((option, index) =>
                     <li
+                        key={index}
                         className={clsx(
                             'select-none pr-2 pl-2 pt-1 pb-1',
                             'rounded-full',
@@ -119,8 +120,9 @@ const Filter: React.FC<FilterProps> = ({
                         {splitQueryText(option, query, 'bg-blueText text-primaryText')}
                     </li>
                 )}
-                {!multiple && filteredOptions.filter(option => option.toLowerCase().includes(query.toLowerCase())).map(option =>
+                {!multiple && filteredOptions.filter(option => option.toLowerCase().includes(query.toLowerCase())).map((option, index) =>
                     <li
+                        key={index}
                         className={clsx(
                             'select-none flex flex-row items-center gap-2',
                             'font-interTight font-medium text-sm',

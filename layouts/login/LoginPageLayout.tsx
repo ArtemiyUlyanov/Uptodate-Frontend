@@ -23,17 +23,15 @@ const LoginPageLayout: React.FC<LoginPageLayoutProps> = ({
     }, [isAuthenticated, router])
     
     return (
-        <LoginProvider>
+        <div className={clsx(
+            'flex flex-col justify-center items-center gap-8 sm:gap-16 w-full h-[100vh]'
+        )}>
             <div className={clsx(
-                'flex flex-col justify-center items-center gap-8 sm:gap-16 w-full h-[100vh]'
+                'flex flex-col items-center gap-8 sm:gap-16 w-full h-auto'
             )}>
-                <div className={clsx(
-                    'flex flex-col items-center gap-8 sm:gap-16 w-full h-auto'
-                )}>
-                    {children}
-                </div>
+                {children}
             </div>
-        </LoginProvider>
+        </div>
     );
 }
 

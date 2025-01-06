@@ -14,13 +14,16 @@ const ExplorePageArticles: React.FC<ExplorePageArticlesProps> = ({
 }) => {
     const { articles, page, setPage, isPageAvailable, totalPages } = useSearch();
 
+    
+
     return (
         <div className={clsx(
-            'flex flex-col items-center gap-4 w-full'
+            'flex flex-col items-center gap-4 w-full overflow-auto'
         )}>
             {
-                articles.map((article) => {
+                articles.map((article, index) => {
                     return <ArticleCover
+                        key={index}
                         heading={article.heading}
                         description={article.description}
                         createdAt={article.createdAt}

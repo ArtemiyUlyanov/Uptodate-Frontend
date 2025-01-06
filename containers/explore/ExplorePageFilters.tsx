@@ -71,8 +71,9 @@ const ExplorePageFilters: React.FC<ExplorePageFiltersProps> = ({
                         }
                     }
                 >
-                    {Array.from(new Set(topics.map(topic => topic.parent))).map(parent => 
+                    {Array.from(new Set(topics.map(topic => topic.parent))).map((parent, index) => 
                         <Filter
+                            key={index}
                             name={parent}
                             isSelected={option => filters.topics.includes(option)}
                             applyFilter={option => setFilter('topics', !filters.topics.includes(option) ? [...filters.topics, option] : filters.topics.filter(topic => topic !== option))}

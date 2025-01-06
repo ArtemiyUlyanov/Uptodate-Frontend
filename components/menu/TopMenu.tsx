@@ -68,8 +68,9 @@ const TopMenu: React.FC<TopMenuProps> = ({
                 <div className={clsx(
                     'flex flex-row items-center gap-8 hidden md:flex'
                 )}>
-                    {templates.map(template => 
+                    {templates.map((template, index) => 
                         <WhiteLink
+                            key={index}
                             text={template.text}
                             link={template.link}
                             actived={!template.selected}

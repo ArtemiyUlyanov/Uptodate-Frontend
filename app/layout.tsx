@@ -29,22 +29,22 @@ const RootLayout = ({
   children: React.ReactNode
 }>) => {
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <QueryClientProvider client={queryClient}>
-          <html lang="en">
-            <body
-              className={clsx(
-                'bg-backgroundColor',
-                'antialiased'
-              )}
-            >
+    <html lang="en">
+      <body
+        className={clsx(
+          'bg-backgroundColor',
+          'antialiased'
+        )}
+      >
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <QueryClientProvider client={queryClient}>
               {children}
-            </body>
-          </html>
-        </QueryClientProvider>
-      </PersistGate>
-    </Provider>
+            </QueryClientProvider>
+          </PersistGate>
+        </Provider>
+      </body>
+    </html>
   );
 }
 
