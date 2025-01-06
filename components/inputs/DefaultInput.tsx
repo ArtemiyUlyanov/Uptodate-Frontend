@@ -8,7 +8,7 @@ export type DefaultInputProps = CustomInputProps;
 
 const DefaultInput: React.FC<DefaultInputProps> = ({
     placeholder,
-    className,
+    customClassName,
     fullBordered,
     inputClassName,
     handleChange,
@@ -28,7 +28,7 @@ const DefaultInput: React.FC<DefaultInputProps> = ({
             !fullBordered && 'border border-[transparent] border-b-borderColor',
             fullBordered && 'border border-borderColor rounded-md',
             'transition-all duration-200',
-            className
+            customClassName
         )}>
             <input 
                 placeholder={placeholder}

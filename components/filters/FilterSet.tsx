@@ -26,7 +26,7 @@ const FilterSet: React.FC<FilterSetProps> = ({
     const { searchInput, query, setQuery } = useLocalSearch(
         <IconInput
             placeholder={`Search ${name.toLowerCase()}`}
-            className='w-full'
+            customClassName='w-full'
             inputClassName='text-base'
             fullBordered={true}
             icon={<SearchIcon />}

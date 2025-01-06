@@ -40,7 +40,7 @@ const Filter: React.FC<FilterProps> = ({
     const { searchInput, query, setQuery } = searchProperties?.providedLocalSearch || useLocalSearch(
         <IconInput
             placeholder={`Search ${name.toLowerCase()}`}
-            className='w-full'
+            customClassName='w-full'
             inputClassName='text-base'
             fullBordered={true}
             icon={<SearchIcon />}

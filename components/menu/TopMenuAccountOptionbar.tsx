@@ -20,7 +20,7 @@ const TopMenuAccountOptionbar: React.FC<TopMenuAccountOptionbarProps> = ({
             'flex flex-col gap-2'
         )}>
             <p className={clsx(
-                'font-interTight font-semibold pl-1 text-sm text-secondaryText'
+                'font-interTight font-semibold pl-2 pr-2 pt-1 pb-1 text-sm text-secondaryText'
             )}>Account settings</p>
             <div className={clsx(
                 'flex flex-col gap-1'

@@ -109,7 +109,7 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({
     const [usernameInput, passwordInput] = useMemo(() =>
         [<DefaultInput
             placeholder='Enter your username'
-            className={clsx(
+            customClassName={clsx(
                 'w-full',
                 errors.username && 'ring-2 ring-red-500/75'
             )}
@@ -123,7 +123,7 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({
         />,
         <DefaultInput
             placeholder='Enter your password'
-            className={clsx(
+            customClassName={clsx(
                 'w-full',
                 errors.password && 'ring-2 ring-red-500/75'
             )}

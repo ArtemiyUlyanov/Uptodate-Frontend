@@ -11,7 +11,7 @@ export type IconInputProps = CustomInputProps & {
 const IconInput: React.FC<IconInputProps> = ({
     placeholder,
     icon,
-    className,
+    customClassName,
     fullBordered,
     inputClassName,
     handleChange,
@@ -31,7 +31,7 @@ const IconInput: React.FC<IconInputProps> = ({
             !fullBordered && 'border border-[transparent] border-b-borderColor',
             fullBordered && 'border border-borderColor rounded-md',
             'transition-all duration-200',
-            className
+            customClassName
         )}>
             <div className={clsx(
                 'h-4'

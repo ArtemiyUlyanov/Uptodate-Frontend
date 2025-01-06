@@ -28,7 +28,7 @@ const ExplorePageSearch: React.FC<ExplorePageSearchProps> = ({
                 )}>
                     <IconInput
                         placeholder='Search by name'
-                        className='w-full'
+                        customClassName='w-full'
                         inputClassName='text-base'
                         handleChange={(value) => setQuery(value)}
                         fullBordered={true}
