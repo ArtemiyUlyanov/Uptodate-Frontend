@@ -111,7 +111,7 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({
             placeholder='Enter your username'
             customClassName={clsx(
                 'w-full',
-                errors.username && 'ring-2 ring-red-500'
+                errors.username && 'ring-2 ring-red-500/50'
             )}
             inputClassName='text-base'
             fullBordered={true}
@@ -125,7 +125,7 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({
             placeholder='Enter your password'
             customClassName={clsx(
                 'w-full',
-                errors.password && 'ring-2 ring-red-500'
+                errors.password && 'ring-2 ring-red-500/50'
             )}
             inputClassName='text-base'
             fullBordered={true}

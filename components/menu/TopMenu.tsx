@@ -43,10 +43,6 @@ const TopMenu: React.FC<TopMenuProps> = ({
         setMenuStatus(prev => !prev);
     }
 
-    useEffect(() => {
-        console.log(`is user authenticated: ${isAuthenticated}`);
-    }, [isAuthenticated]);
-
     return [
         <div className={clsx(
             'fixed flex w-[90%] sm:w-[75%] h-[60px] z-[9999] bg-backgroundColor/75 backdrop-blur-2xl',
