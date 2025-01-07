@@ -13,8 +13,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 This is a nextjs-based web application that represents the Front-end of Uptodate. 
 Uptodate is a service intended to empower consumers to publish their articles and find out necessary information.
 
-![Example of work](/git/uptodate.gif)
-
 [Check out the Back-end](https://github.com/Artem340dev/Uptodate)
 
 ## What's new
