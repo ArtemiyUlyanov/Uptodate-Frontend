@@ -35,12 +35,11 @@ const ExplorePageContent: React.FC<ExplorePageContentProps> = ({
 }) => {
     return (
         <div className={clsx(
-            'flex flex-col gap-4 w-[90%] sm:w-[75%] lg:w-[50%]'
+            'flex flex-col pl-8 pr-8 gap-4'
         )}>
             <FiltersProvider>
                 <SearchProvider>
                     <TopicsProvider>
-                        <ExplorePageSearch />
                         <ExplorePageArticles />
                     </TopicsProvider>
                 </SearchProvider>

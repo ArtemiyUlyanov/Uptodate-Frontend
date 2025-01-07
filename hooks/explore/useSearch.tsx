@@ -6,13 +6,14 @@ import { useQuery, UseQueryOptions } from "@tanstack/react-query"
 import { Dispatch, SetStateAction, useCallback, useContext, useEffect, useState } from "react";
 import { createContext } from "react";
 import { FiltersContext, useFilters } from "./useFilters";
+import { pages } from "next/dist/build/templates/app-page";
 
 export const useSearchQuery = (
     params: ApiSearchParams,
     opts: Partial<UseQueryOptions<ApiSearchResponse>> = {},
 ) => {
     return useQuery<ApiSearchResponse>({
-      queryKey: ['search', params.query],
+      queryKey: ['search', params.query, 'miniSearch', params.miniSearch],
       queryFn: () => searchApi(params),
       ...opts,
     });
@@ -22,10 +23,10 @@ type SearchContextType = {
   query: string
   articles: Article[]
   setQuery: Dispatch<SetStateAction<string>>
-  page: number
-  setPage: Dispatch<SetStateAction<number>>
-  isPageAvailable: (page: number) => boolean
-  totalPages: number
+  pagesCount: number
+  setPagesCount: Dispatch<SetStateAction<number>>
+  totalElements: number
+  isLoading: boolean
   performSearch: () => void
 }
 
@@ -33,10 +34,10 @@ const defaultFilters: SearchContextType = {
     query: '',
     articles: [],
     setQuery: () => {},
-    page: 1,
-    setPage: () => {},
-    isPageAvailable: () => false,
-    totalPages: 1,
+    pagesCount: 1,
+    setPagesCount: () => {},
+    totalElements: 1,
+    isLoading: false,
     performSearch: () => {}
 }
 
@@ -50,16 +51,17 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({
     ...props
 }) => {
     const [query, setQuery] = useState('');
-    const [page, setPage] = useState<number>(1);
-    const [totalPages, setTotalPages] = useState(1);
+    const [pagesCount, setPagesCount] = useState<number>(1);
+    const [totalElements, setTotalElements] = useState(1);
     const [articles, setArticles] = useState<Article[]>([]);
 
     const { filters } = useFilters();
 
-    const searchQuery = useSearchQuery(
+    const { data, isLoading, error, refetch } = useSearchQuery(
         { 
-            page: page,
+            pagesCount: pagesCount,
             query: query,
+            miniSearch: false,
             filters: filters
         },
         {
@@ -68,35 +70,31 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({
         },
     );
 
-    const isPageAvailable = (page: number) => {
-        return page > 0 && page <= totalPages;
-    }
-
     const performSearch = useCallback(() => {
-        searchQuery.refetch();
+        refetch();
     }, [])
 
     useEffect(() => {
-        searchQuery.refetch();
+        refetch();
     }, []);
         
     useEffect(() => {
-        searchQuery.refetch();
-    }, [query, page, filters]);
+        refetch();
+    }, [query, pagesCount, filters]);
 
     useEffect(() => {
-        setPage(1);
+        setPagesCount(1);
     }, [query, filters]);
 
     useEffect(() => {
-        if (searchQuery.data?.articles) {
-            setArticles(searchQuery.data.articles);
-            setTotalPages(searchQuery.data.totalPages);
+        if (data?.articles) {
+            setArticles(data.articles);
+            setTotalElements(data.totalElements);
         }
-    }, [searchQuery.data]);
+    }, [data]);
 
     return (
-        <SearchContext.Provider value={{ query, articles, setQuery, page, setPage, totalPages, isPageAvailable, performSearch }}>
+        <SearchContext.Provider value={{ query, articles, setQuery, pagesCount, setPagesCount, totalElements, isLoading, performSearch }}>
             {children}
         </SearchContext.Provider>
     );

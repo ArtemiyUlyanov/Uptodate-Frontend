@@ -53,7 +53,7 @@ const Filter: React.FC<FilterProps> = ({
 
     return (
         <div className={clsx(
-            'flex flex-col',
+            'flex flex-col relative',
             'transition-all duration-200',
             !unwrapping && 'gap-2',
             unwrapping && isUnwrapped && 'gap-2',
@@ -70,13 +70,15 @@ const Filter: React.FC<FilterProps> = ({
                     )}
                     onClick={() => setIsUnwrapped(prev => !prev)}
                 >
-                    <p>{name}</p>
+                    <p className={clsx(
+                        'font-interTight font-semibold text-primaryText'
+                    )}>{name}</p>
                     <div className={clsx(
                         'h-1.5'
                     )}>
                         <UnwrappingElementIcon
                             className={clsx(
-                                'w-auto h-full',
+                                'w-auto h-full fill-primaryColor',
                                 'transition-all duration-200',
                                 isUnwrapped && 'rotate-180'
                             )}
@@ -89,13 +91,14 @@ const Filter: React.FC<FilterProps> = ({
                 )}>{name}</p>
             )}
             <ul className={clsx(
-                'flex flex-wrap gap-2',
+                'absolute space-y-1 -left-full top-full mt-1 z-[9999]',
+                'p-2 bg-white rounded-md',
                 'transition-all duration-200',
                 multiple && 'flex-row',
                 !multiple && 'flex-col',
                 unwrapping && 'overflow-hidden',
-                unwrapping && isUnwrapped && 'max-h-auto',
-                unwrapping && !isUnwrapped && 'max-h-0'
+                unwrapping && isUnwrapped && 'opacity-100',
+                unwrapping && !isUnwrapped && 'opacity-0 pointer-events-none'
             )}>
                 {displaySearch && 
                     <div className={clsx(
@@ -111,7 +114,7 @@ const Filter: React.FC<FilterProps> = ({
                             'select-none pr-2 pl-2 pt-1 pb-1',
                             'rounded-full',
                             'border border-borderColor',
-                            'font-interTight font-medium text-sm',
+                            'font-interTight font-semibold text-primaryText text-sm',
                             'transition-all duration-200',
                             isSelected(option) && 'bg-emphasizingColor2'
                         )}
@@ -120,27 +123,33 @@ const Filter: React.FC<FilterProps> = ({
                         {splitQueryText(option, query, 'bg-blueText text-primaryText')}
                     </li>
                 )}
-                {!multiple && filteredOptions.filter(option => option.toLowerCase().includes(query.toLowerCase())).map((option, index) =>
+                {!multiple && filteredOptions.map((option, index) =>
                     <li
                         key={index}
                         className={clsx(
-                            'select-none flex flex-row items-center gap-2',
-                            'font-interTight font-medium text-sm',
+                            'select-none flex flex-row items-center gap-4 justify-between',
+                            'pl-2 pr-2 pt-1 pb-1 rounded-md',
+                            'font-interTight font-semibold text-primaryText text-sm',
                             'transition-all duration-200',
+                            !isSelected(option) && 'sm:hover:bg-emphasizingColor2',
+                            isSelected(option) && 'bg-emphasizingColor2'
                         )}
                         onClick={() => applyFilter(option)}
                     >
-                        <div className={clsx(
-                            'flex flex-row items-center p-1 rounded-full aspect-square',
-                            'border border-borderColor'
-                        )}>
-                            <span className={clsx(
-                                'w-2 h-2 bg-white rounded-full',
-                                'transition-all duration-200',
-                                !isSelected(option) && 'opacity-0'
-                            )}></span>
-                        </div>
                         {splitQueryText(option, query, 'bg-blueText text-primaryText')}
+                        <div className={clsx(
+                            'w-3',
+                            'transition-all duration-200',
+                            isSelected(option) && 'opacity-100',
+                            !isSelected(option) && 'opacity-0'
+                        )}>
+                            <CheckboxCheckedIcon
+                                className={clsx(
+                                    'w-full h-auto fill-blueText',
+                                    'transition-all duration-200',
+                                )}
+                            />
+                        </div>
                     </li>
                 )}
             </ul>

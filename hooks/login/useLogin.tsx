@@ -111,7 +111,8 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({
             placeholder='Enter your username'
             customClassName={clsx(
                 'w-full',
-                errors.username && 'ring-2 ring-red-500/50'
+                errors.username && 'ring-2 ring-red-500/50',
+                errors.username && 'border-red-500'
             )}
             inputClassName='text-base'
             fullBordered={true}
@@ -125,7 +126,8 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({
             placeholder='Enter your password'
             customClassName={clsx(
                 'w-full',
-                errors.password && 'ring-2 ring-red-500/50'
+                errors.password && 'ring-2 ring-red-500/50',
+                errors.password && 'border-red-500'
             )}
             inputClassName='text-base'
             fullBordered={true}
@@ -140,7 +142,7 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({
     const loginButton = useMemo(() =>
         <BlueButton
             text='Sign in'
-            className='font-interTight font-semibold text-base text-center rounded-md'
+            customClassName='font-interTight font-semibold text-base text-center rounded-md'
             type='submit'
         />
     , []);

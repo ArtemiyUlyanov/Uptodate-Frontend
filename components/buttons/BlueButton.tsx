@@ -8,7 +8,7 @@ const BlueButton: React.FC<BlueButtonProps> = ({
     text,
     link,
     onClickButton,
-    className,
+    customClassName,
     ...props
 }) => {
     return (
@@ -19,7 +19,7 @@ const BlueButton: React.FC<BlueButtonProps> = ({
                     'transition-all duration-200',
                     'sm:hover:opacity-[0.5]',
                     'active:opacity-[0.5] sm:active:opacity',
-                    className
+                    customClassName
                 )}
                 href={link}
                 legacyBehavior
@@ -34,7 +34,7 @@ const BlueButton: React.FC<BlueButtonProps> = ({
                     'sm:hover:opacity-[0.5]',
                     'active:opacity-[0.5] sm:active:opacity',
                     'text text-align-center',
-                    className
+                    customClassName
                 )}
                 onClick={onClickButton}
             >

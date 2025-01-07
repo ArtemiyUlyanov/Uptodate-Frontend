@@ -3,7 +3,6 @@
 import TopMenu from "@/components/menu/TopMenu";
 import ExplorePageContent from "@/containers/explore/ExplorePageContent";
 import ExplorePageGreeting from "@/containers/explore/ExplorePageGreeting";
-import LoginPageContent from "@/containers/login/LoginPageContent";
 import ExplorePageLayout from "@/layouts/explore/ExplorePageLayout";
 import LoginPageLayout from "@/layouts/login/LoginPageLayout";
 import { logout } from "@/store/features/auth/authSlice";

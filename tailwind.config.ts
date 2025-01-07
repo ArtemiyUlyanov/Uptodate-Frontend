@@ -21,6 +21,7 @@ export default {
       },
       fontFamily: {
         interTight: ['"Inter Tight"', 'sans-serif'],
+        merri: ['"Merriweather"', 'serif'],
       },
       fontSize: {
         'sm-base': ['0.9375rem', '1.5rem'],
@@ -46,8 +47,8 @@ export default {
 
         // darkText: "#151516",
 
-        // backgroundColor: "#000000",
-        // primaryColor: "#FFFFFF",
+        // backgroundColor: "white",
+        // primaryColor: "black",
         // emphasizingColor: "#1F1F21",
         // emphasizingColor2: "#1F1F21",
 
@@ -59,21 +60,37 @@ export default {
 
         // darkText: "#151516",
 
-        backgroundColor: "#090909",
-        primaryColor: "#FFFFFF",
-        emphasizingColor: "#111010",
-        emphasizingColor2: "#181818",
+        backgroundColor: "#EFEEEC",
+        primaryColor: "#232323",
+        emphasizingColor: "#E2E2E2",
+        emphasizingColor2: "#F4F4F4",
         emphasizingColor3: "#202020",
-        blueColor: "#0769FF",
+        blueColor: "#FF78B7",
         warnColor: "#FF4C4C",
 
-        borderColor: "#292929",
+        borderColor: "#CFCFCF",
         
-        primaryText: "#FFFFFF",
-        blueText: "#2E81FF",
-        secondaryText: "#8B8B8B",
+        primaryText: "#232323",
+        blueText: "#FF78B7",
+        secondaryText: "#A2A2A2",
 
-        darkText: "#151516",
+        oppositeText: "#EFEEEC",
+
+        // backgroundColor: "#090909",
+        // primaryColor: "#FFFFFF",
+        // emphasizingColor: "#111010",
+        // emphasizingColor2: "#181818",
+        // emphasizingColor3: "#202020",
+        // blueColor: "#0769FF",
+        // warnColor: "#FF4C4C",
+
+        // borderColor: "#292929",
+        
+        // primaryText: "#FFFFFF",
+        // blueText: "#2E81FF",
+        // secondaryText: "#8B8B8B",
+
+        // darkText: "#151516",
       },
     },
     variants: {

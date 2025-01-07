@@ -11,7 +11,7 @@ const TransparentIconButton: React.FC<TransparentIconButtonProps> = ({
     text,
     image,
     onClickButton,
-    className
+    customClassName
 }) => {
     return (
         <button
@@ -21,7 +21,7 @@ const TransparentIconButton: React.FC<TransparentIconButtonProps> = ({
                 'transition-all duration-200',
                 'sm:hover:bg-emphasizingColor',
                 'active:bg-emphasizingColor sm:active:bg',
-                className
+                customClassName
             )}
             onClick={onClickButton}
         >

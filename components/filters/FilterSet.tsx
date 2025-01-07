@@ -29,7 +29,11 @@ const FilterSet: React.FC<FilterSetProps> = ({
             customClassName='w-full'
             inputClassName='text-base'
             fullBordered={true}
-            icon={<SearchIcon />}
+            icon={
+                <SearchIcon 
+                    className="fill-secondaryText" 
+                />
+            }
         />
     );
 
@@ -57,7 +61,9 @@ const FilterSet: React.FC<FilterSetProps> = ({
                 )}
                 onClick={() => setIsUnwrapped(prev => !prev)}
             >
-                <p>{name}</p>
+                <p className={clsx(
+                    'font-interTight font-semibold text-primaryText'
+                )}>{name}</p>
                 <div className={clsx(
                     'h-1.5'
                 )}>

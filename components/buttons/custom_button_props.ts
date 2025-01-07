@@ -1,6 +1,7 @@
-export type CustomButtonProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+export type CustomButtonProps = React.HTMLProps<HTMLAnchorElement> & {
     text: string
     link?: string
     onClickButton?: () => void
-    className?: string
+    customClassName?: string
+    available?: boolean
 }

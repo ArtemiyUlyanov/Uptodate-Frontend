@@ -32,7 +32,11 @@ const ExplorePageSearch: React.FC<ExplorePageSearchProps> = ({
                         inputClassName='text-base'
                         handleChange={(value) => setQuery(value)}
                         fullBordered={true}
-                        icon={<SearchIcon />}
+                        icon={
+                            <SearchIcon 
+                                className="fill-secondaryText" 
+                            />
+                        }
                     />
                 </div>
                 <ExplorePageFilters />

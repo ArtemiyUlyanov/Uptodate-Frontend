@@ -7,7 +7,7 @@ export type TextButtonProps = React.HTMLProps<HTMLDivElement> & {
     toggleClickEvent?: () => void
     textClassName?: string
     iconClassName?: string
-    className?: string
+    customClassName?: string
 }
 
 const TextButton: React.FC<TextButtonProps> = ({
@@ -16,7 +16,7 @@ const TextButton: React.FC<TextButtonProps> = ({
     toggleClickEvent,
     textClassName,
     iconClassName,
-    className
+    customClassName
 }) => {
     return (
         <div 
@@ -25,7 +25,7 @@ const TextButton: React.FC<TextButtonProps> = ({
                 'transition-all duration-200',
                 'sm:hover:bg-emphasizingColor',
                 'active:bg-emphasizingColor sm:active:bg',
-                className
+                customClassName
             )}
             onClick={() => toggleClickEvent && toggleClickEvent()}
         >

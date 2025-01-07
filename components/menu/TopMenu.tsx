@@ -11,13 +11,14 @@ import HoveredText from "../texts/HoveredText";
 import TextButton from "../buttons/TextButton";
 import { UserCoverIcon } from "../icons/UserCoverIcon";
 import { EllipsisIcon } from "../icons/EllipsisIcon";
-import WhiteLink from "../links/WhiteLink";
+import DefaultLink from "../links/DefaultLink";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { logout } from "@/store/features/auth/authSlice";
 import { SettingsIcon } from "../icons/SettingsIcon";
 import { LogoutIcon } from "../icons/LogoutIcon";
 import TopMenuAccountOptionbar from "./TopMenuAccountOptionbar";
+import TopMenuSearch from "./TopMenuSearch";
 
 export type TopMenuProps = React.HTMLProps<HTMLDivElement> & {
     templates: TopMenuTemplate[]
@@ -37,7 +38,8 @@ const TopMenu: React.FC<TopMenuProps> = ({
     const dispatch = useDispatch();
 
     const [isProfileSettingsUnwrapped, setIsProfileSettingsUnwrapped] = useState<boolean>(false);
-    const [menuStatus, setMenuStatus] = useState(false);
+    const [menuStatus, setMenuStatus] = useState<boolean>(false);
+    const [isSearchUnwrapped, setIsSearchUnwrapped] = useState<boolean>(false);
     
     const toggleMenuStatus = () => {
         setMenuStatus(prev => !prev);
@@ -45,159 +47,176 @@ const TopMenu: React.FC<TopMenuProps> = ({
 
     return [
         <div className={clsx(
-            'fixed flex w-[90%] sm:w-[75%] h-[60px] z-[9999] bg-backgroundColor/75 backdrop-blur-2xl',
+            'fixed w-full z-[9999]',
+            'transition-all duration-500',
+            !isSearchUnwrapped && 'h-auto max-h-auto bg-black/0',
+            isSearchUnwrapped && 'h-full max-h-full bg-black/15'
         )}>
             <div className={clsx(
-                'absolute left-0 flex flex-row items-center w-auto h-full gap-8'
+                'flex w-full pr-8 pl-8 justify-between h-[60px] z-[9999] bg-backgroundColor',
+                // 'border border-[transparent] border-b-borderColor'
             )}>
                 <div className={clsx(
-                    'w-auto h-[30%]'
+                    'flex flex-row items-center w-auto h-full gap-8'
                 )}>
-                    <UptodateIcon
-                        className='w-auto'
-                    />
-                </div>
-            </div>
-            <div className={clsx(
-                'hidden lg:flex flex-row items-center gap-8 w-auto h-[100%] mx-auto'
-            )}>
-                <div className={clsx(
-                    'flex flex-row items-center gap-8 hidden md:flex'
-                )}>
-                    {templates.map((template, index) => 
-                        <WhiteLink
-                            key={index}
-                            text={template.text}
-                            link={template.link}
-                            actived={!template.selected}
-                            underliningActived={true}
-                            className={clsx(
-                                'text-sm font-medium',
-                                'transition-all duration-200',
-                                template.selected && 'text-primaryText',
-                                !template.selected && 'text-secondaryText hover:text-primaryText',
-                                template.className
-                            )}
+                    <div className={clsx(
+                        'w-auto h-1/3'
+                    )}>
+                        <UptodateIcon
+                            className='w-auto'
                         />
-                    )}
+                    </div>
+                    <div className={clsx(
+                        'flex flex-row items-center gap-4 hidden md:flex'
+                    )}>
+                        {templates.map((template, index) => 
+                            <DefaultLink
+                                key={index}
+                                text={template.text}
+                                link={template.link}
+                                actived={!template.selected}
+                                underliningActived={!template.selected}
+                                customClassName={clsx(
+                                    'text-base font-semibold',
+                                    'transition-all duration-200',
+                                    template.selected && 'text-primaryText',
+                                    !template.selected && 'text-secondaryText hover:text-primaryText',
+                                    template.className
+                                )}
+                            />
+                        )}
+                    </div>
                 </div>
-                <div 
-                    className={clsx(
-                        'flex flex-col gap-1 sm:hidden',
-                        'transition-all duration-200',
-                        'hover:opacity-[0.5]'
-                    )}
-                    onClick={() => toggleMenuStatus()}
-                >
-                    <span className={clsx(
-                        'w-7 h-1 bg-[#FFFFFF] rounded-full',
-                        'transition-all duration-200',
-                        menuStatus && 'rotate-45 absolute'
-                    )}></span>
-                    <span className={clsx(
-                        'w-7 h-1 bg-[#FFFFFF] rounded-full',
-                        'transition-all duration-200',
-                        menuStatus && 'opacity-[0] pointer-events-none'
-                    )}></span>
-                    <span className={clsx(
-                        'w-7 h-1 bg-[#FFFFFF] rounded-full',
-                        'transition-all duration-200',
-                        menuStatus && '-rotate-45 absolute'
-                    )}></span>
-                </div>
-            </div>
-            {isAuthenticated && 
-                <div
-                    className={clsx(
-                        'flex flex-row w-auto h-[100%] hidden md:flex right-0 absolute'
-                    )}
-                >
+                {/* <div className={clsx(
+                    'hidden lg:flex flex-row items-center gap-8 w-auto h-[100%] mx-auto'
+                )}>
+                    
+                    <div 
+                        className={clsx(
+                            'flex flex-col gap-1 sm:hidden',
+                            'transition-all duration-200',
+                            'hover:opacity-[0.5]'
+                        )}
+                        onClick={() => toggleMenuStatus()}
+                    >
+                        <span className={clsx(
+                            'w-7 h-1 bg-[#FFFFFF] rounded-full',
+                            'transition-all duration-200',
+                            menuStatus && 'rotate-45 absolute'
+                        )}></span>
+                        <span className={clsx(
+                            'w-7 h-1 bg-[#FFFFFF] rounded-full',
+                            'transition-all duration-200',
+                            menuStatus && 'opacity-[0] pointer-events-none'
+                        )}></span>
+                        <span className={clsx(
+                            'w-7 h-1 bg-[#FFFFFF] rounded-full',
+                            'transition-all duration-200',
+                            menuStatus && '-rotate-45 absolute'
+                        )}></span>
+                    </div>
+                </div> */}
+                {isAuthenticated && 
                     <div
                         className={clsx(
-                            'flex flex-row items-center gap-3 select-none h-auto',
-                            'transition-all duration-200',
-                            'sm:hover:opacity-50',
-                            'active:opacity-50 sm:active:opacity'
+                            'flex flex-row w-auto h-[100%] hidden md:flex'
                         )}
-                        onClick={() => setIsProfileSettingsUnwrapped(prev => !prev)}
                     >
+                        <div
+                            className={clsx(
+                                'flex flex-row items-center gap-3 select-none h-auto',
+                                'transition-all duration-200',
+                                'sm:hover:opacity-50',
+                                'active:opacity-50 sm:active:opacity'
+                            )}
+                            onClick={() => setIsProfileSettingsUnwrapped(prev => !prev)}
+                        >
+                            <div className={clsx(
+                                'relative w-6 aspect-square overflow-hidden rounded-full'
+                            )}>
+                                <UserCoverIcon 
+                                    url={'/api/files/get?path=' + (user?.icon)}
+                                    className='w-full h-full object-cover'
+                                />
+                            </div>
+                            <p className={clsx(
+                                'font-interTight font-medium text-sm'
+                            )}>{`${user?.firstName} ${user?.lastName}`}</p>
+                        </div>
                         <div className={clsx(
-                            'relative w-6 aspect-square overflow-hidden rounded-full'
+                            'flex flex-col gap-1',
+                            'absolute right-0 w-[200px] rounded-md p-2 bg-emphasizingColor',
+                            'transition-all duration-200',
+                            'overflow-hidden',
+                            isProfileSettingsUnwrapped && 'top-full',
+                            !isProfileSettingsUnwrapped && 'top-0 opacity-0 pointer-events-none'
                         )}>
-                            <UserCoverIcon 
-                                url={'/api/files/get?path=' + (user?.icon)}
-                                className='w-full h-full object-cover'
+                            <TopMenuAccountOptionbar
+                                options={[
+                                    {
+                                        text: 'Settings',
+                                        link: '/account/settings',
+                                        textClassName: 'text-primaryText',
+                                        icon: <SettingsIcon />
+                                    },
+                                    {
+                                        text: 'Log out',
+                                        link: '/logout',
+                                        textClassName: 'text-red-500',
+                                        icon: <LogoutIcon />
+                                    }
+                                ]}
                             />
                         </div>
-                        <p className={clsx(
-                            'font-interTight font-medium text-sm'
-                        )}>{`${user?.firstName} ${user?.lastName}`}</p>
                     </div>
-                    {/* <div
-                        className={clsx(
-                            'flex flex-col items-center',
-                            'h-3 aspect-square',
-                            'transition-all duration-200',
-                            'sm:hover:opacity-50',
-                            'active:opacity-50 sm:active:opacity'
-                        )}
-                        onClick={() => setIsProfileSettingsUnwrapped(prev => !prev)}
-                    >
-                        <EllipsisIcon
-                            className='w-auto h-full'
-                        />
-                    </div> */}
+                }
+                {!isAuthenticated && 
                     <div className={clsx(
-                        'flex flex-col gap-1',
-                        'absolute right-0 w-[200px] rounded-md p-2 bg-emphasizingColor',
-                        'transition-all duration-200',
-                        'overflow-hidden',
-                        isProfileSettingsUnwrapped && 'top-full',
-                        !isProfileSettingsUnwrapped && 'top-0 opacity-0 pointer-events-none'
+                        'flex flex-row items-center gap-6 w-auto h-[100%] hidden md:flex'
                     )}>
-                        <TopMenuAccountOptionbar
-                            options={[
-                                {
-                                    text: 'Settings',
-                                    link: '/account/settings',
-                                    textClassName: 'text-primaryText',
-                                    icon: <SettingsIcon />
-                                },
-                                {
-                                    text: 'Log out',
-                                    link: '/logout',
-                                    textClassName: 'text-red-500',
-                                    icon: <LogoutIcon />
-                                }
-                            ]}
+                        <div className={clsx(
+                            'h-4'
+                        )}>
+                            <SearchIcon 
+                                className={clsx(
+                                    'fill-primaryColor',
+                                    'transition-all duration-200',
+                                    'sm:hover:opacity-50',
+                                    'active:opacity-50 sm:active:opacity'
+                                )}
+                                onClick={() => setIsSearchUnwrapped(prev => !prev)}
+                            />
+                        </div>
+                        <DefaultLink
+                            text="Sign in"
+                            link=""
+                            actived={true}
+                            arrowActived={false}
+                            underliningActived={false}
+                            customClassName="font-interTight font-semibold text-base"
                         />
+                        {/* <DefaultButton
+                            text="Sign in"
+                            link='/login'
+                            customClassName="font-interTight font-semibold text-sm pl-3 pr-3 pt-1.5 pb-1.5 rounded-xl"
+                        /> */}
                     </div>
-                </div>
-            }
-            {!isAuthenticated && 
-                <div className={clsx(
-                    'flex flex-row items-center gap-4 w-auto h-[100%] hidden md:flex right-0 absolute'
-                )}>
-                    <WhiteLink
-                        text="Sign up"
-                        link="/register"
-                        actived={true}
-                        arrowActived={false}
-                        underliningActived={false}
-                        className="font-medium text-sm"
-                    />
-                    <DefaultButton
-                        text="Sign in"
-                        link='/login'
-                        className="font-semibold text-sm"
-                    />
-                </div>
-            }
+                }
+                
+            </div>
+            <div className={clsx(
+                'absolute flex flex-col h-auto w-full bg-backgroundColor rounded-b-md',
+                'transition-all duration-300',
+                'overflow-hidden',
+                !isSearchUnwrapped && '-mt-10 opacity-0 pointer-events-none',
+                isSearchUnwrapped && 'mt-0 opacity-100'
+            )}>
+                <TopMenuSearch />
+            </div>
         </div>,
         <div className={clsx(
-            'flex flex-col gap-4',
+            'flex flex-col p-8 gap-4',
             'w-[100%] h-screen bg-backgroundColor fixed',
-            'p-8',
             'transition-all duration-500',
             menuStatus && 'right-0',
             !menuStatus && 'right-[-100%]'

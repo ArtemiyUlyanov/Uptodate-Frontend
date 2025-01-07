@@ -1,27 +1,39 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { CustomButtonProps } from "./custom_button_props";
+import DefaultLoader from "../loaders/DefaultLoader";
 
 export type TransparentButtonProps = CustomButtonProps
 
 const TransparentButton: React.FC<TransparentButtonProps> = ({
     text,
     link,
-    className
+    onClickButton,
+    available,
+    customClassName
 }) => {
     return (
         <Link 
             className={clsx(
-                'font-interTight font-semibold pt-2 pb-2 pl-3 pr-3 rounded-full text-primaryText select-none whitespace-nowrap',
+                'flex flex-row items-center justify-center font-interTight font-semibold pl-2 pr-2 pt-1 pb-1 rounded-md text-primaryText select-none whitespace-nowrap',
                 'transition-all duration-200',
-                'sm:hover:bg-emphasizingColor2',
-                'active:bg-emphasizingColor2 sm:active:bg',
+                'sm:hover:bg-emphasizingColor',
+                'active:bg-emphasizingColor sm:active:bg',
                 'border border-solid border-borderColor',
-                className
+                customClassName
             )}
+            onClick={() => onClickButton && onClickButton()}
             href={link || ''}
         >
-            {text}
+            <p className={clsx(
+                !available && 'opacity-0'
+            )}>{text}</p>
+            <DefaultLoader 
+                customClassName={clsx(
+                    'absolute w-5 h-5',
+                    available && 'hidden'
+                )} 
+            />
         </Link>
     );
 }

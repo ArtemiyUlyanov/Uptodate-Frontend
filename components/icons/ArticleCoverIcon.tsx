@@ -17,11 +17,11 @@ export const ArticleCoverIcon: React.FC<ArticleCoverIconProps> = ({
       src={url}
       alt='Image is likely not to be supported'
       className={clsx(
-        'object-contain select-none',
+        'select-none',
         className
       )}
-      width={1600}
-      height={900}
+      width={900}
+      height={1600}
     />
   )
 }
