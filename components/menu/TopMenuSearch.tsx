@@ -8,20 +8,30 @@ import { Article } from "@/models/article";
 import ArticleCover from "../articles/covers/ArticleCover";
 import DefaultLink from "../links/DefaultLink";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { clearHistory } from "@/store/features/history/historySlice";
+import { useTranslations } from "next-intl";
 
 export type TopMenuSearchProps = React.HTMLProps<HTMLDivElement> & {
-
+    onPerformingSearch?: () => void
 }
 
 const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
+    onPerformingSearch,
     ...props
 }) => {
     const [result, setResult] = useState<Article[]>([]);
     const router = useRouter();
 
+    const translate = useTranslations('common.search');
+
+    const { history } = useSelector((state: RootState) => state.history);
+    const dispatch = useDispatch();
+
     const { searchInput, query, setQuery } = useLocalSearch(
         <IconInput
-            placeholder='Search by name'
+            translativePlaceholder='common.search.search_placeholder'
             customClassName='w-full'
             inputClassName='text-base'
             fullBordered={true}
@@ -35,7 +45,7 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
 
     const { data, isLoading, error, refetch } = useSearchQuery(
         { 
-            count: 2,
+            count: 3,
             query: query,
             miniSearch: true,
             filters: {topics: [], sort_by: undefined}
@@ -46,8 +56,11 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
         },
     );
 
-    const onSeeMore = () => {
-        router.push(`/explore?query=${encodeURIComponent(query)}`);
+    const performSearch = (event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLAnchorElement>, providedQuery?: string) => {
+        event.preventDefault();
+        onPerformingSearch && onPerformingSearch();
+
+        router.push(`/explore?query=${encodeURIComponent(providedQuery || query)}`);
     }
 
     useEffect(() => {
@@ -64,7 +77,9 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
         <div className={clsx(
             'flex flex-col gap-4 p-8 pb-4 pt-0'
         )}>
-            {searchInput}
+            <form onSubmit={performSearch}>
+                {searchInput}
+            </form>
             <div className={clsx(
                 'flex flex-col gap-8'
             )}>
@@ -76,64 +91,72 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
                     )}>
                         <p className={clsx(
                             'whitespace-nowrap font-interTight font-semibold text-secondaryText'
-                        )}>Recent queries</p>
+                        )}>{translate('recent_queries_text')}</p>
                         <div className={clsx(
-                            'flex flex-col'
+                            'flex flex-col gap-4 justify-between w-full'
                         )}>
-                            <p className={clsx(
-                                'truncate font-interTight font-semibold text-primaryText'
-                            )}>The size of dick how to figure out</p>
-                            <p className={clsx(
-                                'truncate font-interTight font-semibold text-primaryText'
-                            )}>After I cooked this my husband fucked me like a bitch</p>
-                            <p className={clsx(
-                                'truncate font-interTight font-semibold text-primaryText'
-                            )}>If the fart goes through the jeans can the mask prevent from the viruses?</p>
+                            <div className={clsx(
+                                'flex flex-col'
+                            )}>
+                                {history.filter((query, index) => index < 3).map(query =>
+                                    <div className={clsx(
+                                        'w-auto'
+                                    )}>
+                                        <DefaultLink
+                                            text={query}
+                                            link=""
+                                            onClick={(event: React.MouseEvent<HTMLAnchorElement>) => performSearch(event, query)}
+                                            actived={true}
+                                            customClassName='font-interTight font-semibold text-primaryText'
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                            <div className={clsx(
+                                'w-auto'
+                            )}>
+                                <DefaultLink 
+                                    text={translate('clear_history_button')}
+                                    link=''
+                                    onClick={(event: React.MouseEvent<HTMLAnchorElement>) => dispatch(clearHistory())}
+                                    customClassName={clsx(
+                                        'font-interTight font-semibold text-red-500 text-sm',
+                                        history.length <= 0 && 'hidden'
+                                    )}
+                                    actived={true}
+                                />
+                            </div>
                         </div>
                     </div>
                     <div className={clsx(
-                        'grid grid-cols-3 gap-4 w-full overflow-auto'
+                        'flex flex-col items-end gap-1 w-full'
                     )}>
-                        {
-                            result.map((article, index) => {
-                                return <ArticleCover
-                                    key={index}
-                                    heading={article.heading}
-                                    description={article.description}
-                                    createdAt={article.createdAt}
-                                    query={query}
-                                    topics={article.topics}
-                                    author={article.author}
-                                    url={"/api/files/get?path=articles/" + article.id + "/icon.png"}
-                                />;
-                            })
-                        }
-                        <div 
-                            className={clsx(
-                                'flex flex-col justify-center items-center w-full h-full rounded-md bg-emphasizingColor',
-                                'transition-all duration-200',
-                                'sm:hover:opacity-50',
-                                'active:opacity-50 sm:active:opacity'
-                            )}
-                            onClick={onSeeMore}
-                        >
-                            <p className={clsx(
-                                'font-interTight font-semibold text-primaryText text-base'
-                            )}>Watch more</p>
+                        <div className={clsx(
+                            'grid grid-cols-3 gap-4 w-full h-auto'
+                        )}>
+                            {
+                                result.map((article, index) => {
+                                    return <div>
+                                        <ArticleCover
+                                            key={index}
+                                            heading={article.heading}
+                                            description={article.description}
+                                            createdAt={article.createdAt}
+                                            query={query}
+                                            topics={article.topics}
+                                            author={article.author}
+                                            url={"/api/files/get?path=articles/" + article.id + "/icon.png"}
+                                        />
+                                    </div>
+                                })
+                            }
                         </div>
+                        <p className={clsx(
+                            'font-interTight font-semibold text-blueText text-sm',
+                            result.length <= 0 && 'hidden'
+                        )}>{translate('see_more_hint')}</p>
                     </div>
                 </div>
-                {/* <div>
-                    <DefaultLink
-                        text='See more'
-                        link={`/explore?query=${encodeURIComponent(query)}`}
-                        customClassName={clsx(
-                            'font-interTight font-semibold text-secondaryText text-sm'
-                        )}
-                        actived={true}
-                        underliningActived={false}
-                    />
-                </div> */}
             </div>
         </div>
     );

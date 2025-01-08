@@ -68,10 +68,10 @@ const ArticleCover: React.FC<ArticleCoverProps> = ({
                             'flex flex-col w-full'
                         )}>
                             <p className={clsx(
-                                'font-interTight font-semibold text text-base sm:text-sm text-primaryText truncate'
+                                'relative font-interTight font-semibold text text-base sm:text-sm text-primaryText line-clamp-1'
                             )}>{author?.firstName + " " + author?.lastName}</p>
                             <p className={clsx(
-                                'font-interTight font-medium text text-base sm:text-sm text-secondaryText truncate'
+                                'relative font-interTight font-medium text text-base sm:text-sm text-secondaryText line-clamp-1'
                             )}>@{splitQueryText(author?.username || '', query || '', 'bg-blueText text-primaryText')}</p>
                         </div>
                     </div>

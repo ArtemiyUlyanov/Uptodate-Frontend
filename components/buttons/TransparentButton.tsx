@@ -15,7 +15,7 @@ const TransparentButton: React.FC<TransparentButtonProps> = ({
     return (
         <Link 
             className={clsx(
-                'flex flex-row items-center justify-center font-interTight font-semibold pl-2 pr-2 pt-1 pb-1 rounded-md text-primaryText select-none whitespace-nowrap',
+                'flex flex-row items-center justify-center font-interTight font-semibold rounded-md text-primaryText select-none whitespace-nowrap',
                 'transition-all duration-200',
                 'sm:hover:bg-emphasizingColor',
                 'active:bg-emphasizingColor sm:active:bg',

@@ -13,11 +13,11 @@ const ExplorePageLayout: React.FC<ExplorePageLayoutProps> = ({
 }) => {
     return (
         <div className={clsx(
-            'flex flex-col items-center gap-8 sm:gap-16 pb-8 w-full h-auto'
+            'flex flex-col items-center gap-8 sm:gap-16 w-full h-auto'
         )}>
             {topMenu}
             <div className={clsx(
-                'flex flex-col items-center gap-8 sm:gap-16 pb-8 mt-[120px] w-full'
+                'flex flex-col items-center gap-8 sm:gap-16 mt-[120px] w-full'
             )}>
                 {children}
             </div>

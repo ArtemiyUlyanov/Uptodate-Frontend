@@ -10,24 +10,39 @@ import { Provider } from 'react-redux';
 import { persistor, store } from "@/store/store";
 import { PersistGate } from "redux-persist/integration/react";
 
-// const interTight = localFont({
-//   src: [
-//     {
-//       path: 'fonts/InterTight/InterTight-Regular.ttf',
-//       weight: '400',
-//       style: 'normal'
-//     }
-//   ],
-//   display: 'swap'
-// });
+import { NextIntlClientProvider } from 'next-intl';
+import { defaultLocale, locales } from "@/next-intl.config";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
 const queryClient = new QueryClient();
 
-const RootLayout = ({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) => {
+type RootLayoutProps = {
+  children: React.ReactNode;
+  params: { locale: string };
+};
+
+const RootLayout = ({ children }: RootLayoutProps) => {
+  const { lang } = useParams();
+  const [locale, setLocale] = useState<string>(defaultLocale);
+
+  useEffect(() => {
+    if (locales.includes(lang as 'en' | 'ru')) {
+      setLocale(lang as string);
+    } else {
+      setLocale(defaultLocale);
+    }
+  }, [lang]);
+
+  const loadMessages = (locale: string) => {
+    try {
+      return require(`@/public/locales/${locale}/lang.json`);
+    } catch (error) {
+      console.error(error);
+      return {};
+    }
+  };
+
   return (
     <html lang="en">
       <body
@@ -36,13 +51,18 @@ const RootLayout = ({
           'antialiased'
         )}
       >
-        <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <QueryClientProvider client={queryClient}>
-              {children}
-            </QueryClientProvider>
-          </PersistGate>
-        </Provider>
+        <NextIntlClientProvider
+          locale={locale}
+          messages={loadMessages(locale)}
+        >
+          <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+              <QueryClientProvider client={queryClient}>
+                {children}
+              </QueryClientProvider>
+            </PersistGate>
+          </Provider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

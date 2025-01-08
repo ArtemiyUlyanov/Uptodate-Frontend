@@ -12,6 +12,7 @@ import WhiteArrowLink from '@/components/links/DefaultLink';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export type ExplorePageGreetingProps = React.HTMLProps<HTMLDivElement> & {
 }
@@ -19,6 +20,7 @@ export type ExplorePageGreetingProps = React.HTMLProps<HTMLDivElement> & {
 const ExplorePageGreeting: React.FC<ExplorePageGreetingProps> = ({
 }) => {
     const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+    const translate = useTranslations('explore');
 
     return (
         <div className={clsx(
@@ -33,12 +35,12 @@ const ExplorePageGreeting: React.FC<ExplorePageGreetingProps> = ({
                     <p className={clsx(
                         'font-interTight font-semibold text-2xl text-left text-primaryText'
                     )}>
-                        Explore all articles on our website
+                        {translate('explore_greetings_text')}
                     </p>
                     <p className={clsx(
                         'font-interTight font-medium text-xl text-left text-secondaryText'
                     )}>
-                        There are a plenty of various articles in there with lots of different topics for every taste and need
+                        {translate('explore_greetings_subtext')}
                     </p>
                 </div>
             </div>

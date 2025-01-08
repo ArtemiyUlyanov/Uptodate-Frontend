@@ -26,6 +26,7 @@ import { ArticleTopic, ParentTopicsSet } from '@/models/article_topic';
 import ExplorePageSearch from './ExplorePageSearch';
 import ExplorePageArticles from './ExplorePageArticles';
 import { FiltersProvider } from '@/hooks/explore/useFilters';
+import AppFooter from '../AppFooter';
 // import { OptionTemplate } from '@/components/optionbars/UnwrappingOptionBar';
 // import { OptionBar } from '@/components/optionbars/UnwrappingOptionBar';
 
@@ -35,12 +36,13 @@ const ExplorePageContent: React.FC<ExplorePageContentProps> = ({
 }) => {
     return (
         <div className={clsx(
-            'flex flex-col pl-8 pr-8 gap-4'
+            'flex flex-col w-full pl-8 pr-8 gap-32'
         )}>
             <FiltersProvider>
                 <SearchProvider>
                     <TopicsProvider>
                         <ExplorePageArticles />
+                        <AppFooter />
                     </TopicsProvider>
                 </SearchProvider>
             </FiltersProvider>

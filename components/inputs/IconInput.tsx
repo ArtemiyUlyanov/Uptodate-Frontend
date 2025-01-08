@@ -3,6 +3,7 @@
 import clsx from "clsx";
 import { use, useEffect, useState } from "react";
 import { CustomInputProps } from "./custom_input_props";
+import { useTranslations } from "next-intl";
 
 export type IconInputProps = CustomInputProps & {
     icon?: React.ReactNode
@@ -10,6 +11,7 @@ export type IconInputProps = CustomInputProps & {
 
 const IconInput: React.FC<IconInputProps> = ({
     placeholder,
+    translativePlaceholder,
     icon,
     customClassName,
     fullBordered,
@@ -17,6 +19,8 @@ const IconInput: React.FC<IconInputProps> = ({
     handleChange,
     ...props
 }) => {
+    const translate = useTranslations();
+
     const [value, setValue] = useState<string>((props.value?.toString() && props.value.toString()) || '');
 
     const clearInput = () => {
@@ -39,7 +43,7 @@ const IconInput: React.FC<IconInputProps> = ({
                 {icon}
             </div>
             <input 
-                placeholder={placeholder}
+                placeholder={translativePlaceholder ? translate(translativePlaceholder) : placeholder}
                 value={value}
                 className={clsx(
                     'bg-[transparent] appearance-none outline-none text-primaryText placeholder-secondaryText w-[100%]',

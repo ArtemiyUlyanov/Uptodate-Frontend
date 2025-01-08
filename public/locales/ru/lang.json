@@ -1,0 +1,39 @@
+{
+    "explore": {
+        "explore_greetings_text": "Читайте любые статьи на нашем сайте",
+        "explore_greetings_subtext": "Здесь собрано множество статей на различные темы на любой вкус",
+        "articles_found_default_text": "Найдено %count% статей",
+        "articles_found_with_query_text": "Найдено %count% статей по запросу '%query%'",
+        "articles_showed_count_text": "%count% из %total% статей показано",
+        "articles_see_more_button": "Смотреть ещё",
+        "filter_sort_by_name": "Сортировать по"
+    },
+    "common": {
+        "menu": {
+            "home_page_link": "Главная",
+            "explore_page_link": "Статьи",
+            "about_us_page_link": "О нас",
+            "categories_page_link": "Категории",
+            "sign_in_button": "Войти"
+        },
+        "footer": {
+            "change_language_button": "Сменить язык"
+        },
+        "search": {
+            "search_placeholder": "Искать по имени",
+            "recent_queries_text": "Недавние запросы",
+            "clear_history_button": "Очистить историю",
+            "see_more_hint": "Нажмите 'Enter' пока вводите запрос чтобы просмотреть все статьи"
+        },
+        "filters": {
+            "sort_by": {
+                "name": "Сортировать по",
+                "options": {
+                    "ascending": "По возрастанию",
+                    "descending": "По убыванию",
+                    "alphabetically": "По алфавиту"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,38 @@
+{
+    "explore": {
+        "explore_greetings_text": "Explore all articles on our website",
+        "explore_greetings_subtext": "There are a plenty of various articles in there with lots of different topics for every taste and need",
+        "articles_found_default_text": "%count% articles found",
+        "articles_found_with_query_text": "%count% articles found with '%query%' query",
+        "articles_showed_count_text": "Showing %count% of %total% articles",
+        "articles_see_more_button": "See more"
+    },
+    "common": {
+        "menu": {
+            "home_page_link": "Home",
+            "explore_page_link": "Explore",
+            "about_us_page_link": "About us",
+            "categories_page_link": "Categories",
+            "sign_in_button": "Sign in"
+        },
+        "footer": {
+            "change_language_button": "Change language"
+        },
+        "search": {
+            "search_placeholder": "Search by name",
+            "recent_queries_text": "Recent queries",
+            "clear_history_button": "Clear the history",
+            "see_more_hint": "Click 'Enter' while searching to see more"
+        },
+        "filters": {
+            "sort_by": {
+                "name": "Sort by",
+                "options": {
+                    "ascending": "Ascending",
+                    "descending": "Descending",
+                    "alphabetically": "Alphabetically"
+                }
+            }
+        }
+    }
+}

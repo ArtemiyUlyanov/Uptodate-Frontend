@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./features/auth/authSlice";
+import authReducer, { AuthSliceType } from "./features/auth/authSlice";
+import historyReducer, { HistorySliceType } from "./features/history/historySlice";
 import { persistReducer, persistStore, WebStorage } from 'redux-persist';
 
 const storage: WebStorage = {
@@ -15,7 +16,8 @@ const persistConfig = {
 
 export const store = configureStore({
     reducer: {
-      auth: persistReducer(persistConfig, authReducer),
+      auth: persistReducer<AuthSliceType>(persistConfig, authReducer),
+      history: persistReducer<HistorySliceType>(persistConfig, historyReducer)
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

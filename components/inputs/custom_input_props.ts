@@ -1,5 +1,6 @@
 export type CustomInputProps = React.HTMLProps<HTMLInputElement> & {
-    placeholder: string
+    placeholder?: string
+    translativePlaceholder?: string
     customClassName?: string
     inputClassName?: string
     fullBordered: boolean

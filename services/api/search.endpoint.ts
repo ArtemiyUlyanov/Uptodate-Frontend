@@ -24,7 +24,7 @@ export const searchApi = async ({
     query,
     filters
 }: ApiSearchParams): Promise<ApiSearchResponse> => {
-    const response = await axios.get("api/articles/search", {
+    const response = await axios.get("/api/articles/search", {
         params: {
             count: count,
             page: page,

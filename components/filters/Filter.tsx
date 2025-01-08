@@ -1,22 +1,30 @@
+'use client';
+
 import { useFilters } from "@/hooks/explore/useFilters"
 import clsx from "clsx"
 import { FiltersIcon } from "../icons/FiltersIcon"
 import { CheckboxCheckedIcon } from "../icons/CheckboxCheckedIcon"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { UnwrappingElementIcon } from "../icons/UnwrappingElementIcon"
 import { useLocalSearch, UseLocalSearchResponse } from "@/hooks/explore/useLocalSearch"
 import { splitQueryText } from "@/utils/text_utils"
 import IconInput from "../inputs/IconInput"
 import { SearchIcon } from "../icons/SearchIcon"
+import { useTranslations } from "next-intl"
 
 export type FilterProps = React.HTMLProps<HTMLDivElement> & {
     name: string
-    options: string[]
+    options: FilterOption[]
     applyFilter: (option: string) => void
     isSelected: (option: string) => boolean
     unwrapping: boolean
     searchProperties?: FilterSearchProps
     multiple: boolean
+}
+
+export type FilterOption = {
+    translativeName: string
+    value: string
 }
 
 export type FilterSearchProps = {
@@ -33,6 +41,8 @@ const Filter: React.FC<FilterProps> = ({
     searchProperties,
     multiple
 }) => {
+    const translate = useTranslations();
+
     const [isUnwrapped, setIsUnwrapped] = useState(false);
     const { filters, setFilter } = useFilters();
 
@@ -48,12 +58,12 @@ const Filter: React.FC<FilterProps> = ({
     );
 
     const filteredOptions = useMemo(() => 
-        options.filter(option => option.toLowerCase().includes(query.toLowerCase()))
+        options.filter(option => option.value.toLowerCase().includes(query.toLowerCase()))
     , [query]);
 
     return (
         <div className={clsx(
-            'flex flex-col relative',
+            'flex flex-col items-end relative',
             'transition-all duration-200',
             !unwrapping && 'gap-2',
             unwrapping && isUnwrapped && 'gap-2',
@@ -90,16 +100,18 @@ const Filter: React.FC<FilterProps> = ({
                     'font-interTight font-medium text-secondaryText text-sm'
                 )}>{name}</p>
             )}
-            <ul className={clsx(
-                'absolute space-y-1 -left-full top-full mt-1 z-[9999]',
-                'p-2 bg-white rounded-md',
-                'transition-all duration-200',
-                multiple && 'flex-row',
-                !multiple && 'flex-col',
-                unwrapping && 'overflow-hidden',
-                unwrapping && isUnwrapped && 'opacity-100',
-                unwrapping && !isUnwrapped && 'opacity-0 pointer-events-none'
-            )}>
+            <ul
+                className={clsx(
+                    'absolute space-y-1 top-full mt-1 z-[9999]',
+                    'p-2 bg-white rounded-md',
+                    'transition-all duration-200',
+                    multiple && 'flex-row',
+                    !multiple && 'flex-col',
+                    unwrapping && 'overflow-hidden',
+                    unwrapping && isUnwrapped && 'opacity-100',
+                    unwrapping && !isUnwrapped && 'opacity-0 pointer-events-none'
+                )}
+            >
                 {displaySearch && 
                     <div className={clsx(
                         'w-full sm:w-1/2'
@@ -111,37 +123,37 @@ const Filter: React.FC<FilterProps> = ({
                     <li
                         key={index}
                         className={clsx(
-                            'select-none pr-2 pl-2 pt-1 pb-1',
+                            'select-none whitespace-nowrap pr-2 pl-2 pt-1 pb-1',
                             'rounded-full',
                             'border border-borderColor',
-                            'font-interTight font-semibold text-primaryText text-sm',
+                            'font-interTight font-medium text-primaryText text-sm',
                             'transition-all duration-200',
-                            isSelected(option) && 'bg-emphasizingColor2'
+                            isSelected(option.value) && 'bg-emphasizingColor2'
                         )}
-                        onClick={() => applyFilter(option)}
+                        onClick={() => applyFilter(option.value)}
                     >
-                        {splitQueryText(option, query, 'bg-blueText text-primaryText')}
+                        {splitQueryText(translate(option.translativeName), query, 'bg-blueText text-primaryText')}
                     </li>
                 )}
                 {!multiple && filteredOptions.map((option, index) =>
                     <li
                         key={index}
                         className={clsx(
-                            'select-none flex flex-row items-center gap-4 justify-between',
+                            'select-none whitespace-nowrap flex flex-row items-center gap-4 justify-between',
                             'pl-2 pr-2 pt-1 pb-1 rounded-md',
-                            'font-interTight font-semibold text-primaryText text-sm',
+                            'font-interTight font-medium text-primaryText text-sm',
                             'transition-all duration-200',
-                            !isSelected(option) && 'sm:hover:bg-emphasizingColor2',
-                            isSelected(option) && 'bg-emphasizingColor2'
+                            !isSelected(option.value) && 'sm:hover:bg-emphasizingColor2',
+                            isSelected(option.value) && 'bg-emphasizingColor2'
                         )}
-                        onClick={() => applyFilter(option)}
+                        onClick={() => applyFilter(option.value)}
                     >
-                        {splitQueryText(option, query, 'bg-blueText text-primaryText')}
+                        {splitQueryText(translate(option.translativeName), query, 'bg-blueText text-primaryText')}
                         <div className={clsx(
                             'w-3',
                             'transition-all duration-200',
-                            isSelected(option) && 'opacity-100',
-                            !isSelected(option) && 'opacity-0'
+                            isSelected(option.value) && 'opacity-100',
+                            !isSelected(option.value) && 'opacity-0'
                         )}>
                             <CheckboxCheckedIcon
                                 className={clsx(

@@ -14,7 +14,7 @@ type FiltersContextType = {
 }
 
 const defaultFilters: FiltersContextType = {
-    filters: {topics: [], sort_by: undefined},
+    filters: {topics: [], sort_by: 'Ascending'},
     setFilter: (key: string, value: any) => {},
     clearFilters: () => {}
 }
@@ -29,7 +29,7 @@ export const FiltersProvider: React.FC<FiltersProviderProps> = ({
 }) => {
     const [filters, setFilters] = useState<FiltersType>({
         topics: [], 
-        sort_by: undefined
+        sort_by: 'Ascending'
     });
 
     const setFilter = useCallback((key: string, value: any) => {

@@ -17,7 +17,7 @@ export const authLogoutApi = async ({
     jwt_token
 }: ApiAuthLogoutParams): Promise<ApiAuthLogoutResponse> => {
     try {
-        const response = await axios.post("api/auth/logout", {}, {
+        const response = await axios.post("/api/auth/logout", {}, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${jwt_token}`

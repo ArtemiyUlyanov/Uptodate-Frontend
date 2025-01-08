@@ -4,11 +4,11 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: '/api/:path*', // Это путь, на который вы будете отправлять запросы на фронтенде
-        destination: 'http://localhost:8080/api/:path*', // Прокси запросы на ваш бэкенд
+        source: '/api/:path*',
+        destination: 'http://localhost:8080/api/:path*',
       },
     ]
-  },
+  }
 };
 
 export default nextConfig;

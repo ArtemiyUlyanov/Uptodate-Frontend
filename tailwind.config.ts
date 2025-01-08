@@ -3,6 +3,7 @@ import type { Config } from "tailwindcss";
 const beforePropertiesPlugin = require('tailwindcss-pseudo-elements');
 const textShadowPlugin = require("tailwindcss-textshadow");
 const animatePlugin = require('tailwindcss-animate');
+const lineClampPlugin = require('@tailwindcss/line-clamp');
 
 export default {
   content: [
@@ -100,5 +101,5 @@ export default {
       },
     },
   },
-  plugins: [beforePropertiesPlugin, textShadowPlugin, animatePlugin],
+  plugins: [beforePropertiesPlugin, textShadowPlugin, animatePlugin, lineClampPlugin],
 } satisfies Config;

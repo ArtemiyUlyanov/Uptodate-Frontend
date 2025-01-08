@@ -19,7 +19,7 @@ export const authLoginApi = async ({
     password
 }: ApiAuthLoginParams): Promise<ApiAuthLoginResponse> => {
     try {
-        const response = await axios.post("api/auth/login", {
+        const response = await axios.post("/api/auth/login", {
             username: username,
             password: password
         });
