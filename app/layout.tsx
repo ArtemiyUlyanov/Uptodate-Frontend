@@ -18,31 +18,10 @@ import { useParams } from "next/navigation";
 const queryClient = new QueryClient();
 
 type RootLayoutProps = {
-  children: React.ReactNode;
-  params: { locale: string };
+  children: React.ReactNode
 };
 
 const RootLayout = ({ children }: RootLayoutProps) => {
-  const { lang } = useParams();
-  const [locale, setLocale] = useState<string>(defaultLocale);
-
-  useEffect(() => {
-    if (locales.includes(lang as 'en' | 'ru')) {
-      setLocale(lang as string);
-    } else {
-      setLocale(defaultLocale);
-    }
-  }, [lang]);
-
-  const loadMessages = (locale: string) => {
-    try {
-      return require(`@/public/locales/${locale}/lang.json`);
-    } catch (error) {
-      console.error(error);
-      return {};
-    }
-  };
-
   return (
     <html lang="en">
       <body
@@ -51,18 +30,13 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           'antialiased'
         )}
       >
-        <NextIntlClientProvider
-          locale={locale}
-          messages={loadMessages(locale)}
-        >
-          <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-              <QueryClientProvider client={queryClient}>
-                {children}
-              </QueryClientProvider>
-            </PersistGate>
-          </Provider>
-        </NextIntlClientProvider>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <QueryClientProvider client={queryClient}>
+              {children}
+            </QueryClientProvider>
+          </PersistGate>
+        </Provider>
       </body>
     </html>
   );

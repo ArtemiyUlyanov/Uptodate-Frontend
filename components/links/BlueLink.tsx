@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import Link from "next/link";
 import { CustomLinkProps } from "./custom_link_props";
+import Link from "next/link";
 
 export type BlueLinkProps = CustomLinkProps
 
@@ -14,7 +14,7 @@ const BlueLink: React.FC<BlueLinkProps> = ({
     ...props
 }) => {
     return (
-        <Link 
+        <Link
             className={clsx(
                 'relative font-interTight text-blueText whitespace-nowrap w-auto all-unset flex flex-row gap-1 hover:gap-3',
                 'transition-all duration-200',
@@ -26,8 +26,9 @@ const BlueLink: React.FC<BlueLinkProps> = ({
                 customClassName
             )} 
             href={link}
+            {...props}
         >
-            <a {...props}>{text}</a>
+            {text}
             {arrowActived &&
                 <p>→</p>
             }

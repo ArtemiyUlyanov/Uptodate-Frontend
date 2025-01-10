@@ -5,7 +5,9 @@ import FilterSet from "@/components/filters/FilterSet"
 import { FiltersAscendingIcon } from "@/components/icons/FiltersAscendingIcon"
 import { FiltersIcon } from "@/components/icons/FiltersIcon"
 import { useFilters } from "@/hooks/explore/useFilters"
+import { useDictionary } from "@/hooks/useDictionary";
 import { useTopics } from "@/hooks/useTopics"
+import { select_value_by_language } from "@/models/translative_string";
 import { splitTextBySubtexts } from "@/utils/text_utils"
 import clsx from "clsx"
 import { useTranslations } from "next-intl"
@@ -19,12 +21,14 @@ export type ExplorePageFiltersProps = React.HTMLProps<HTMLDivElement> & {
 const ExplorePageFilters: React.FC<ExplorePageFiltersProps> = ({
 
 }) => {
-    const { lang } = useParams();
-
     const { filters, setFilter } = useFilters();
     const { topics } = useTopics();
 
-    const translate = useTranslations('common.filters');
+    const { language, translate } = useDictionary();
+
+    const filteredTopics = useMemo(() =>
+        Array.from(new Map(topics.map(topic => [topic.parent.english, topic.parent])))
+    , [topics]);
     
     return (
         <div className={clsx(
@@ -35,20 +39,20 @@ const ExplorePageFilters: React.FC<ExplorePageFiltersProps> = ({
                 'flex flex-row gap-4 relative'
             )}>
                 <Filter
-                    name={translate('sort_by.name')}
+                    name={translate('common.filters.sort_by.name')}
                     isSelected={option => filters.sort_by === option}
-                    applyFilter={option => setFilter('sort_by', option)}
+                    toggleFilter={option => setFilter('sort_by', option)}
                     options={[
                         {
-                            translativeName: 'common.filters.sort_by.options.ascending',
+                            name: translate('common.filters.sort_by.options.ascending'),
                             value: 'Ascending'
                         },
                         {
-                            translativeName: 'common.filters.sort_by.options.descending',
+                            name: translate('common.filters.sort_by.options.descending'),
                             value: 'Descending'
                         },
                         {
-                            translativeName: 'common.filters.sort_by.options.alphabetically',
+                            name: translate('common.filters.sort_by.options.alphabetically'),
                             value: 'Alphabetically'
                         }
                     ]}
@@ -60,6 +64,28 @@ const ExplorePageFilters: React.FC<ExplorePageFiltersProps> = ({
                         }
                     }
                 />
+                <FilterSet
+                    name={translate('common.filters.topics.name')}
+                    searchProperties={{
+                        searchAllowed: true
+                    }}
+                >
+                    {filteredTopics.map(([english, parent]) => 
+                        <Filter
+                            name={select_value_by_language(parent, language)}
+                            options={topics.filter(topic => topic.parent.english === english).map(topic => 
+                                ({
+                                    name: `${select_value_by_language(topic.name, language)} (${topic.count})`,
+                                    value: select_value_by_language(topic.name, language)
+                                })
+                            )}
+                            toggleFilter={option => !filters.topics.includes(option) ? setFilter('topics', [...filters.topics, option]) : setFilter('topics', filters.topics.filter(topic => topic !== option))}
+                            isSelected={option => filters.topics.includes(option)}
+                            multiple={true}
+                            unwrapping={true}
+                        />
+                    )}
+                </FilterSet>
             </div>
         </div>
     );

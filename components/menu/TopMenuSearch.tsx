@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { clearHistory } from "@/store/features/history/historySlice";
 import { useTranslations } from "next-intl";
+import { useDictionary } from "@/hooks/useDictionary";
 
 export type TopMenuSearchProps = React.HTMLProps<HTMLDivElement> & {
     onPerformingSearch?: () => void
@@ -24,14 +25,14 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
     const [result, setResult] = useState<Article[]>([]);
     const router = useRouter();
 
-    const translate = useTranslations('common.search');
+    const { language, translate } = useDictionary();
 
     const { history } = useSelector((state: RootState) => state.history);
     const dispatch = useDispatch();
 
     const { searchInput, query, setQuery } = useLocalSearch(
         <IconInput
-            translativePlaceholder='common.search.search_placeholder'
+            placeholder={translate('common.search.search_placeholder')}
             customClassName='w-full'
             inputClassName='text-base'
             fullBordered={true}
@@ -91,7 +92,7 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
                     )}>
                         <p className={clsx(
                             'whitespace-nowrap font-interTight font-semibold text-secondaryText'
-                        )}>{translate('recent_queries_text')}</p>
+                        )}>{translate('common.search.recent_queries_text')}</p>
                         <div className={clsx(
                             'flex flex-col gap-4 justify-between w-full'
                         )}>
@@ -116,7 +117,7 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
                                 'w-auto'
                             )}>
                                 <DefaultLink 
-                                    text={translate('clear_history_button')}
+                                    text={translate('common.search.clear_history_button')}
                                     link=''
                                     onClick={(event: React.MouseEvent<HTMLAnchorElement>) => dispatch(clearHistory())}
                                     customClassName={clsx(
@@ -154,7 +155,7 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
                         <p className={clsx(
                             'font-interTight font-semibold text-blueText text-sm',
                             result.length <= 0 && 'hidden'
-                        )}>{translate('see_more_hint')}</p>
+                        )}>{translate('common.search.see_more_hint')}</p>
                     </div>
                 </div>
             </div>

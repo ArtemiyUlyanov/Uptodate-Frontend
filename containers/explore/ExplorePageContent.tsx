@@ -13,7 +13,7 @@ import article_icon_3 from '@/public/images/article_icon_3.png';
 import { Article } from "@/models/article";
 import { SearchProvider, useSearch } from '@/hooks/explore/useSearch';
 import clsx from 'clsx';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useTransition } from 'react';
 import TransparentIconButton from '@/components/buttons/TransparentIconButton';
 import filters_icon from "@/public/images/filters_icon.png";
 import { FiltersIcon } from '@/components/icons/FiltersIcon';
@@ -27,6 +27,9 @@ import ExplorePageSearch from './ExplorePageSearch';
 import ExplorePageArticles from './ExplorePageArticles';
 import { FiltersProvider } from '@/hooks/explore/useFilters';
 import AppFooter from '../AppFooter';
+import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
+import { useDictionary } from '@/hooks/useDictionary';
 // import { OptionTemplate } from '@/components/optionbars/UnwrappingOptionBar';
 // import { OptionBar } from '@/components/optionbars/UnwrappingOptionBar';
 
@@ -34,6 +37,8 @@ export type ExplorePageContentProps = React.HTMLProps<HTMLDivElement>
 
 const ExplorePageContent: React.FC<ExplorePageContentProps> = ({
 }) => {
+    const { language, translate } = useDictionary();
+
     return (
         <div className={clsx(
             'flex flex-col w-full pl-8 pr-8 gap-32'
@@ -42,7 +47,31 @@ const ExplorePageContent: React.FC<ExplorePageContentProps> = ({
                 <SearchProvider>
                     <TopicsProvider>
                         <ExplorePageArticles />
-                        <AppFooter />
+                        <AppFooter
+                            sectionTemplates={[
+                                {
+                                    name: translate('common.footer.sections.menu.name'),
+                                    options: [
+                                        {
+                                            text: translate('common.footer.sections.menu.options.home'),
+                                            link: `/`
+                                        },
+                                        {
+                                            text: translate('common.footer.sections.menu.options.explore'),
+                                            link: `/explore`
+                                        },
+                                        {
+                                            text: translate('common.footer.sections.menu.options.about_us'),
+                                            link: `/about-us/`
+                                        },
+                                        {
+                                            text: translate('common.footer.sections.menu.options.categories'),
+                                            link: `/categories/`
+                                        }
+                                    ]
+                                }
+                            ]}
+                        />
                     </TopicsProvider>
                 </SearchProvider>
             </FiltersProvider>

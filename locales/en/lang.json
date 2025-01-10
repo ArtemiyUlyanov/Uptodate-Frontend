@@ -16,7 +16,21 @@
             "sign_in_button": "Sign in"
         },
         "footer": {
-            "change_language_button": "Change language"
+            "change_language_button": "Change language",
+            "sections": {
+                "menu": {
+                    "name": "Menu",
+                    "options": {
+                        "home": "Home",
+                        "explore": "Explore",
+                        "about_us": "About us",
+                        "categories": "Categories"
+                    }
+                },
+                "categories": {
+                    "name": "Categories"
+                }
+            }
         },
         "search": {
             "search_placeholder": "Search by name",
@@ -32,7 +46,11 @@
                     "descending": "Descending",
                     "alphabetically": "Alphabetically"
                 }
-            }
+            },
+            "topics": {
+                "name": "Categories"
+            },
+            "search_placeholder": "Search in %name%"
         }
     }
 }

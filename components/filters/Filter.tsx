@@ -15,7 +15,7 @@ import { useTranslations } from "next-intl"
 export type FilterProps = React.HTMLProps<HTMLDivElement> & {
     name: string
     options: FilterOption[]
-    applyFilter: (option: string) => void
+    toggleFilter: (option: string) => void
     isSelected: (option: string) => boolean
     unwrapping: boolean
     searchProperties?: FilterSearchProps
@@ -23,7 +23,7 @@ export type FilterProps = React.HTMLProps<HTMLDivElement> & {
 }
 
 export type FilterOption = {
-    translativeName: string
+    name: string
     value: string
 }
 
@@ -35,14 +35,12 @@ export type FilterSearchProps = {
 const Filter: React.FC<FilterProps> = ({
     name,
     options,
-    applyFilter,
+    toggleFilter,
     isSelected,
     unwrapping,
     searchProperties,
     multiple
 }) => {
-    const translate = useTranslations();
-
     const [isUnwrapped, setIsUnwrapped] = useState(false);
     const { filters, setFilter } = useFilters();
 
@@ -59,11 +57,13 @@ const Filter: React.FC<FilterProps> = ({
 
     const filteredOptions = useMemo(() => 
         options.filter(option => option.value.toLowerCase().includes(query.toLowerCase()))
-    , [query]);
+    , [query, options]);
 
     return (
         <div className={clsx(
-            'flex flex-col items-end relative',
+            'flex flex-col relative',
+            searchProperties?.providedLocalSearch && 'items-start',
+            !searchProperties?.providedLocalSearch && 'items-end',
             'transition-all duration-200',
             !unwrapping && 'gap-2',
             unwrapping && isUnwrapped && 'gap-2',
@@ -81,7 +81,7 @@ const Filter: React.FC<FilterProps> = ({
                     onClick={() => setIsUnwrapped(prev => !prev)}
                 >
                     <p className={clsx(
-                        'font-interTight font-semibold text-primaryText'
+                        'whitespace-nowrap font-interTight font-semibold text-primaryText'
                     )}>{name}</p>
                     <div className={clsx(
                         'h-1.5'
@@ -102,14 +102,15 @@ const Filter: React.FC<FilterProps> = ({
             )}
             <ul
                 className={clsx(
-                    'absolute space-y-1 top-full mt-1 z-[9999]',
-                    'p-2 bg-white rounded-md',
+                    searchProperties?.providedLocalSearch && 'w-full relative space-y-1 flex flex-col z-[9999]',
+                    !searchProperties?.providedLocalSearch && 'w-auto p-2 absolute space-y-1 flex flex-col top-full mt-1 z-[9999]',
+                    'bg-white rounded-md',
                     'transition-all duration-200',
-                    multiple && 'flex-row',
-                    !multiple && 'flex-col',
                     unwrapping && 'overflow-hidden',
-                    unwrapping && isUnwrapped && 'opacity-100',
-                    unwrapping && !isUnwrapped && 'opacity-0 pointer-events-none'
+                    searchProperties?.providedLocalSearch && unwrapping && isUnwrapped && 'max-h-auto',
+                    searchProperties?.providedLocalSearch && unwrapping && !isUnwrapped && 'max-h-0',
+                    !searchProperties?.providedLocalSearch && unwrapping && isUnwrapped && 'opacity-100',
+                    !searchProperties?.providedLocalSearch && unwrapping && !isUnwrapped && 'opacity-0 pointer-events-none'
                 )}
             >
                 {displaySearch && 
@@ -123,22 +124,45 @@ const Filter: React.FC<FilterProps> = ({
                     <li
                         key={index}
                         className={clsx(
-                            'select-none whitespace-nowrap pr-2 pl-2 pt-1 pb-1',
-                            'rounded-full',
-                            'border border-borderColor',
+                            !searchProperties?.providedLocalSearch && 'whitespace-nowrap',
+                            'select-none flex flex-row justify-start items-center gap-2',
+                            'pl-2 pr-2 pt-1 pb-1 rounded-md',
                             'font-interTight font-medium text-primaryText text-sm',
                             'transition-all duration-200',
-                            isSelected(option.value) && 'bg-emphasizingColor2'
+                            !isSelected(option.value) && 'sm:hover:opacity-50',
                         )}
-                        onClick={() => applyFilter(option.value)}
+                        onClick={() => toggleFilter(option.value)}
                     >
-                        {splitQueryText(translate(option.translativeName), query, 'bg-blueText text-primaryText')}
+                        <div className={clsx(
+                            'w-auto rounded-md h-auto p-1 box-border',
+                            !isSelected(option.value) && 'border border-borderColor',
+                            isSelected(option.value) && 'bg-primaryColor border border-[transparent]',
+                            'transition-all duration-200',
+                        )}>
+                            <div className={clsx(
+                                'w-2',
+                                'transition-all duration-200',
+                                isSelected(option.value) && 'opacity-100',
+                                !isSelected(option.value) && 'opacity-0'
+                            )}>
+                                <CheckboxCheckedIcon
+                                    className={clsx(
+                                        'w-full h-auto fill-oppositeText',
+                                        'transition-all duration-200',
+                                    )}
+                                />
+                            </div>
+                        </div>
+                        <p className={clsx(
+                            'font-interTight font-medium text-left'
+                        )}>{splitQueryText(option.name, query, 'bg-blueText text-primaryText')}</p>
                     </li>
                 )}
                 {!multiple && filteredOptions.map((option, index) =>
                     <li
                         key={index}
                         className={clsx(
+                            !searchProperties?.providedLocalSearch && 'whitespace-nowrap',
                             'select-none whitespace-nowrap flex flex-row items-center gap-4 justify-between',
                             'pl-2 pr-2 pt-1 pb-1 rounded-md',
                             'font-interTight font-medium text-primaryText text-sm',
@@ -146,9 +170,9 @@ const Filter: React.FC<FilterProps> = ({
                             !isSelected(option.value) && 'sm:hover:bg-emphasizingColor2',
                             isSelected(option.value) && 'bg-emphasizingColor2'
                         )}
-                        onClick={() => applyFilter(option.value)}
+                        onClick={() => toggleFilter(option.value)}
                     >
-                        {splitQueryText(translate(option.translativeName), query, 'bg-blueText text-primaryText')}
+                        {splitQueryText(option.name, query, 'bg-blueText text-primaryText')}
                         <div className={clsx(
                             'w-3',
                             'transition-all duration-200',

@@ -2,29 +2,68 @@ import { LanguageIcon } from "@/components/icons/LanguageIcon";
 import { RussiaFlagIcon } from "@/components/icons/RussiaFlagIcon";
 import { UKFlagIcon } from "@/components/icons/UKFlagIcon";
 import { UptodateIcon } from "@/components/icons/UptodateIcon";
+import DefaultLink from "@/components/links/DefaultLink";
 import DefaultOptionbar from "@/components/optionbars/DefaultOptionbar";
+import { useDictionary } from "@/hooks/useDictionary";
+import { setLanguage } from "@/store/features/language/languageSlice";
 import clsx from "clsx";
 import { useTranslations } from "next-intl";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import { useDispatch } from "react-redux";
 
 export type AppFooterProps = React.HTMLProps<HTMLDivElement> & {
+    sectionTemplates: AppFooterSection[]
+}
 
+export type AppFooterSection = {
+    name: string
+    options: AppFooterOption[]
+}
+
+export type AppFooterOption = {
+    text: string
+    link: string
 }
 
 const AppFooter: React.FC<AppFooterProps> = ({
-
+    sectionTemplates
 }) => {
-    const translate = useTranslations('common.footer');
+    const { language, translate } = useDictionary();
+    const dispatch = useDispatch();
 
     const router = useRouter();
     const pathname = usePathname();
 
-    const { lang } = useParams();
+    const sections = useMemo(() => 
+        sectionTemplates.map(section =>
+            <div className={clsx(
+                'flex flex-col items-start gap-2'
+            )}>
+                <p className={clsx(
+                    'font-interTight font-semibold text-primaryText'
+                )}>{section.name}</p>
+                <div className={clsx(
+                    'flex flex-col items-start'
+                )}>
+                    {section.options.map(option =>
+                        <DefaultLink 
+                            text={option.text}
+                            link={option.link}
+                            customClassName='font-interTight font-medium'
+                            actived={true}
+                            underliningActived={false}
+                            arrowActived={false}
+                        />
+                    )}
+                </div>
+            </div>
+        )
+    , [sectionTemplates])
 
     return (
         <div className={clsx(
-            'flex flex-col gap-8'
+            'flex flex-col gap-8',
         )}>
             <div className={clsx(
                 'flex flex-row gap-4'
@@ -41,77 +80,9 @@ const AppFooter: React.FC<AppFooterProps> = ({
                     </div>
                 </div>
                 <div className={clsx(
-                    'grid grid-cols-3 w-full'
+                    'grid grid-cols-5 w-full'
                 )}>
-                    <div className={clsx(
-                        'flex flex-col items-start gap-2'
-                    )}>
-                        <p className={clsx(
-                            'font-interTight font-semibold text-primaryText'
-                        )}>Column #1</p>
-                        <div className={clsx(
-                            'flex flex-col items-start'
-                        )}>
-                            <p className={clsx(
-                                'font-interTight font-medium text-primaryText'
-                            )}>Column #1 Param #1</p>
-                            <p className={clsx(
-                                'font-interTight font-medium text-primaryText'
-                            )}>Column #1 Param #2</p>
-                            <p className={clsx(
-                                'font-interTight font-medium text-primaryText'
-                            )}>Column #1 Param #3</p>
-                            <p className={clsx(
-                                'font-interTight font-medium text-primaryText'
-                            )}>Column #1 Param #4</p>
-                        </div>
-                    </div>
-                    <div className={clsx(
-                        'flex flex-col items-start gap-2'
-                    )}>
-                        <p className={clsx(
-                            'font-interTight font-semibold text-primaryText'
-                        )}>Column #2</p>
-                        <div className={clsx(
-                            'flex flex-col items-start'
-                        )}>
-                            <p className={clsx(
-                                'font-interTight font-medium text-primaryText'
-                            )}>Column #2 Param #1</p>
-                            <p className={clsx(
-                                'font-interTight font-medium text-primaryText'
-                            )}>Column #2 Param #2</p>
-                            <p className={clsx(
-                                'font-interTight font-medium text-primaryText'
-                            )}>Column #2 Param #3</p>
-                            <p className={clsx(
-                                'font-interTight font-medium text-primaryText'
-                            )}>Column #2 Param #4</p>
-                        </div>
-                    </div>
-                    <div className={clsx(
-                        'flex flex-col items-start gap-2'
-                    )}>
-                        <p className={clsx(
-                            'font-interTight font-semibold text-primaryText'
-                        )}>Column #3</p>
-                        <div className={clsx(
-                            'flex flex-col items-start'
-                        )}>
-                            <p className={clsx(
-                                'font-interTight font-medium text-primaryText'
-                            )}>Column #3 Param #1</p>
-                            <p className={clsx(
-                                'font-interTight font-medium text-primaryText'
-                            )}>Column #3 Param #2</p>
-                            <p className={clsx(
-                                'font-interTight font-medium text-primaryText'
-                            )}>Column #3 Param #3</p>
-                            <p className={clsx(
-                                'font-interTight font-medium text-primaryText'
-                            )}>Column #3 Param #4</p>
-                        </div>
-                    </div>
+                    {sections}
                 </div>
             </div>
             <div className={clsx(
@@ -124,7 +95,7 @@ const AppFooter: React.FC<AppFooterProps> = ({
                             className="w-auto h-full"
                         />
                     }
-                    name={translate('change_language_button')}
+                    name={translate('common.footer.change_language_button')}
                     options={[
                         {
                             name: "English",
@@ -136,8 +107,8 @@ const AppFooter: React.FC<AppFooterProps> = ({
                                     <UKFlagIcon />                               
                                </div>
                             ),
-                            selected: lang === 'en',
-                            action: () => router.push(pathname.replace(/^\/(en|ru)\//, `/en/`))
+                            selected: language == 'en',
+                            action: () => dispatch(setLanguage({language: 'en'}))
                         },
                         {
                             name: "Русский",
@@ -149,8 +120,8 @@ const AppFooter: React.FC<AppFooterProps> = ({
                                     <RussiaFlagIcon />                               
                                </div>
                             ),
-                            selected: lang === 'ru',
-                            action: () => router.push(pathname.replace(/^\/(en|ru)\//, `/ru/`))
+                            selected: language == 'ru',
+                            action: () => dispatch(setLanguage({language: 'ru'}))
                         }
                     ]}
                 />

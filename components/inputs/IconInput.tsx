@@ -11,7 +11,6 @@ export type IconInputProps = CustomInputProps & {
 
 const IconInput: React.FC<IconInputProps> = ({
     placeholder,
-    translativePlaceholder,
     icon,
     customClassName,
     fullBordered,
@@ -19,8 +18,6 @@ const IconInput: React.FC<IconInputProps> = ({
     handleChange,
     ...props
 }) => {
-    const translate = useTranslations();
-
     const [value, setValue] = useState<string>((props.value?.toString() && props.value.toString()) || '');
 
     const clearInput = () => {
@@ -43,7 +40,7 @@ const IconInput: React.FC<IconInputProps> = ({
                 {icon}
             </div>
             <input 
-                placeholder={translativePlaceholder ? translate(translativePlaceholder) : placeholder}
+                placeholder={placeholder}
                 value={value}
                 className={clsx(
                     'bg-[transparent] appearance-none outline-none text-primaryText placeholder-secondaryText w-[100%]',

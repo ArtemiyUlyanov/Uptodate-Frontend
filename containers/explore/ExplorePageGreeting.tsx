@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useDictionary } from '@/hooks/useDictionary';
 
 export type ExplorePageGreetingProps = React.HTMLProps<HTMLDivElement> & {
 }
@@ -20,7 +21,8 @@ export type ExplorePageGreetingProps = React.HTMLProps<HTMLDivElement> & {
 const ExplorePageGreeting: React.FC<ExplorePageGreetingProps> = ({
 }) => {
     const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-    const translate = useTranslations('explore');
+
+    const { language, translate } = useDictionary();
 
     return (
         <div className={clsx(
@@ -35,12 +37,12 @@ const ExplorePageGreeting: React.FC<ExplorePageGreetingProps> = ({
                     <p className={clsx(
                         'font-interTight font-semibold text-2xl text-left text-primaryText'
                     )}>
-                        {translate('explore_greetings_text')}
+                        {translate('explore.explore_greetings_text')}
                     </p>
                     <p className={clsx(
                         'font-interTight font-medium text-xl text-left text-secondaryText'
                     )}>
-                        {translate('explore_greetings_subtext')}
+                        {translate('explore.explore_greetings_subtext')}
                     </p>
                 </div>
             </div>

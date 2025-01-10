@@ -17,7 +17,7 @@ export const useLocalSearch = (input: ReactElement<CustomInputProps>): UseLocalS
         React.cloneElement(input, {
             handleChange: (value) => setQuery(value)
         })
-    , [query]);
+    , [query, input]);
 
     return {searchInput: searchInput, query: query, setQuery: setQuery};
 }

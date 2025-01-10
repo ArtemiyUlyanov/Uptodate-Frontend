@@ -1,7 +1,10 @@
+import { TranslativeString } from "./translative_string"
+
 export type ArticleTopic = {
     id: number
-    parent: string
-    name: string
+    parent: TranslativeString
+    name: TranslativeString
+    count: number
 }
 
 export type ParentTopicsSet = {

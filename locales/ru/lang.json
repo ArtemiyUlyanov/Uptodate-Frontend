@@ -17,7 +17,21 @@
             "sign_in_button": "Войти"
         },
         "footer": {
-            "change_language_button": "Сменить язык"
+            "change_language_button": "Сменить язык",
+            "sections": {
+                "menu": {
+                    "name": "Меню",
+                    "options": {
+                        "home": "Главная",
+                        "explore": "Статьи",
+                        "about_us": "О нас",
+                        "categories": "Категории"
+                    }
+                },
+                "categories": {
+                    "name": "Категории"
+                }
+            }
         },
         "search": {
             "search_placeholder": "Искать по имени",
@@ -33,7 +47,11 @@
                     "descending": "По убыванию",
                     "alphabetically": "По алфавиту"
                 }
-            }
+            },
+            "topics": {
+                "name": "Категории"
+            },
+            "search_placeholder": "Искать в %name%"
         }
     }
 }

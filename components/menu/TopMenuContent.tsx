@@ -9,6 +9,7 @@ import { UserCoverIcon } from "../icons/UserCoverIcon";
 import { SearchIcon } from "../icons/SearchIcon";
 import { Dispatch, SetStateAction } from "react";
 import { useTranslations } from "next-intl";
+import { useDictionary } from "@/hooks/useDictionary";
 
 export type TopMenuContentProps = React.HTMLProps<HTMLDivElement[]> & {
     templates: TopMenuTemplate[]
@@ -19,7 +20,8 @@ const TopMenuContent: React.FC<TopMenuContentProps> = ({
     templates,
     onTogglingSearch
 }) => {
-    const translate = useTranslations('common.menu');
+    const { language, translate } = useDictionary();
+    
 
     const { user, isAuthenticated } = useSelector((state: RootState) => state.auth);
     const { articles } = useSearch();
@@ -74,7 +76,7 @@ const TopMenuContent: React.FC<TopMenuContentProps> = ({
                     />
                 </div>
                 <DefaultLink
-                    text={translate('sign_in_button')}
+                    text={translate('common.menu.sign_in_button')}
                     link=""
                     actived={true}
                     arrowActived={false}

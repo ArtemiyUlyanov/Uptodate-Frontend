@@ -11,6 +11,7 @@ import ExplorePageFilters from "./ExplorePageFilters";
 import { useSearchParams } from "next/navigation";
 import { addQuery, setHistory } from "@/store/features/history/historySlice";
 import { useTranslations } from "next-intl";
+import { useDictionary } from "@/hooks/useDictionary";
 
 export type ExplorePageArticlesProps = React.HTMLProps<HTMLDivElement> & {
 }
@@ -21,7 +22,7 @@ const ExplorePageArticles: React.FC<ExplorePageArticlesProps> = ({
     const { articles, pagesCount, query, setQuery, setPagesCount, totalElements, isLoading } = useSearch();
     const searchParams = useSearchParams();
 
-    const translate = useTranslations('explore');
+    const { language, translate } = useDictionary();
     const dispath = useDispatch();
 
     const expandArticles = () => {
@@ -50,9 +51,9 @@ const ExplorePageArticles: React.FC<ExplorePageArticlesProps> = ({
                     <p className={clsx(
                         'font-interTight font-medium text-blueText'
                     )}>{query ? 
-                            translate('articles_found_with_query_text').replace('%count%', totalElements.toString()).replace('%query%', query) 
+                            translate('explore.articles_found_with_query_text').replace('%count%', totalElements.toString()).replace('%query%', query) 
                         : 
-                            translate('articles_found_default_text').replace('%count%', totalElements.toString())
+                            translate('explore.articles_found_default_text').replace('%count%', totalElements.toString())
                         }
                     </p>
                     <ExplorePageFilters />
@@ -81,10 +82,10 @@ const ExplorePageArticles: React.FC<ExplorePageArticlesProps> = ({
             )}>
                 <p className={clsx(
                     'font-interTight font-medium text-secondaryText'
-                )}>{translate('articles_showed_count_text').replace('%count%', articles.length.toString()).replace('%total%', totalElements.toString())}</p>
+                )}>{translate('explore.articles_showed_count_text').replace('%count%', articles.length.toString()).replace('%total%', totalElements.toString())}</p>
                 <div>
                     <TransparentButton 
-                        text={translate('articles_see_more_button')}
+                        text={translate('explore.articles_see_more_button')}
                         onClickButton={() => expandArticles()}
                         available={!isLoading}
                         customClassName={clsx(
