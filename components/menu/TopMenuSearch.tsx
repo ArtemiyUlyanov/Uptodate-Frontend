@@ -13,6 +13,7 @@ import { RootState } from "@/store/store";
 import { clearHistory } from "@/store/features/history/historySlice";
 import { useTranslations } from "next-intl";
 import { useDictionary } from "@/hooks/useDictionary";
+import RedLink from "../links/RedLink";
 
 export type TopMenuSearchProps = React.HTMLProps<HTMLDivElement> & {
     onPerformingSearch?: () => void
@@ -116,7 +117,7 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
                             <div className={clsx(
                                 'w-auto'
                             )}>
-                                <DefaultLink 
+                                <RedLink 
                                     text={translate('common.search.clear_history_button')}
                                     link=''
                                     onClick={(event: React.MouseEvent<HTMLAnchorElement>) => dispatch(clearHistory())}

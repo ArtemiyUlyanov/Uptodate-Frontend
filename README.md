@@ -2,7 +2,7 @@
 
 This is the minimalistic version of Uptodate's frontend
 
-![The applied changes](/git/uptodate%20alternative.gif)
+![The applied changes](/git/search.gif)
 
 ## Authentication
 
