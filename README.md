@@ -1,6 +1,11 @@
 # Uptodate Front-end v1.1.2
 
-This is the minimalistic version of Uptodate's frontend: A web application for sharing one's minds by publishing articles and exploring them as a consumer
+## Overview
+
+This is a nextjs-based web application that represents the Front-end of Uptodate. 
+Uptodate is a service intended to empower consumers to publish their articles and find out necessary information.
+
+[Check out the Back-end](https://github.com/Artem340dev/Uptodate)
 
 ![The applied changes](/git/search.gif)
 
@@ -26,13 +31,6 @@ It also has a lovely interface that allows customers to filter articles they wan
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file or the full text at [MIT License](https://opensource.org/licenses/MIT) for details.
-
-## Overview
-
-This is a nextjs-based web application that represents the Front-end of Uptodate. 
-Uptodate is a service intended to empower consumers to publish their articles and find out necessary information.
-
-[Check out the Back-end](https://github.com/Artem340dev/Uptodate)
 
 ## What's new
 
