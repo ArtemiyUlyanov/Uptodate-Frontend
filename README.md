@@ -1,6 +1,6 @@
 # Uptodate Front-end v1.1.2
 
-This is the minimalistic version of Uptodate's frontend
+This is the minimalistic version of Uptodate's frontend: A web application for sharing one's minds by publishing articles and exploring them as a consumer
 
 ![The applied changes](/git/search.gif)
 
