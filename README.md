@@ -37,5 +37,6 @@ Uptodate is a service intended to empower consumers to publish their articles an
 ## What's new
 
 The issue applies some changes in authorization system:
-  - The **/login** and the **/logout** pages are implemented now 
-  - There are some menu structure changes connected to the **Top Menu** when the user is authorized
+  - The authentication system has been implemented as well as the **/logout** endpoint
+  - The multilingualism has been implemented with the three supporting languages (English, French, Russian)
+  - The filter system has been finally implemented
