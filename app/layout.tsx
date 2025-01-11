@@ -12,16 +12,14 @@ import { PersistGate } from "redux-persist/integration/react";
 
 import { NextIntlClientProvider } from 'next-intl';
 import { defaultLocale, locales } from "@/next-intl.config";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
 const queryClient = new QueryClient();
 
-type RootLayoutProps = {
-  children: React.ReactNode
-};
-
-const RootLayout = ({ children }: RootLayoutProps) => {
+const RootLayout = ({ 
+  children 
+}: Readonly<{children: React.ReactNode}>) => {
   return (
     <html lang="en">
       <body

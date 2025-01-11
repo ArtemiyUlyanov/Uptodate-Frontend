@@ -1,0 +1,78 @@
+{
+    "explore": {
+        "explore_greetings_text": "Explorez tous les articles sur notre site",
+        "explore_greetings_subtext": "Il y a une multitude d'articles variés avec de nombreux sujets pour tous les goûts et besoins",
+        "articles_found_default_text": "%count% articles trouvés",
+        "articles_found_with_query_text": "%count% articles trouvés avec la recherche '%query%'",
+        "articles_showed_count_text": "Affichage de %count% sur %total% articles",
+        "articles_see_more_button": "Voir plus"
+    },
+    "common": {
+        "menu": {
+            "home_page_link": "Accueil",
+            "explore_page_link": "Explorer",
+            "about_us_page_link": "À propos de nous",
+            "categories_page_link": "Catégories",
+            "sign_in_button": "Se connecter"
+        },
+        "login": {
+            "login_form_greetings_text": "Ravi de vous revoir !",
+            "login_form_greetings_subtext": "Pas encore inscrit ?",
+            "login_form_sign_up_link": "Créer un compte",
+            "fields": {
+                "username": {
+                    "name": "Nom d'utilisateur",
+                    "input_placeholder": "Entrez votre nom d'utilisateur"
+                },
+                "password": {
+                    "name": "Mot de passe",
+                    "input_placeholder": "Entrez votre mot de passe"
+                }
+            },
+            "errors": {
+                "username_field_incorrect": "Veuillez remplir votre nom d'utilisateur",
+                "password_field_incorrect": "Veuillez remplir votre mot de passe",
+                "user_invalid": "Utilisateur invalide !",
+                "unknown_error": "Erreur ! Veuillez réessayer plus tard"
+            },
+            "login_form_sign_in_button": "Se connecter"
+        },
+        "footer": {
+            "change_language_button": "Changer la langue",
+            "sections": {
+                "menu": {
+                    "name": "Menu",
+                    "options": {
+                        "home": "Accueil",
+                        "explore": "Explorer",
+                        "about_us": "À propos de nous",
+                        "categories": "Catégories"
+                    }
+                },
+                "categories": {
+                    "name": "Catégories"
+                }
+            }
+        },
+        "search": {
+            "search_placeholder": "Rechercher par nom",
+            "recent_queries_text": "Recherches récentes",
+            "clear_history_button": "Effacer l'historique",
+            "see_more_hint": "Appuyez sur 'Enter' lors de la recherche pour voir plus de résultats"
+        },
+        "filters": {
+            "sort_by": {
+                "name": "Trier par",
+                "options": {
+                    "ascending": "Croissant",
+                    "descending": "Décroissant",
+                    "alphabetically": "Alphabétiquement"
+                }
+            },
+            "topics": {
+                "name": "Catégories"
+            },
+            "search_placeholder": "Rechercher dans %name%"
+        }
+    }
+}

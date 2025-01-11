@@ -15,6 +15,28 @@
             "categories_page_link": "Categories",
             "sign_in_button": "Sign in"
         },
+        "login": {
+            "login_form_greetings_text": "Nice to see you again!",
+            "login_form_greetings_subtext": "Have not registered yet?",
+            "login_form_sign_up_link": "Create an account",
+            "fields": {
+                "username": {
+                    "name": "Username",
+                    "input_placeholder": "Enter your username"
+                },
+                "password": {
+                    "name": "Password",
+                    "input_placeholder": "Enter your password"
+                }
+            },
+            "errors": {
+                "username_field_incorrect": "Please fill out your username",
+                "password_field_incorrect": "Please fill out your password",
+                "user_invalid": "User is invalid!",
+                "unknown_error": "Error! Please try again some later"
+            },
+            "login_form_sign_in_button": "Sign in"
+        },
         "footer": {
             "change_language_button": "Change language",
             "sections": {

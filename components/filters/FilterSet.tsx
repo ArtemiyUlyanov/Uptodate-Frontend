@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React, { ReactElement, useState } from "react";
 import { UnwrappingElementIcon } from "../icons/UnwrappingElementIcon";
 import { useLocalSearch, UseLocalSearchResponse } from "@/hooks/explore/useLocalSearch";
-import { FilterProps, FilterSearchProps } from "./Filter";
+import { FilterProps } from "./Filter";
 import IconInput from "../inputs/IconInput";
 import { SearchIcon } from "../icons/SearchIcon";
 import { useTranslations } from "next-intl";
@@ -43,7 +43,7 @@ const FilterSet: React.FC<FilterSetProps> = ({
 
     const updatedChildren = React.Children.map(children, (child) =>
         React.isValidElement(child)
-            ? React.cloneElement(child as ReactElement<FilterProps>, { searchProperties: {displaySearch: false, providedLocalSearch: {searchInput, query, setQuery} } })
+            ? React.cloneElement(child as ReactElement<FilterProps>, { queryProperties: {localSearch: {searchInput, query, setQuery} } })
             : child
     );
 

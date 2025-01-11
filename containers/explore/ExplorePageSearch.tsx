@@ -3,7 +3,6 @@ import IconInput from "@/components/inputs/IconInput";
 import { useSearch } from "@/hooks/explore/useSearch";
 import clsx from "clsx";
 import ExplorePageFilters from "./ExplorePageFilters";
-import BlueButton from "@/components/buttons/BlueButton";
 import DefaultButton from "@/components/buttons/DefaultButton";
 
 export type ExplorePageSearchProps = React.HTMLProps<HTMLDivElement> & {

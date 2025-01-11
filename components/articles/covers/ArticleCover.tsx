@@ -1,4 +1,3 @@
-import BlueButton from "@/components/buttons/BlueButton";
 import { ArticleCoverIcon } from "@/components/icons/ArticleCoverIcon";
 import { UserCoverIcon } from "@/components/icons/UserCoverIcon";
 import { useSearch } from "@/hooks/explore/useSearch";
@@ -72,13 +71,13 @@ const ArticleCover: React.FC<ArticleCoverProps> = ({
                             )}>{author?.firstName + " " + author?.lastName}</p>
                             <p className={clsx(
                                 'relative font-interTight font-medium text text-base sm:text-sm text-secondaryText line-clamp-1'
-                            )}>@{splitQueryText(author?.username || '', query || '', 'bg-blueText text-primaryText')}</p>
+                            )}>@{splitQueryText(author?.username || '', query || '', 'bg-redText text-primaryText')}</p>
                         </div>
                     </div>
                     {/* <div className={clsx(
                         'flex flex-row gap-2',
                         'pl-2 pr-2 pt-1 pb-1 select-none',
-                        'bg-blueColor rounded-full'
+                        'bg-redColor rounded-full'
                     )}>
                         <p className={clsx(
                             'font-interTight font-semibold text text-oppositeText text-xs sm:text-xs'
@@ -91,10 +90,10 @@ const ArticleCover: React.FC<ArticleCoverProps> = ({
                 )}>
                     <p className={clsx(
                         'font-interTight font-semibold text-sm text-primaryText text-left line-clamp-2'
-                    )}>{splitQueryText(capitalizeText(heading), query || '', 'bg-blueText text-primaryText')}</p>
+                    )}>{splitQueryText(capitalizeText(heading), query || '', 'bg-redText text-primaryText')}</p>
                     <p className={clsx(
                         'font-interTight font-medium text-sm text-secondaryText text-left line-clamp-2'
-                    )}>{splitQueryText(description, query || '', 'bg-blueText text-primaryText')}</p>
+                    )}>{splitQueryText(description, query || '', 'bg-redText text-primaryText')}</p>
                 </div>
             </div>
             <div className={clsx(

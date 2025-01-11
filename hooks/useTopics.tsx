@@ -9,7 +9,7 @@ const useTopicsQuery = (
     opts: Partial<UseQueryOptions<ApiTopicsGetResponse>> = {},
 ) => {
     return useQuery<ApiTopicsGetResponse>({
-      queryKey: ['topics', {parent: params.parent}],
+      queryKey: ['topics', params.parent],
       queryFn: () => topicsGetApi(params),
       ...opts,
     });

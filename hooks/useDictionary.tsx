@@ -22,10 +22,6 @@ export const useDictionary = (): UseDictionaryResponse => {
     });
 
     useEffect(() => {
-        refetch();
-    }, [language]);
-
-    useEffect(() => {
         setDictionary(data);
     }, [data]);
 

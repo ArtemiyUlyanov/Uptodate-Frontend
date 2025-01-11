@@ -66,13 +66,13 @@ export default {
         emphasizingColor: "#E2E2E2",
         emphasizingColor2: "#F4F4F4",
         emphasizingColor3: "#202020",
-        blueColor: "#FF78B7",
+        redColor: "#FF78B7",
         warnColor: "#FF4C4C",
 
         borderColor: "#CFCFCF",
         
         primaryText: "#232323",
-        blueText: "#FF78B7",
+        redText: "#FF78B7",
         secondaryText: "#A2A2A2",
 
         oppositeText: "#EFEEEC",

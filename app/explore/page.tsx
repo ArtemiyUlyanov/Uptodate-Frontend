@@ -3,6 +3,7 @@
 import TopMenu from "@/components/menu/TopMenu";
 import ExplorePageContent from "@/containers/explore/ExplorePageContent";
 import ExplorePageGreeting from "@/containers/explore/ExplorePageGreeting";
+import AuthContainer from "@/containers/auth/AuthContainer";
 import { useDictionary } from "@/hooks/useDictionary";
 import ExplorePageLayout from "@/layouts/explore/ExplorePageLayout";
 import { defaultLocale } from "@/next-intl.config";
@@ -47,6 +48,7 @@ const ExplorePage = () => {
     >
       <ExplorePageGreeting />
       <ExplorePageContent />
+      <AuthContainer />
     </ExplorePageLayout>
   );
 }

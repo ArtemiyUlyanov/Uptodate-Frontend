@@ -49,7 +49,7 @@ const ExplorePageArticles: React.FC<ExplorePageArticlesProps> = ({
                     'flex flex-row w-full justify-between'
                 )}>
                     <p className={clsx(
-                        'font-interTight font-medium text-blueText'
+                        'font-interTight font-medium text-redText'
                     )}>{query ? 
                             translate('explore.articles_found_with_query_text').replace('%count%', totalElements.toString()).replace('%query%', query) 
                         : 

@@ -1,6 +1,6 @@
 'use client';
 
-import Filter, { FilterOption } from "@/components/filters/Filter"
+import { ChildFilter, FilterOption, SingleFilter } from "@/components/filters/Filter"
 import FilterSet from "@/components/filters/FilterSet"
 import { FiltersAscendingIcon } from "@/components/icons/FiltersAscendingIcon"
 import { FiltersIcon } from "@/components/icons/FiltersIcon"
@@ -38,7 +38,7 @@ const ExplorePageFilters: React.FC<ExplorePageFiltersProps> = ({
             <div className={clsx(
                 'flex flex-row gap-4 relative'
             )}>
-                <Filter
+                <SingleFilter
                     name={translate('common.filters.sort_by.name')}
                     isSelected={option => filters.sort_by === option}
                     toggleFilter={option => setFilter('sort_by', option)}
@@ -56,13 +56,6 @@ const ExplorePageFilters: React.FC<ExplorePageFiltersProps> = ({
                             value: 'Alphabetically'
                         }
                     ]}
-                    multiple={false}
-                    unwrapping={true}
-                    searchProperties={
-                        {
-                            displaySearch: false
-                        }
-                    }
                 />
                 <FilterSet
                     name={translate('common.filters.topics.name')}
@@ -71,7 +64,7 @@ const ExplorePageFilters: React.FC<ExplorePageFiltersProps> = ({
                     }}
                 >
                     {filteredTopics.map(([english, parent]) => 
-                        <Filter
+                        <ChildFilter
                             name={select_value_by_language(parent, language)}
                             options={topics.filter(topic => topic.parent.english === english).map(topic => 
                                 ({
@@ -81,8 +74,6 @@ const ExplorePageFilters: React.FC<ExplorePageFiltersProps> = ({
                             )}
                             toggleFilter={option => !filters.topics.includes(option) ? setFilter('topics', [...filters.topics, option]) : setFilter('topics', filters.topics.filter(topic => topic !== option))}
                             isSelected={option => filters.topics.includes(option)}
-                            multiple={true}
-                            unwrapping={true}
                         />
                     )}
                 </FilterSet>

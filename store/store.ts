@@ -3,6 +3,7 @@ import authReducer, { AuthSliceType } from "./features/auth/authSlice";
 import historyReducer, { HistorySliceType } from "./features/history/historySlice";
 import { persistReducer, persistStore, WebStorage } from 'redux-persist';
 import languageReducer, { LanguageSliceType } from "./features/language/languageSlice";
+import authenticationMenuReducer, { AuthenticationMenuSliceType } from "./features/menu/authenticationMenuSlice";
 
 const storage: WebStorage = {
   getItem: (key) => Promise.resolve((typeof window !== 'undefined' && localStorage.getItem(key)) || null),
@@ -19,7 +20,8 @@ export const store = configureStore({
     reducer: {
       auth: persistReducer<AuthSliceType>(persistConfig, authReducer),
       history: persistReducer<HistorySliceType>(persistConfig, historyReducer),
-      language: persistReducer<LanguageSliceType>(persistConfig, languageReducer)
+      language: persistReducer<LanguageSliceType>(persistConfig, languageReducer),
+      authentication_menu: authenticationMenuReducer
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

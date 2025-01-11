@@ -21,10 +21,6 @@ const DefaultInput: React.FC<DefaultInputProps> = ({
         handleChange && handleChange('');
     }
 
-    useEffect(() => {
-        console.log(value, customClassName);
-    }, []);
-
     return (
         <div className={clsx(
             'inline-flex flex-row items-center gap-2',

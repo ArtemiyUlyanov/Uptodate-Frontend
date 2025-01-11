@@ -43,9 +43,6 @@ const ExplorePageContent: React.FC<ExplorePageContentProps> = ({
         <div className={clsx(
             'flex flex-col w-full pl-8 pr-8 gap-32'
         )}>
-            <FiltersProvider>
-                <SearchProvider>
-                    <TopicsProvider>
                         <ExplorePageArticles />
                         <AppFooter
                             sectionTemplates={[
@@ -72,9 +69,6 @@ const ExplorePageContent: React.FC<ExplorePageContentProps> = ({
                                 }
                             ]}
                         />
-                    </TopicsProvider>
-                </SearchProvider>
-            </FiltersProvider>
         </div>
     );
 }

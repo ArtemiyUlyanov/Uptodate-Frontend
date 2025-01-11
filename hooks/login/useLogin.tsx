@@ -6,7 +6,6 @@ import { UseLocalSearchResponse } from "../explore/useLocalSearch";
 import DefaultInput from "@/components/inputs/DefaultInput";
 import IconInput from "@/components/inputs/IconInput";
 import DefaultButton from "@/components/buttons/DefaultButton";
-import BlueButton from "@/components/buttons/BlueButton";
 import { ApiAuthLoginParams, ApiAuthLoginResponse, authLoginApi } from "@/services/api/auth.login.endpoint";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { ErrorResponse } from "@/services/api/error_response";
@@ -16,6 +15,7 @@ import { setUser } from "@/store/features/auth/authSlice";
 import { RootState } from "@/store/store";
 import clsx from "clsx";
 import { useRouter } from "next/router";
+import { useDictionary } from "../useDictionary";
 
 const useAuthLoginQuery = (
     params: ApiAuthLoginParams,
@@ -52,6 +52,7 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({
     children
 }) => {
     const dispatch = useDispatch();
+    const { dictionary, translate } = useDictionary();
     
     const [{ username, password }, setCredentials] = useState({
         username: '',
@@ -98,17 +99,24 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({
                 }
         
                 if (response.data?.error) {
+                    const auth_error_code = response.data.error?.code;
+                    let error: string = translate('common.login.unknown_error');
+
+                    if (auth_error_code === 10) {
+                        error = translate('common.login.errors.user_invalid');
+                    }
+
                     setErrors(prev => ({
                         ...prev,
-                        response: response.data.error?.message || ''
+                        response: error
                     }));
                 }
             });
-    }, []);
+    }, [dictionary, translate]);
 
     const [usernameInput, passwordInput] = useMemo(() =>
         [<DefaultInput
-            placeholder='Enter your username'
+            placeholder={translate('common.login.fields.username.input_placeholder')}
             customClassName={clsx(
                 'w-full',
                 errors.username && 'ring-2 ring-red-500/50',
@@ -118,12 +126,12 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({
             fullBordered={true}
             value={username}
             handleChange={(value) => updateCredentials({username: value})}
-            onInvalid={(e: React.FormEvent<HTMLInputElement>) => handleInputInvalid(e, 'username', 'Please fill out your username')}
+            onInvalid={(e: React.FormEvent<HTMLInputElement>) => handleInputInvalid(e, 'username', translate('common.login.errors.username_field_incorrect'))}
             onInput={(e: React.FormEvent<HTMLInputElement>) => handleInput(e, 'username')}
             required
         />,
         <DefaultInput
-            placeholder='Enter your password'
+            placeholder={translate('common.login.fields.password.input_placeholder')}
             customClassName={clsx(
                 'w-full',
                 errors.password && 'ring-2 ring-red-500/50',
@@ -133,19 +141,20 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({
             fullBordered={true}
             value={password}
             handleChange={(value) => updateCredentials({password: value})}
-            onInvalid={(e: React.FormEvent<HTMLInputElement>) => handleInputInvalid(e, 'password', 'Please fill out your password')}
+            onInvalid={(e: React.FormEvent<HTMLInputElement>) => handleInputInvalid(e, 'password', translate('common.login.errors.password_field_incorrect'))}
             onInput={(e: React.FormEvent<HTMLInputElement>) => handleInput(e, 'password')}
+            type="password"
             required
         />]
-    , [username, password, errors]);
+    , [username, password, errors, dictionary]);
 
     const loginButton = useMemo(() =>
-        <BlueButton
-            text='Sign in'
+        <DefaultButton
+            text={translate('common.login.login_form_sign_in_button')}
             customClassName='font-interTight font-semibold text-base text-center rounded-md'
             type='submit'
         />
-    , []);
+    , [dictionary]);
     
     return (
         <LoginContext.Provider value={{usernameInput, passwordInput, loginButton, errors, executeLogin}}>

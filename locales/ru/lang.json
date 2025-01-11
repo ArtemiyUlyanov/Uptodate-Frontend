@@ -16,6 +16,28 @@
             "categories_page_link": "Категории",
             "sign_in_button": "Войти"
         },
+        "login": {
+            "login_form_greetings_text": "Рады видеть Вас снова!",
+            "login_form_greetings_subtext": "Ещё не зарегистрированы?",
+            "login_form_sign_up_link": "Создать аккаунт",
+            "fields": {
+                "username": {
+                    "name": "Имя пользователя",
+                    "input_placeholder": "Введите имя пользователя"
+                },
+                "password": {
+                    "name": "Пароль",
+                    "input_placeholder": "Введите пароль"
+                }
+            },
+            "errors": {
+                "username_field_incorrect": "Введите ваше имя пользователя",
+                "password_field_incorrect": "Введите ваш пароль",
+                "user_invalid": "Неккоректные данные пользователя!",
+                "unknown_error": "Ошибка! Пожалуйста, повторите попытку позже"
+            },
+            "login_form_sign_in_button": "Войти"
+        },
         "footer": {
             "change_language_button": "Сменить язык",
             "sections": {

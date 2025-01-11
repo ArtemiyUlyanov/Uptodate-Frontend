@@ -2,9 +2,9 @@ import clsx from "clsx";
 import Link from "next/link";
 import { CustomButtonProps } from "./custom_button_props";
 
-export type DefaultButtonProps = CustomButtonProps
+export type BlueButtonProps = CustomButtonProps
 
-const DefaultButton: React.FC<DefaultButtonProps> = ({
+const BlueButton: React.FC<BlueButtonProps> = ({
     text,
     link,
     onClickButton,
@@ -15,25 +15,25 @@ const DefaultButton: React.FC<DefaultButtonProps> = ({
         (link ?
             <Link
                 className={clsx(
-                    'font-interTight pt-2 pb-2 pl-3 pr-3 rounded-full text-oppositeText bg-primaryColor select-none whitespace-nowrap',
+                    'font-interTight pt-2 pb-2 pl-3 pr-3 text-oppositeText bg-redColor select-none whitespace-nowrap',
                     'transition-all duration-200',
                     'sm:hover:opacity-[0.5]',
                     'active:opacity-[0.5] sm:active:opacity',
                     customClassName
                 )}
-                onClick={onClickButton}
-                href={link || ''}
-                {...props}
+                href={link}
+                legacyBehavior
             >
-                {text}
+                <a {...props}>{text}</a>
             </Link>
         :
             <button
                 className={clsx(
-                    'font-interTight pt-2 pb-2 pl-3 pr-3 rounded-full text-oppositeText bg-primaryColor select-none whitespace-nowrap',
+                    'font-interTight pt-2 pb-2 pl-3 pr-3 text-oppositeText bg-redColor text-center select-none whitespace-nowrap',
                     'transition-all duration-200',
                     'sm:hover:opacity-[0.5]',
                     'active:opacity-[0.5] sm:active:opacity',
+                    'text text-align-center',
                     customClassName
                 )}
                 onClick={onClickButton}
@@ -44,4 +44,4 @@ const DefaultButton: React.FC<DefaultButtonProps> = ({
     );
 }
 
-export default DefaultButton;
+export default BlueButton;

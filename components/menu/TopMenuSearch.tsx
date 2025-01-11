@@ -121,7 +121,7 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
                                     link=''
                                     onClick={(event: React.MouseEvent<HTMLAnchorElement>) => dispatch(clearHistory())}
                                     customClassName={clsx(
-                                        'font-interTight font-semibold text-red-500 text-sm',
+                                        'font-interTight font-semibold text-sm',
                                         history.length <= 0 && 'hidden'
                                     )}
                                     actived={true}
@@ -153,7 +153,7 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
                             }
                         </div>
                         <p className={clsx(
-                            'font-interTight font-semibold text-blueText text-sm',
+                            'font-interTight font-semibold text-redText text-sm',
                             result.length <= 0 && 'hidden'
                         )}>{translate('common.search.see_more_hint')}</p>
                     </div>

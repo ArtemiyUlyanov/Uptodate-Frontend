@@ -16,9 +16,9 @@ const BlueLink: React.FC<BlueLinkProps> = ({
     return (
         <Link
             className={clsx(
-                'relative font-interTight text-blueText whitespace-nowrap w-auto all-unset flex flex-row gap-1 hover:gap-3',
+                'relative font-interTight text-redText whitespace-nowrap w-auto all-unset flex flex-row gap-1 hover:gap-3',
                 'transition-all duration-200',
-                underliningActived && "before:content-[''] before:absolute before:h-[1px] before:bg-[#ff0000] before:-bottom-1 before:bg-blueText",
+                underliningActived && "before:content-[''] before:absolute before:h-[1px] before:bg-[#ff0000] before:-bottom-1 before:bg-redColor",
                 underliningActived && 'before:transition-all before:duration-200',
                 !underliningActived && 'sm:hover:opacity-50',
                 !underliningActived && 'active:opacity-50 sm:active:opacity',

@@ -1,3 +1,4 @@
+import { FranceFlagIcon } from "@/components/icons/FranceFlagIcon";
 import { LanguageIcon } from "@/components/icons/LanguageIcon";
 import { RussiaFlagIcon } from "@/components/icons/RussiaFlagIcon";
 import { UKFlagIcon } from "@/components/icons/UKFlagIcon";
@@ -89,36 +90,36 @@ const AppFooter: React.FC<AppFooterProps> = ({
                 'flex flex-row pb-4'
             )}>
                 <DefaultOptionbar 
-                    up={true}
+                    y_axis="top"
+                    x_axis="center"
                     icon={
                         <LanguageIcon 
                             className="w-auto h-full"
                         />
                     }
                     name={translate('common.footer.change_language_button')}
+                    textClassName="text-sm"
                     options={[
                         {
                             name: "English",
                             icon: (
-                                <div className={clsx(
-                                    'h-4 shadow-lg',
-                                    'rounded-full',
-                                )}>
-                                    <UKFlagIcon />                               
-                               </div>
+                                <UKFlagIcon className="w-auto h-full rounded-full" />
                             ),
                             selected: language == 'en',
                             action: () => dispatch(setLanguage({language: 'en'}))
                         },
                         {
+                            name: "Français (demo)",
+                            icon: (
+                                <FranceFlagIcon className="w-auto h-full rounded-full" />
+                            ),
+                            selected: language == 'fr',
+                            action: () => dispatch(setLanguage({language: 'fr'}))
+                        },
+                        {
                             name: "Русский",
                             icon: (
-                                <div className={clsx(
-                                    'h-4 shadow-lg',
-                                    'rounded-full',
-                                )}>
-                                    <RussiaFlagIcon />                               
-                               </div>
+                                <RussiaFlagIcon className="w-auto h-full rounded-full" />
                             ),
                             selected: language == 'ru',
                             action: () => dispatch(setLanguage({language: 'ru'}))

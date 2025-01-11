@@ -1,15 +1,21 @@
 import clsx from "clsx"
-import { CheckboxCheckedIcon } from "../icons/CheckboxCheckedIcon"
+import { useMemo, useState } from "react"
 import { UnwrappingElementIcon } from "../icons/UnwrappingElementIcon"
-import React, { useState } from "react"
+import { CheckboxCheckedIcon } from "../icons/CheckboxCheckedIcon"
+import { splitQueryText } from "@/utils/text_utils"
+import { UseLocalSearchResponse } from "@/hooks/explore/useLocalSearch"
 
-export type DefaultOptionbarProps = React.HTMLProps<HTMLDivElement> & {
+export type RelativeOptionbarProps = React.HTMLProps<HTMLDivElement> & {
     name: string
     icon?: React.ReactNode
-    y_axis: 'bottom' | 'top'
-    x_axis: 'center' | 'left' | 'right'
     options: OptionTemplate[]
+    queryOptions?: QueryProps
+    hideIfEmpty?: boolean
     textClassName?: string
+}
+
+export type QueryProps = {
+    localSearch?: UseLocalSearchResponse
 }
 
 export type OptionTemplate = {
@@ -19,23 +25,25 @@ export type OptionTemplate = {
     action: () => void
 }
 
-const DefaultOptionbar: React.FC<DefaultOptionbarProps> = ({
-    y_axis,
-    x_axis,
+const RelativeOptionbar: React.FC<RelativeOptionbarProps> = ({
     name,
     icon,
     options,
+    hideIfEmpty,
+    queryOptions,
     textClassName,
     ...props
 }) => {
     const [isUnwrapped, setIsUnwrapped] = useState(false);
 
+    const { query } = queryOptions?.localSearch || {query: ''}
+
     return (
         <div className={clsx(
-            'relative flex flex-col',
-            x_axis === 'center' && 'items-center',
-            x_axis === 'left' && 'items-end',
-            x_axis === 'right' && 'items-start'
+            'relative flex flex-col items-start',
+            isUnwrapped && 'gap-2',
+            !isUnwrapped && 'gap-0',
+            hideIfEmpty && options.length <= 0 && 'hidden'
         )}>
             <div
                 className={clsx(
@@ -72,20 +80,18 @@ const DefaultOptionbar: React.FC<DefaultOptionbarProps> = ({
                 </div>
             </div>
             <ul className={clsx(
-                'absolute flex flex-col gap-1 z-[9999]',
-                'p-2 bg-white rounded-md',
+                'w-full relative space-y-1 flex flex-col',
+                'bg-white rounded-md',
                 'transition-all duration-200',
-                y_axis === 'top' && 'bottom-full mb-1',
-                y_axis === 'bottom' && 'top-full mt-1',
                 'overflow-hidden',
-                isUnwrapped && 'opacity-100',
-                !isUnwrapped && 'opacity-0 pointer-events-none'
+                isUnwrapped && 'max-h-auto',
+                !isUnwrapped && 'max-h-0'
             )}>
                 {options.map((option, index) => 
                     <li
                         key={index}
                         className={clsx(
-                            'select-none w-auto whitespace-nowrap flex flex-row items-center gap-4 justify-between',
+                            'select-none w-auto flex flex-row items-center gap-2',
                             'pl-2 pr-2 pt-1 pb-1 rounded-md',
                             'font-interTight font-medium text-primaryText text-sm',
                             'transition-all duration-200',
@@ -95,33 +101,28 @@ const DefaultOptionbar: React.FC<DefaultOptionbarProps> = ({
                         onClick={option.action}
                     >
                         <div className={clsx(
-                            'flex flex-row items-center gap-2'
+                            'w-auto rounded-md h-auto p-1 box-border',
+                            !option.selected && 'border border-borderColor',
+                            option.selected && 'bg-primaryColor border border-[transparent]',
+                            'transition-all duration-200',
                         )}>
                             <div className={clsx(
-                                "w-4 h-4",
-                                !option.icon && 'hidden'
+                                'w-2',
+                                'transition-all duration-200',
+                                option.selected && 'opacity-100',
+                                !option.selected && 'opacity-0'
                             )}>
-                                {option.icon}
-                            </div>
-                            <p className={clsx(
-                                'inline-block text-primaryText'
-                            )}>
-                                {option.name}
-                            </p>
+                                <CheckboxCheckedIcon
+                                    className={clsx(
+                                        'w-full h-auto fill-oppositeText',
+                                        'transition-all duration-200',
+                                    )}
+                                />
+                                </div>
                         </div>
-                        <div className={clsx(
-                            'w-3',
-                            'transition-all duration-200',
-                            option.selected && 'opacity-100',
-                            !option.selected && 'opacity-0'
-                        )}>
-                            <CheckboxCheckedIcon
-                                className={clsx(
-                                    'w-full h-auto fill-redText',
-                                    'transition-all duration-200',
-                                )}
-                            />
-                        </div>
+                        <p className={clsx(
+                            'font-interTight font-medium text-left'
+                        )}>{splitQueryText(option.name, query, 'bg-redText text-primaryText')}</p>
                     </li>
                 )}
             </ul>
@@ -129,4 +130,4 @@ const DefaultOptionbar: React.FC<DefaultOptionbarProps> = ({
     );
 }
 
-export default DefaultOptionbar;
+export default RelativeOptionbar;
