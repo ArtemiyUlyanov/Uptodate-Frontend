@@ -1,8 +1,27 @@
-# Uptodate Front-end v1.1.0
+# Uptodate Front-end v1.1.2
 
-This is the inofficial version of Uptodate's frontend made in minimalism
+This is the minimalistic version of Uptodate's frontend
 
 ![The applied changes](/git/uptodate%20alternative.gif)
+
+## Authentication
+
+While developing this web application, it was considered to move away from common standarts where the authentication microservice is approached as a separate page and embed it into the top menu. This approach looks very modern and user-friendly
+
+![The modern authentication system](/git/sign-in.gif)
+
+## Languages
+
+This web application is multilingual and supports at least three different languages (English, French, Russian)
+
+![Switching languages](/git/languages.gif)
+
+## Categories
+
+There are a lot of different topics that an user can choose a needed article between. 
+It also has a lovely interface that allows customers to filter articles they want to find
+
+![Filtering system](/git/categories.gif)
 
 ## License
 
