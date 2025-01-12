@@ -18,7 +18,6 @@ import TransparentIconButton from '@/components/buttons/TransparentIconButton';
 import filters_icon from "@/public/images/filters_icon.png";
 import { FiltersIcon } from '@/components/icons/FiltersIcon';
 import TextButton from '@/components/buttons/TextButton';
-import Checkbox from '@/components/checkboxes/Checkbox';
 import { useQuery } from '@tanstack/react-query';
 import { ApiTopicsGetParams, ApiTopicsGetResponse, topicsGetApi } from '@/services/api/topics.get.endpoint';
 import { TopicsProvider, useTopics } from '@/hooks/useTopics';
@@ -30,8 +29,7 @@ import AppFooter from '../AppFooter';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { useDictionary } from '@/hooks/useDictionary';
-// import { OptionTemplate } from '@/components/optionbars/UnwrappingOptionBar';
-// import { OptionBar } from '@/components/optionbars/UnwrappingOptionBar';
+import { Button, Card, CardBody, CardFooter, CardHeader, Image } from '@nextui-org/react';
 
 export type ExplorePageContentProps = React.HTMLProps<HTMLDivElement>
 
@@ -43,32 +41,32 @@ const ExplorePageContent: React.FC<ExplorePageContentProps> = ({
         <div className={clsx(
             'flex flex-col w-full pl-8 pr-8 gap-32'
         )}>
-                        <ExplorePageArticles />
-                        <AppFooter
-                            sectionTemplates={[
-                                {
-                                    name: translate('common.footer.sections.menu.name'),
-                                    options: [
-                                        {
-                                            text: translate('common.footer.sections.menu.options.home'),
-                                            link: `/`
-                                        },
-                                        {
-                                            text: translate('common.footer.sections.menu.options.explore'),
-                                            link: `/explore`
-                                        },
-                                        {
-                                            text: translate('common.footer.sections.menu.options.about_us'),
-                                            link: `/about-us/`
-                                        },
-                                        {
-                                            text: translate('common.footer.sections.menu.options.categories'),
-                                            link: `/categories/`
-                                        }
-                                    ]
-                                }
-                            ]}
-                        />
+            <ExplorePageArticles />
+            <AppFooter
+                sectionTemplates={[
+                    {
+                        name: translate('common.footer.sections.menu.name'),
+                        options: [
+                            {
+                                text: translate('common.footer.sections.menu.options.home'),
+                                link: `/`
+                            },
+                            {
+                                text: translate('common.footer.sections.menu.options.explore'),
+                                link: `/explore`
+                            },
+                            {
+                                text: translate('common.footer.sections.menu.options.about_us'),
+                                link: `/about-us/`
+                            },
+                            {
+                                text: translate('common.footer.sections.menu.options.categories'),
+                                link: `/categories/`
+                            }
+                        ]
+                    }
+                ]}
+            />
         </div>
     );
 }

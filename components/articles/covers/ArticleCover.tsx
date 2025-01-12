@@ -1,11 +1,12 @@
 import { ArticleCoverIcon } from "@/components/icons/ArticleCoverIcon";
-import { UserCoverIcon } from "@/components/icons/UserCoverIcon";
+import { UserAvatarIcon } from "@/components/icons/UserAvatarIcon";
 import { useSearch } from "@/hooks/explore/useSearch";
 import { ArticleTopic } from "@/models/article_topic";
 import { User } from "@/models/user";
 import user_icon_1 from "@/public/images/user_icon_1.png";
 import { formatDate } from "@/utils/date_utils";
 import { capitalizeText, splitQueryText, splitTextBySubtexts } from "@/utils/text_utils";
+import { Avatar } from "@nextui-org/react";
 import clsx from "clsx";
 import { StaticImageData } from "next/image";
 import { useState } from "react";
@@ -58,7 +59,7 @@ const ArticleCover: React.FC<ArticleCoverProps> = ({
                         <div className={clsx(
                             'relative w-10 sm:w-10 aspect-square overflow-hidden rounded-full'
                         )}>
-                            <UserCoverIcon 
+                            <UserAvatarIcon 
                                 url={'/api/files/get?path=' + (author && author?.icon)}
                                 className='w-full h-full object-cover'
                             />

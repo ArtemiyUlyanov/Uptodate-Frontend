@@ -42,7 +42,7 @@ export const FiltersProvider: React.FC<FiltersProviderProps> = ({
     const clearFilters = useCallback(() => {
         setFilters({
             topics: [],
-            sort_by: undefined
+            sort_by: 'Ascending'
         });
     }, []);
 

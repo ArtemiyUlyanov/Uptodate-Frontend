@@ -1,12 +1,13 @@
+import DefaultDropdown from "@/components/dropdowns/DefaultDropdown";
 import { FranceFlagIcon } from "@/components/icons/FranceFlagIcon";
 import { LanguageIcon } from "@/components/icons/LanguageIcon";
 import { RussiaFlagIcon } from "@/components/icons/RussiaFlagIcon";
 import { UKFlagIcon } from "@/components/icons/UKFlagIcon";
 import { UptodateIcon } from "@/components/icons/UptodateIcon";
 import DefaultLink from "@/components/links/DefaultLink";
-import DefaultOptionbar from "@/components/optionbars/DefaultOptionbar";
 import { useDictionary } from "@/hooks/useDictionary";
 import { setLanguage } from "@/store/features/language/languageSlice";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
 import clsx from "clsx";
 import { useTranslations } from "next-intl";
 import { useParams, usePathname, useRouter } from "next/navigation";
@@ -89,41 +90,50 @@ const AppFooter: React.FC<AppFooterProps> = ({
             <div className={clsx(
                 'flex flex-row pb-4'
             )}>
-                <DefaultOptionbar 
-                    y_axis="top"
-                    x_axis="center"
+                <DefaultDropdown 
+                    name={translate('common.footer.change_language_button')}
+                    selectedKeys={[language]}
+                    componentSize={'sm'}
                     icon={
                         <LanguageIcon 
-                            className="w-auto h-full"
+                            className="w-auto aspect-square h-full"
                         />
                     }
-                    name={translate('common.footer.change_language_button')}
-                    textClassName="text-sm"
+                    onSelected={(keys) => dispatch(setLanguage({language: Array.from(keys)[0]}))}
                     options={[
                         {
                             name: "English",
+                            value: 'en',
                             icon: (
-                                <UKFlagIcon className="w-auto h-full rounded-full" />
-                            ),
-                            selected: language == 'en',
-                            action: () => dispatch(setLanguage({language: 'en'}))
+                                <div className={clsx(
+                                    'w-4'
+                                )}>
+                                    <UKFlagIcon className="w-auto h-full rounded-full" />
+                                </div>
+                            )
                         },
                         {
                             name: "Français (demo)",
+                            value: 'fr',
                             icon: (
-                                <FranceFlagIcon className="w-auto h-full rounded-full" />
-                            ),
-                            selected: language == 'fr',
-                            action: () => dispatch(setLanguage({language: 'fr'}))
+                                <div className={clsx(
+                                    'w-4'
+                                )}>
+                                    <FranceFlagIcon className="w-auto h-full rounded-full" />
+                                </div>
+                            )
                         },
                         {
                             name: "Русский",
+                            value: 'ru',
                             icon: (
-                                <RussiaFlagIcon className="w-auto h-full rounded-full" />
-                            ),
-                            selected: language == 'ru',
-                            action: () => dispatch(setLanguage({language: 'ru'}))
-                        }
+                                <div className={clsx(
+                                    'w-4'
+                                )}>
+                                    <RussiaFlagIcon className="w-auto h-full rounded-full" />
+                                </div>
+                            )
+                        },
                     ]}
                 />
             </div>

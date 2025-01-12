@@ -1,7 +1,7 @@
 'use client';
 
-import { ChildFilter, FilterOption, SingleFilter } from "@/components/filters/Filter"
-import FilterSet from "@/components/filters/FilterSet"
+import { SortFilter } from "@/components/filters/SortFilter";
+import { TopicsFilter } from "@/components/filters/TopicsFilter"
 import { FiltersAscendingIcon } from "@/components/icons/FiltersAscendingIcon"
 import { FiltersIcon } from "@/components/icons/FiltersIcon"
 import { useFilters } from "@/hooks/explore/useFilters"
@@ -14,21 +14,32 @@ import { useTranslations } from "next-intl"
 import { useParams, useRouter } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
 
-export type ExplorePageFiltersProps = React.HTMLProps<HTMLDivElement> & {
-
-}
+export type ExplorePageFiltersProps = React.HTMLProps<HTMLDivElement>
 
 const ExplorePageFilters: React.FC<ExplorePageFiltersProps> = ({
-
 }) => {
     const { filters, setFilter } = useFilters();
     const { topics } = useTopics();
 
     const { language, translate } = useDictionary();
 
-    const filteredTopics = useMemo(() =>
-        Array.from(new Map(topics.map(topic => [topic.parent.english, topic.parent])))
-    , [topics]);
+    const sortedTopics = useMemo(() =>
+        Array.from(
+            new Map(
+                topics.map(topic => [topic.parent.english, topic.parent])
+            )
+        ).map(([english, parent]) =>
+            ({
+                name: select_value_by_language(parent, language),
+                options: topics.filter(topic => topic.parent.english === english).map(topic => 
+                    ({
+                        name: `${select_value_by_language(topic.name, language)} (${topic.count})`,
+                        value: select_value_by_language(topic.name, language)
+                    })
+                )       
+            })
+        )
+    , [topics, language]);
     
     return (
         <div className={clsx(
@@ -38,10 +49,8 @@ const ExplorePageFilters: React.FC<ExplorePageFiltersProps> = ({
             <div className={clsx(
                 'flex flex-row gap-4 relative'
             )}>
-                <SingleFilter
+                <SortFilter 
                     name={translate('common.filters.sort_by.name')}
-                    isSelected={option => filters.sort_by === option}
-                    toggleFilter={option => setFilter('sort_by', option)}
                     options={[
                         {
                             name: translate('common.filters.sort_by.options.ascending'),
@@ -57,26 +66,10 @@ const ExplorePageFilters: React.FC<ExplorePageFiltersProps> = ({
                         }
                     ]}
                 />
-                <FilterSet
+                <TopicsFilter 
                     name={translate('common.filters.topics.name')}
-                    searchProperties={{
-                        searchAllowed: true
-                    }}
-                >
-                    {filteredTopics.map(([english, parent]) => 
-                        <ChildFilter
-                            name={select_value_by_language(parent, language)}
-                            options={topics.filter(topic => topic.parent.english === english).map(topic => 
-                                ({
-                                    name: `${select_value_by_language(topic.name, language)} (${topic.count})`,
-                                    value: select_value_by_language(topic.name, language)
-                                })
-                            )}
-                            toggleFilter={option => !filters.topics.includes(option) ? setFilter('topics', [...filters.topics, option]) : setFilter('topics', filters.topics.filter(topic => topic !== option))}
-                            isSelected={option => filters.topics.includes(option)}
-                        />
-                    )}
-                </FilterSet>
+                    sections={sortedTopics}
+                />
             </div>
         </div>
     );

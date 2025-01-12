@@ -14,6 +14,8 @@ import { NextIntlClientProvider } from 'next-intl';
 import { defaultLocale, locales } from "@/next-intl.config";
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { NextUIProvider } from "@nextui-org/react";
+import {ThemeProvider as NextThemesProvider} from "next-themes";
 
 const queryClient = new QueryClient();
 
@@ -28,13 +30,15 @@ const RootLayout = ({
           'antialiased'
         )}
       >
-        <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <QueryClientProvider client={queryClient}>
-              {children}
-            </QueryClientProvider>
-          </PersistGate>
-        </Provider>
+        <NextUIProvider>
+          <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+              <QueryClientProvider client={queryClient}>
+                {children}
+              </QueryClientProvider>
+            </PersistGate>
+          </Provider>
+        </NextUIProvider>
       </body>
     </html>
   );

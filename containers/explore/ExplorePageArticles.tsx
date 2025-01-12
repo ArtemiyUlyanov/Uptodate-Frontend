@@ -19,7 +19,7 @@ export type ExplorePageArticlesProps = React.HTMLProps<HTMLDivElement> & {
 const ExplorePageArticles: React.FC<ExplorePageArticlesProps> = ({
     children
 }) => {
-    const { articles, pagesCount, query, setQuery, setPagesCount, totalElements, isLoading } = useSearch();
+    const { articles, pagesCount, query, setQuery, setPagesCount, totalElements, isFetching } = useSearch();
     const searchParams = useSearchParams();
 
     const { language, translate } = useDictionary();
@@ -48,8 +48,8 @@ const ExplorePageArticles: React.FC<ExplorePageArticlesProps> = ({
                 <div className={clsx(
                     'flex flex-row w-full justify-between'
                 )}>
-                    <p className={clsx(
-                        'font-interTight font-medium text-redText'
+                    <p color="primary" className={clsx(
+                        'font-interTight font-medium'
                     )}>{query ? 
                             translate('explore.articles_found_with_query_text').replace('%count%', totalElements.toString()).replace('%query%', query) 
                         : 
@@ -62,8 +62,8 @@ const ExplorePageArticles: React.FC<ExplorePageArticlesProps> = ({
                     'grid grid-cols-3 gap-4 w-full overflow-auto'
                 )}>
                     {
-                        articles.map((article, index) => {
-                            return <ArticleCover
+                        articles.map((article, index) =>
+                            <ArticleCover
                                 key={index}
                                 heading={article.heading}
                                 description={article.description}
@@ -72,8 +72,8 @@ const ExplorePageArticles: React.FC<ExplorePageArticlesProps> = ({
                                 topics={article.topics}
                                 author={article.author}
                                 url={"/api/files/get?path=articles/" + article.id + "/icon.png"}
-                            />;
-                        })
+                            />
+                        )
                     }
                 </div>
             </div>
@@ -87,10 +87,10 @@ const ExplorePageArticles: React.FC<ExplorePageArticlesProps> = ({
                     <TransparentButton 
                         text={translate('explore.articles_see_more_button')}
                         onClickButton={() => expandArticles()}
-                        available={!isLoading}
+                        isLoading={isFetching}
+                        isDisabled={isFetching || articles.length >= totalElements}
                         customClassName={clsx(
-                            'text-sm pt-2 pb-2 pl-3 pr-3',
-                            articles.length >= totalElements && 'hidden'
+                            'text-sm pt-2 pb-2 pl-3 pr-3'
                         )}
                     />
                 </div>

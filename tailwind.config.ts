@@ -3,7 +3,7 @@ import type { Config } from "tailwindcss";
 const beforePropertiesPlugin = require('tailwindcss-pseudo-elements');
 const textShadowPlugin = require("tailwindcss-textshadow");
 const animatePlugin = require('tailwindcss-animate');
-const lineClampPlugin = require('@tailwindcss/line-clamp');
+const {nextui} = require("@nextui-org/react");
 
 export default {
   content: [
@@ -13,6 +13,7 @@ export default {
     "./hooks/**/*.{js,ts,jsx,tsx,mdx}",
     "./layouts/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -101,5 +102,40 @@ export default {
       },
     },
   },
-  plugins: [beforePropertiesPlugin, textShadowPlugin, animatePlugin, lineClampPlugin],
+  darkMode: 'class',
+  plugins: [beforePropertiesPlugin, textShadowPlugin, animatePlugin,
+    nextui({
+      prefix: "nextui",
+      addCommonColors: false,
+      defaultTheme: "light",
+      defaultExtendTheme: "light",
+      layout: {},
+      themes: {
+        light: {
+          layout: {
+            secondary: {
+              DEFAULT: '#FF78B7',
+            }
+          },
+          colors: {
+            secondary: {
+              DEFAULT: '#FF78B7',
+            }
+          },
+        },
+        dark: {
+          layout: {
+            secondary: {
+              DEFAULT: '#FF78B7',
+            }
+          },
+          colors: {
+            secondary: {
+              DEFAULT: '#FF78B7',
+            }
+          },
+        },
+      },
+    }),
+  ],
 } satisfies Config;

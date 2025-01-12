@@ -5,7 +5,6 @@ import { TopMenuTemplate } from "./TopMenu";
 import clsx from "clsx";
 import { UptodateIcon } from "../icons/UptodateIcon";
 import DefaultLink from "../links/DefaultLink";
-import { UserCoverIcon } from "../icons/UserCoverIcon";
 import { SearchIcon } from "../icons/SearchIcon";
 import { Dispatch, SetStateAction, use, useEffect } from "react";
 import { useTranslations } from "next-intl";
@@ -18,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { SettingsIcon } from "../icons/SettingsIcon";
 import DefaultButton from "../buttons/DefaultButton";
 import RedButton from "../buttons/RedButton";
+import { UserAvatarIcon } from "../icons/UserAvatarIcon";
 
 export type TopMenuContentProps = React.HTMLProps<HTMLDivElement[]> & {
     templates: TopMenuTemplate[]
@@ -119,9 +119,9 @@ const TopMenuContent: React.FC<TopMenuContentProps> = ({
                             <div className={clsx(
                                 'relative w-8 h-8 aspect-square overflow-hidden rounded-full'
                             )}>
-                                <UserCoverIcon 
+                                <UserAvatarIcon 
                                     url={'/api/files/get?path=' + (user?.icon)}
-                                    className='w-full h-full object-cover'
+                                    customClassName='w-full h-full object-cover'
                                 />
                             </div>
                             <div className={clsx(

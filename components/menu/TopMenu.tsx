@@ -9,7 +9,7 @@ import IconInput from "../inputs/IconInput";
 import { SearchIcon } from "../icons/SearchIcon";
 import HoveredText from "../texts/HoveredText";
 import TextButton from "../buttons/TextButton";
-import { UserCoverIcon } from "../icons/UserCoverIcon";
+import { UserCoverIcon } from "../icons/UserAvatarIcon";
 import { EllipsisIcon } from "../icons/EllipsisIcon";
 import DefaultLink from "../links/DefaultLink";
 import { useDispatch, useSelector } from "react-redux";

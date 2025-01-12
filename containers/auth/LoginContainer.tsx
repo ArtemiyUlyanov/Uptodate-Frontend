@@ -86,7 +86,7 @@ const LoginContainer: React.FC<LoginContainerProps> = ({
                             <BlueLink
                                 text={translate('common.login.login_form_sign_up_link')}
                                 link=''
-                                onClick={(event: React.MouseEvent<HTMLAnchorElement>) => dispatch(setAuthenticationMenu({unwrappedLogin: false, unwrappedRegister: true}))}
+                                onClick={() => dispatch(setAuthenticationMenu({unwrappedLogin: false, unwrappedRegister: true}))}
                                 customClassName={clsx(
                                     'font-interTight font-semibold text-sm text-redColor',
                                     history.length <= 0 && 'hidden'

@@ -1,4 +1,7 @@
-export type CustomButtonProps = React.HTMLProps<HTMLAnchorElement> & {
+import { Button } from "@nextui-org/button"
+import { ComponentProps } from "react"
+
+export type CustomButtonProps = ComponentProps<typeof Button> & {
     text: string
     link?: string
     onClickButton?: () => void

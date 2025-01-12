@@ -10,7 +10,7 @@ export type ExplorePageSearchProps = React.HTMLProps<HTMLDivElement> & {
 
 const ExplorePageSearch: React.FC<ExplorePageSearchProps> = ({
 }) => {
-    const { articles, performSearch, query, setQuery } = useSearch();
+    const { articles, query, setQuery } = useSearch();
 
     return (
         <div className={clsx(

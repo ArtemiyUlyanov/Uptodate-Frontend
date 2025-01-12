@@ -65,7 +65,7 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({
         response: ''
     });
 
-    const authLoginQuery = useAuthLoginQuery({username: username || '', password: password || ''});
+    const { data, isFetching, refetch} = useAuthLoginQuery({username: username || '', password: password || ''});
 
     const updateCredentials = useCallback((credentials: Partial<{username: string, password: string}>) => {
         setCredentials(prev => ({
@@ -92,7 +92,7 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({
     }
 
     const executeLogin = useCallback(() => {
-        authLoginQuery.refetch()
+        refetch()
             .then((response) => {
                 if (response.data?.user) {
                     dispatch(setUser({user: response.data.user, token: response.data.jwt_token, isAuthenticated: true}));
@@ -153,8 +153,10 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({
             text={translate('common.login.login_form_sign_in_button')}
             customClassName='font-interTight font-semibold text-base text-center rounded-md'
             type='submit'
+            isLoading={isFetching}
+            isDisabled={isFetching && password.length <= 0 || username.length <= 0}
         />
-    , [dictionary]);
+    , [password, username, isFetching, dictionary]);
     
     return (
         <LoginContext.Provider value={{usernameInput, passwordInput, loginButton, errors, executeLogin}}>

@@ -26,7 +26,7 @@ type SearchContextType = {
   pagesCount: number
   setPagesCount: Dispatch<SetStateAction<number>>
   totalElements: number
-  isLoading: boolean
+  isFetching: boolean
   performSearch: () => void
 }
 
@@ -37,7 +37,7 @@ const defaultFilters: SearchContextType = {
     pagesCount: 1,
     setPagesCount: () => {},
     totalElements: 1,
-    isLoading: false,
+    isFetching: false,
     performSearch: () => {}
 }
 
@@ -57,7 +57,7 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({
 
     const { filters } = useFilters();
 
-    const { data, isLoading, error, refetch } = useSearchQuery(
+    const { data, isFetching, refetch } = useSearchQuery(
         { 
             pagesCount: pagesCount,
             query: query,
@@ -94,7 +94,7 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({
     }, [data]);
 
     return (
-        <SearchContext.Provider value={{ query, articles, setQuery, pagesCount, setPagesCount, totalElements, isLoading, performSearch }}>
+        <SearchContext.Provider value={{ query, articles, setQuery, pagesCount, setPagesCount, totalElements, isFetching, performSearch }}>
             {children}
         </SearchContext.Provider>
     );
