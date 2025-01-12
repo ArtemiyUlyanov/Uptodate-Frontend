@@ -52,6 +52,7 @@ export const SortFilter: React.FC<SortFilterProps> = ({
     return (
         <Dropdown 
             className="relative w-auto"
+            shouldBlockScroll={false}
             onOpenChange={setIsOpen}
         >
             <DropdownTrigger 

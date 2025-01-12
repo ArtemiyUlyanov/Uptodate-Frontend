@@ -4,7 +4,7 @@ import { useFilters } from "@/hooks/explore/useFilters"
 import clsx from "clsx"
 import { use, useEffect, useMemo, useRef, useState } from "react"
 import { UnwrappingElementIcon } from "../icons/UnwrappingElementIcon"
-import { Accordion, AccordionItem, Checkbox, CheckboxGroup, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
+import { Accordion, AccordionItem, Checkbox, CheckboxGroup, Chip, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
 import { FilterSection } from "./filter_option";
 
 export type TopicsFilterProps = React.HTMLProps<HTMLDivElement> & {
@@ -19,16 +19,19 @@ export const TopicsFilter: React.FC<TopicsFilterProps> = ({
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [selectedKeys, setSelectedKeys] = useState<Record<string, Array<string>>>({});
 
-    const { filters, setFilter } = useFilters();
-
-    useEffect(() => {
-        setFilter('topics', Object.values(selectedKeys)
+    const keyList = useMemo(() =>
+        Object.values(selectedKeys)
             .reduce((acc, currentArr) => {
                 currentArr.forEach(item => acc.push(item));
                 return currentArr;
             }, [])
-        );
-    }, [selectedKeys]);
+    , [selectedKeys]);
+
+    const { filters, setFilter } = useFilters();
+
+    useEffect(() => {
+        setFilter('topics', keyList);
+    }, [keyList]);
 
     const trigger = useMemo(() => 
         <div className={clsx(
@@ -74,6 +77,7 @@ export const TopicsFilter: React.FC<TopicsFilterProps> = ({
                 }}
                 className="aspect-[3/4] overflow-y-scroll"
                 variant="flat"
+                defaultSelectedKeys={filters.topics}
                 closeOnSelect={false}
             >
                 {sections.map(({name, options}) => 
@@ -89,13 +93,14 @@ export const TopicsFilter: React.FC<TopicsFilterProps> = ({
                         >
                             <AccordionItem key={name} aria-label={name} title={name}>
                                 <CheckboxGroup
+                                    defaultValue={selectedKeys[name]}
                                     onValueChange={(keys) => setSelectedKeys(prev => ({
                                         ...prev,
                                         [name]: keys
                                     }))}
                                 >
                                     {options.map(option => 
-                                        <Checkbox size="sm" color="secondary" value={option.value}>{option.name}</Checkbox>
+                                        <Checkbox size="sm" color="secondary" key={option.value} value={option.value}>{option.name}</Checkbox>
                                     )}
                                 </CheckboxGroup>
                             </AccordionItem>

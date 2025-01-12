@@ -34,7 +34,7 @@ const ExplorePageFilters: React.FC<ExplorePageFiltersProps> = ({
                 options: topics.filter(topic => topic.parent.english === english).map(topic => 
                     ({
                         name: `${select_value_by_language(topic.name, language)} (${topic.count})`,
-                        value: select_value_by_language(topic.name, language)
+                        value: topic.name.english
                     })
                 )       
             })
