@@ -23,7 +23,7 @@ const RootLayout = ({
   children 
 }: Readonly<{children: React.ReactNode}>) => {
   return (
-    <html lang="en">
+    <html className="bg-backgroundColor" lang="en">
       <body
         className={clsx(
           'bg-backgroundColor',

@@ -41,6 +41,20 @@ const ExplorePageContent: React.FC<ExplorePageContentProps> = ({
         <div className={clsx(
             'flex flex-col w-full pl-8 pr-8 gap-32'
         )}>
+            {/* <div className='w-auto h-[300px] '>
+            <Card className="relative col-span-12 sm:col-span-4 h-[300px] aspect-[3/4]">
+                <CardHeader className="absolute z-10 top-1 flex-col !items-start">
+                    <p className="text-tiny text-white/60 uppercase font-bold">What to watch</p>
+                    <h4 className="text-white font-medium text-large">Stream the Acme event</h4>
+                </CardHeader>
+                <Image
+                removeWrapper
+                alt="Card background"
+                className="z-0 w-full h-full object-cover"
+                src="https://nextui.org/images/card-example-4.jpeg"
+                />
+            </Card>
+            </div> */}
             <ExplorePageArticles />
             <AppFooter
                 sectionTemplates={[

@@ -2,7 +2,7 @@
 
 import { useFilters } from "@/hooks/explore/useFilters"
 import clsx from "clsx"
-import { use, useEffect, useMemo, useRef, useState } from "react"
+import { use, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { UnwrappingElementIcon } from "../icons/UnwrappingElementIcon"
 import { Accordion, AccordionItem, Checkbox, CheckboxGroup, Chip, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
 import { FilterSection } from "./filter_option";
@@ -17,21 +17,17 @@ export const TopicsFilter: React.FC<TopicsFilterProps> = ({
     sections
 }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [selectedKeys, setSelectedKeys] = useState<Record<string, Array<string>>>({});
+    const [selectedKeys, setSelectedKeys] = useState<Record<number, string[]>>({});
 
     const keyList = useMemo(() =>
-        Object.values(selectedKeys)
-            .reduce((acc, currentArr) => {
-                currentArr.forEach(item => acc.push(item));
-                return currentArr;
-            }, [])
+        Object.values(selectedKeys).flatMap(set => set)
     , [selectedKeys]);
 
     const { filters, setFilter } = useFilters();
 
     useEffect(() => {
         setFilter('topics', keyList);
-    }, [keyList]);
+    }, [keyList, setFilter]);
 
     const trigger = useMemo(() => 
         <div className={clsx(
@@ -80,23 +76,25 @@ export const TopicsFilter: React.FC<TopicsFilterProps> = ({
                 defaultSelectedKeys={filters.topics}
                 closeOnSelect={false}
             >
-                {sections.map(({name, options}) => 
+                {sections.map(({name, options}, index) => 
                     <DropdownItem
-                        key={name}
+                        key={index}
                         className="p-0"
                     >
                         <Accordion 
+                            key={index}
                             isCompact
                             itemClasses={{
                                 title: 'font-interTight font-semibold text-primaryText text-sm'
                             }}
                         >
-                            <AccordionItem key={name} aria-label={name} title={name}>
+                            <AccordionItem aria-label={name} title={name}>
                                 <CheckboxGroup
-                                    defaultValue={selectedKeys[name]}
+                                    key={index}
+                                    value={selectedKeys[index]}
                                     onValueChange={(keys) => setSelectedKeys(prev => ({
                                         ...prev,
-                                        [name]: keys
+                                        [index]: [...keys]
                                     }))}
                                 >
                                     {options.map(option => 

@@ -6,7 +6,7 @@ import { User } from "@/models/user";
 import user_icon_1 from "@/public/images/user_icon_1.png";
 import { formatDate } from "@/utils/date_utils";
 import { capitalizeText, splitQueryText, splitTextBySubtexts } from "@/utils/text_utils";
-import { Avatar } from "@nextui-org/react";
+import { Avatar, Card, CardBody, CardFooter, CardHeader, Chip, Image } from "@nextui-org/react";
 import clsx from "clsx";
 import { StaticImageData } from "next/image";
 import { useState } from "react";
@@ -22,7 +22,7 @@ export type ArticleCoverProps = React.HTMLProps<HTMLDivElement> & {
     className?: string
 }
 
-const ArticleCover: React.FC<ArticleCoverProps> = ({
+export const ArticleCover: React.FC<ArticleCoverProps> = ({
     heading,
     description,
     topics,
@@ -32,85 +32,51 @@ const ArticleCover: React.FC<ArticleCoverProps> = ({
     author,
     className
 }) => {
-    const [isHovered, setIsHovered] = useState(false);
-
     return (
-        <div
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            className={clsx(
-                'flex flex-col-reverse sm:flex-row relative group',
-                'w-[100%] h-auto rounded-md',
-                'transition-all duration-200 bg-white',
-                'sm:hover:opacity-[0.75]',
-                'active:opacity-[0.75] sm:active:opacity',
-                className
-            )}
-        >
-            <div className={clsx(
-                'w-full sm:w-1/2 h-auto flex flex-col justify-start p-3 gap-1 z-[10]',
-            )}>       
+        <Card isPressable shadow="sm">
+            <CardBody className="overflow-visible p-0">
+                <Image
+                    alt={heading}
+                    className="w-full object-cover object-top aspect-video"
+                    radius="lg"
+                    shadow="sm"
+                    disableSkeleton={false}
+                    src={url}
+                    width="100%"
+                />
+            </CardBody>
+            <CardFooter className="justify-between">
                 <div className={clsx(
-                    'w-auto flex flex-row gap-2 items-center flex-wrap overflow-hidden text-ellipsis'
+                    'flex flex-col gap-1'
                 )}>
                     <div className={clsx(
-                        'flex flex-row gap-2 items-center text-ellipsis'
+                        'flex flex-row gap-2 items-center'
                     )}>
+                        <UserAvatarIcon 
+                            url={'/api/files/get?path=' + (author && author?.icon)}
+                            size="sm"
+                            className='w-full h-full aspect-square object-cover'
+                        />
                         <div className={clsx(
-                            'relative w-10 sm:w-10 aspect-square overflow-hidden rounded-full'
-                        )}>
-                            <UserAvatarIcon 
-                                url={'/api/files/get?path=' + (author && author?.icon)}
-                                className='w-full h-full object-cover'
-                            />
-                        </div>
-                        <div className={clsx(
-                            'flex flex-col w-full'
+                            'flex flex-col h-auto'
                         )}>
                             <p className={clsx(
-                                'relative font-interTight font-semibold text text-base sm:text-sm text-primaryText line-clamp-1'
+                                'relative font-interTight font-semibold text text-sm text-primaryText line-clamp-1'
                             )}>{author?.firstName + " " + author?.lastName}</p>
                             <p className={clsx(
-                                'relative font-interTight font-medium text text-base sm:text-sm text-secondaryText line-clamp-1'
+                                'relative font-interTight font-medium text text-sm text-secondaryText line-clamp-1'
                             )}>@{splitQueryText(author?.username || '', query || '', 'bg-redText text-primaryText')}</p>
                         </div>
                     </div>
-                    {/* <div className={clsx(
-                        'flex flex-row gap-2',
-                        'pl-2 pr-2 pt-1 pb-1 select-none',
-                        'bg-redColor rounded-full'
+                    <div className={clsx(
+                        'flex flex-col gap-1'
                     )}>
-                        <p className={clsx(
-                            'font-interTight font-semibold text text-oppositeText text-xs sm:text-xs'
-                        )}>{formatDate(createdAt)}</p>
-                    </div> */}
+                        <p className="font-interTight font-semibold text-sm line-clamp-2">{splitQueryText(capitalizeText(heading), query || '', 'bg-redText text-primaryText')}</p>
+                        <p className="font-interTight font-medium text-secondaryText text-sm line-clamp-2">{splitQueryText(description, query || '', 'bg-redText text-primaryText')}</p>
+                    </div>
                 </div>
-
-                <div className={clsx(
-                    'flex flex-col h-auto'
-                )}>
-                    <p className={clsx(
-                        'font-interTight font-semibold text-sm text-primaryText text-left line-clamp-2'
-                    )}>{splitQueryText(capitalizeText(heading), query || '', 'bg-redText text-primaryText')}</p>
-                    <p className={clsx(
-                        'font-interTight font-medium text-sm text-secondaryText text-left line-clamp-2'
-                    )}>{splitQueryText(description, query || '', 'bg-redText text-primaryText')}</p>
-                </div>
-            </div>
-            <div className={clsx(
-                'w-full sm:w-1/2 p-2 relative',
-                // "before:content-[''] before:absolute before:w-full before:h-full before:bg-gradient-to-b before:from-black/10 before:to-black/100 before:z-[5]"
-            )}>
-                <ArticleCoverIcon 
-                    url={url}
-                    className={clsx(
-                        'w-full h-auto rounded-md',
-                        // 'transition-all duration-200 z-[1]',
-                        // isHovered && 'scale-105'
-                    )}
-                />
-            </div>
-        </div>
+            </CardFooter>
+        </Card>
     );
 }
 

@@ -1,15 +1,16 @@
 import React from 'react'
-import Image, { StaticImageData } from 'next/image';
 import clsx from 'clsx';
 import { Avatar } from '@nextui-org/react';
 
 export type UserAvatarIconProps = React.ImgHTMLAttributes<HTMLElement> & {
     url: string,
+    size: "sm" | "md" | "lg" | undefined
     customClassName?: string
 }
 
 export const UserAvatarIcon: React.FC<UserAvatarIconProps> = ({
     url,
+    size,
     customClassName,
     ...props 
 }) => {
@@ -18,9 +19,10 @@ export const UserAvatarIcon: React.FC<UserAvatarIconProps> = ({
       src={url}
       alt='Image is likely not to be supported'
       className={clsx(
-        'select-none w-8 h-8',
+        'select-none',
         customClassName
       )}
+      size={size}
     />
   )
 }

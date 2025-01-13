@@ -119,8 +119,9 @@ const TopMenuContent: React.FC<TopMenuContentProps> = ({
                             <div className={clsx(
                                 'relative w-8 h-8 aspect-square overflow-hidden rounded-full'
                             )}>
-                                <UserAvatarIcon 
+                                <UserAvatarIcon
                                     url={'/api/files/get?path=' + (user?.icon)}
+                                    size="sm"
                                     customClassName='w-full h-full object-cover'
                                 />
                             </div>

@@ -134,7 +134,7 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
                         'flex flex-col items-end gap-1 w-full'
                     )}>
                         <div className={clsx(
-                            'grid grid-cols-3 gap-4 w-full h-auto'
+                            'grid grid-cols-5 gap-4 w-full h-auto'
                         )}>
                             {
                                 result.map((article, index) => {

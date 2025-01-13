@@ -12,6 +12,7 @@ import { useSearchParams } from "next/navigation";
 import { addQuery, setHistory } from "@/store/features/history/historySlice";
 import { useTranslations } from "next-intl";
 import { useDictionary } from "@/hooks/useDictionary";
+import { Pagination } from "@nextui-org/react";
 
 export type ExplorePageArticlesProps = React.HTMLProps<HTMLDivElement> & {
 }
@@ -19,15 +20,11 @@ export type ExplorePageArticlesProps = React.HTMLProps<HTMLDivElement> & {
 const ExplorePageArticles: React.FC<ExplorePageArticlesProps> = ({
     children
 }) => {
-    const { articles, pagesCount, query, setQuery, setPagesCount, totalElements, isFetching } = useSearch();
+    const { articles, page, query, setQuery, setPage, totalElements, totalPages, isFetching } = useSearch();
     const searchParams = useSearchParams();
 
     const { language, translate } = useDictionary();
     const dispath = useDispatch();
-
-    const expandArticles = () => {
-        setPagesCount(prev => articles.length < totalElements ? prev + 1 : prev);
-    }
 
     useEffect(() => {
         const query = searchParams.get('query');
@@ -59,7 +56,7 @@ const ExplorePageArticles: React.FC<ExplorePageArticlesProps> = ({
                     <ExplorePageFilters />
                 </div>
                 <div className={clsx(
-                    'grid grid-cols-3 gap-4 w-full overflow-auto'
+                    'grid grid-cols-5 gap-4 w-full overflow-auto'
                 )}>
                     {
                         articles.map((article, index) =>
@@ -80,20 +77,19 @@ const ExplorePageArticles: React.FC<ExplorePageArticlesProps> = ({
             <div className={clsx(
                 'flex flex-col items-center gap-2'
             )}>
-                <p className={clsx(
-                    'font-interTight font-medium text-secondaryText'
-                )}>{translate('explore.articles_showed_count_text').replace('%count%', articles.length.toString()).replace('%total%', totalElements.toString())}</p>
-                <div>
-                    <TransparentButton 
-                        text={translate('explore.articles_see_more_button')}
-                        onClickButton={() => expandArticles()}
-                        isLoading={isFetching}
-                        isDisabled={isFetching || articles.length >= totalElements}
-                        customClassName={clsx(
-                            'text-sm pt-2 pb-2 pl-3 pr-3'
-                        )}
-                    />
-                </div>
+                <Pagination
+                    hidden={totalPages <= 0}
+                    initialPage={1}
+                    page={page}
+                    total={totalPages}
+                    color="secondary"
+                    onChange={(page: number) => setPage(page)}
+                    isCompact
+                    showControls
+                    classNames={{
+                        item: 'font-interTight font-semibold'
+                    }}
+                />
             </div>
         </div>
     );

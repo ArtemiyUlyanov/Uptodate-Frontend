@@ -14,6 +14,7 @@ export type ApiSearchParams = {
 export type ApiSearchResponse = {
     articles: Article[]
     totalElements: number
+    totalPages: number
 }
 
 export const searchApi = async ({
@@ -37,5 +38,5 @@ export const searchApi = async ({
         }
     });
 
-    return {articles: JSON.parse(JSON.stringify(response.data.response)), totalElements: response.data.totalElements};
+    return {articles: JSON.parse(JSON.stringify(response.data.response)), totalElements: response.data.totalElements, totalPages: response.data.totalPages};
 }
