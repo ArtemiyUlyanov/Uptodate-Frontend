@@ -1,8 +1,6 @@
-import { SearchIcon } from "@/components/icons/SearchIcon"
-import { CustomInputProps } from "@/components/inputs/custom_input_props"
-import DefaultInput from "@/components/inputs/DefaultInput"
-import IconInput from "@/components/inputs/IconInput"
+import { CustomInputProps } from "@/ui/inputs/input.type"
 import React, { Dispatch, ReactElement, SetStateAction, useMemo, useState } from "react"
+import { useDebounced } from "../useDebounced"
 
 export type UseLocalSearchResponse = {
     searchInput: React.ReactNode
@@ -12,12 +10,14 @@ export type UseLocalSearchResponse = {
 
 export const useLocalSearch = (input: ReactElement<CustomInputProps>): UseLocalSearchResponse => {
     const [query, setQuery] = useState<string>('');
+    const debouncedQuery = useDebounced<string>(query);
 
     const searchInput = useMemo(() =>
         React.cloneElement(input, {
+            value: query || '',
             handleChange: (value) => setQuery(value)
         })
     , [query, input]);
 
-    return {searchInput: searchInput, query: query, setQuery: setQuery};
+    return {searchInput: searchInput, query: debouncedQuery, setQuery: setQuery};
 }

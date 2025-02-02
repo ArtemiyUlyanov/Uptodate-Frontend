@@ -1,9 +1,11 @@
 import { RootState } from "@/store/store";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-export type ProtectedRouteProps = React.HTMLProps<HTMLDivElement>
+export type ProtectedRouteProps = {
+    children: React.ReactNode
+}
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     children
@@ -13,9 +15,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
     useEffect(() => {
         if (!isAuthenticated) {
-            router.push('/login');
+            router.back();
         }
-    }, [isAuthenticated, router]);
+    });
 
     return isAuthenticated ? children : null;
 }

@@ -36,7 +36,70 @@
                 "user_invalid": "Неккоректные данные пользователя!",
                 "unknown_error": "Ошибка! Пожалуйста, повторите попытку позже"
             },
-            "login_form_sign_in_button": "Войти"
+            "login_form_sign_in_button": "Войти",
+            "drawer": {
+                "name": "Авторизация",
+                "close_tooltip": "Закрыть меню авторизации"
+            }
+        },
+        "register": {
+            "register_form_greetings_text": "Создать аккаунт",
+            "register_form_greetings_subtext": "Станьте частью большего сообщества и будьте всегда в курсе событий",
+            "register_form_sign_up_link": "У меня уже есть аккаунт",
+            "fields": {
+                "firstName": {
+                    "name": "Имя",
+                    "input_placeholder": "Жак"
+                },
+                "lastName": {
+                    "name": "Фамилия",
+                    "input_placeholder": "Оберт"
+                },
+                "email": {
+                    "name": "Почта",
+                    "input_placeholder": "example@mail.com"
+                },
+                "username": {
+                    "name": "Имя пользователя",
+                    "input_placeholder": "Введите имя пользователя"
+                },
+                "password": {
+                    "name": "Пароль",
+                    "input_placeholder": "Введите пароль"
+                }
+            },
+            "errors": {
+                "first_name_field_incorrect": "Введите ваше имя",
+                "last_name_field_incorrect": "Введите вашу фамилию",
+                "email_field_incorrect": "Введите вашу почту",
+                "username_field_incorrect": "Введите ваше имя пользователя",
+                "password_field_incorrect": "Введите ваш пароль",
+                "user_already_exists": "Пользователь уже существует!",
+                "unknown_error": "Ошибка! Пожалуйста, повторите попытку позже"
+            },
+            "register_form_get_started_button": "Начать",
+            "drawer": {
+                "name": "Регистрация",
+                "close_tooltip": "Закрыть меню регистрации"
+            }
+        },
+        "registerVerifyCode": {
+            "registerVerifyCode_form_greetings_text": "Подтвердите почту",
+            "registerVerifyCode_form_greetings_subtext": "Код из 6 символов был отправлен на вашу почту",
+            "fields": {
+                "code": {
+                    "name": "Код подтверждения"
+                }
+            },
+            "errors": {
+                "code_invalid": "Неправильный код!",
+                "unknown_error": "Ошибка! Пожалуйста, повторите попытку позже"
+            },
+            "register_form_get_started_button": "Подтвердить",
+            "drawer": {
+                "name": "Подтверждение почты",
+                "close_tooltip": "Закрыть меню подтверждения почты"
+            }
         },
         "footer": {
             "change_language_button": "Сменить язык",
@@ -56,12 +119,21 @@
             }
         },
         "search": {
+            "drawer": {
+                "name": "Искать статьи",
+                "close_tooltip": "Закрыть поиск"
+            },
             "search_placeholder": "Искать по имени",
             "recent_queries_text": "Недавние запросы",
             "clear_history_button": "Очистить историю",
-            "see_more_hint": "Нажмите 'Enter' пока вводите запрос чтобы просмотреть все статьи"
+            "see_more_hint": "Нажмите %enter% пока вводите запрос чтобы просмотреть все статьи"
         },
         "filters": {
+            "drawer": {
+                "name": "Фильтры",
+                "close_tooltip": "Закрыть фильтры",
+                "open_drawer_button": "Открыть фильтры"
+            },
             "sort_by": {
                 "name": "Сортировать по",
                 "options": {

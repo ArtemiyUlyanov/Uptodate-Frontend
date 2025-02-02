@@ -16,7 +16,10 @@ const historySlice = createSlice({
             state.history = action.payload.history;
         },
         addQuery: (state, action) => {
-            state.history = [action.payload.query, ...state.history];
+            state.history = Array.from(new Set([action.payload.query, ...state.history]));
+        },
+        removeQuery: (state, action) => {
+            state.history = [...state.history.filter(query => query !== action.payload.query)];
         },
         clearHistory: (state) => {
             state.history = []
@@ -24,5 +27,5 @@ const historySlice = createSlice({
     }
 });
 
-export const { setHistory, addQuery, clearHistory } = historySlice.actions;
+export const { setHistory, addQuery, removeQuery, clearHistory } = historySlice.actions;
 export default historySlice.reducer;

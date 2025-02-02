@@ -1,5 +1,5 @@
 import { FiltersType } from "@/hooks/explore/useFilters"
-import { Article } from "@/models/article"
+import { ArticleModel } from "@/models/article"
 import axios from "axios"
 
 export type ApiSearchParams = {
@@ -12,7 +12,7 @@ export type ApiSearchParams = {
 }
 
 export type ApiSearchResponse = {
-    articles: Article[]
+    articles: ArticleModel[]
     totalElements: number
     totalPages: number
 }

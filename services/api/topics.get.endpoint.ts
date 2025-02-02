@@ -1,4 +1,4 @@
-import { ArticleTopic } from "@/models/article_topic"
+import { ArticleTopicModel } from "@/models/article_topic"
 import axios from "axios"
 
 export type ApiTopicsGetParams = {
@@ -6,7 +6,7 @@ export type ApiTopicsGetParams = {
 }
 
 export type ApiTopicsGetResponse = {
-    topics: ArticleTopic[]
+    topics: ArticleTopicModel[]
 }
 
 export const topicsGetApi = async ({
@@ -18,6 +18,7 @@ export const topicsGetApi = async ({
                 parent: parent
             }
         });
+
         return {topics: JSON.parse(JSON.stringify(response.data.response))};
     } else {
         const response = await axios.get("/api/articles/topics/get");

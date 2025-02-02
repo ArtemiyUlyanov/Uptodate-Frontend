@@ -3,7 +3,7 @@
 import { getDictionary } from "@/locales/dictionaries";
 import { RootState } from "@/store/store";
 import { useQuery } from "@tanstack/react-query";
-import { useContext, createContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export type UseDictionaryResponse = {

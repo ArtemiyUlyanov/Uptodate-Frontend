@@ -1,16 +1,20 @@
-import { ArticleComment } from "./article_comment"
-import { ArticleTextFragment } from "./article_text_fragment"
-import { ArticleTopic } from "./article_topic"
-import { User } from "./user"
+import { Decoration } from "@/ui/decorations/decoration.type"
+import { ArticleCommentModel } from "./article_comment"
+import { ArticleTopicModel } from "./article_topic"
+import { UserModel } from "./user"
 
-export type Article = {
+export type ArticleModel = {
     id: number
     heading: string
     description: string
-    content: ArticleTextFragment[]
+    content: string
+    parsedContent?: Decoration[]
     createdAt: string
-    comments?: ArticleComment[]
-    topics: ArticleTopic[]
+    comments?: ArticleCommentModel[]
+    ArticleLikeButtons?: UserModel[]
+    likedUsernames: string[]
+    views: number
+    topics: ArticleTopicModel[]
     jwt_token?: string
-    author?: User
+    author?: UserModel
 }

@@ -1,111 +1,139 @@
 'use client';
 
-import { useFilters } from "@/hooks/explore/useFilters"
-import clsx from "clsx"
-import { use, useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { UnwrappingElementIcon } from "../icons/UnwrappingElementIcon"
-import { Accordion, AccordionItem, Checkbox, CheckboxGroup, Chip, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
-import { FilterSection } from "./filter_option";
+import { useFilters } from "@/hooks/explore/useFilters";
+import { useLocalSearch } from "@/hooks/explore/useLocalSearch";
+import { useDictionary } from "@/hooks/useDictionary";
+import { parseQueryText } from "@/utils/text_utils";
+import { Button, Chip, Listbox, ListboxItem, ListboxSection, ScrollShadow } from "@nextui-org/react";
+import clsx from "clsx";
+import { useEffect, useMemo, useState } from "react";
+import { CloseIcon } from "../../ui/icons/CloseIcon";
+import { SearchIcon } from "../../ui/icons/SearchIcon";
+import IconInput from "../../ui/inputs/IconInput";
+import { TopicsFilterOption, TopicsFilterSection } from "./filter.types";
 
 export type TopicsFilterProps = React.HTMLProps<HTMLDivElement> & {
     name: string
-    sections: FilterSection[]
+    sections: TopicsFilterSection[]
 }
 
 export const TopicsFilter: React.FC<TopicsFilterProps> = ({
     name,
     sections
 }) => {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [selectedKeys, setSelectedKeys] = useState<Record<number, string[]>>({});
+    const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
 
-    const keyList = useMemo(() =>
-        Object.values(selectedKeys).flatMap(set => set)
-    , [selectedKeys]);
+    const { translate } = useDictionary();
+
+    const { searchInput, query, setQuery } = useLocalSearch(
+        <IconInput
+            placeholder={translate('common.filters.search_placeholder').replace('%name%', name.toLowerCase())}
+            customClassName='w-full'
+            inputClassName='text-base'
+            fullBordered={true}
+            icon={
+                <SearchIcon 
+                    className="fill-secondaryText" 
+                />
+            }
+        />
+    );
+
+    const queriedSections = useMemo(() => 
+        sections.map(section => ({name: section.name, count: section.count, options: section.options.filter(option => option.name.toLowerCase().includes(query.toLowerCase()))}))
+    , [query]);
 
     const { filters, setFilter } = useFilters();
 
     useEffect(() => {
-        setFilter('topics', keyList);
-    }, [keyList, setFilter]);
+        setSelectedKeys(new Set(filters.topics));
+    }, []);
 
-    const trigger = useMemo(() => 
-        <div className={clsx(
-            'flex flex-row items-center gap-2',
-            'font-interTight font-semibold'
-        )}>
-            <p>{name}</p>
-            <div className={clsx(
-                'h-1.5'
-            )}>
-                <UnwrappingElementIcon
-                    className={clsx(
-                        'w-auto h-full fill-primaryColor',
-                        'transition-all duration-200',
-                        isOpen && 'rotate-180'
-                    )}
-                />
-            </div>
-        </div>    
-    , [name, isOpen]);
+    useEffect(() => {
+        setFilter('topics', Array.from(selectedKeys));
+    }, [selectedKeys, setFilter]);
 
     return (
-        <Dropdown 
-            className="relative w-auto"
-            shouldBlockScroll={false}
-            onOpenChange={setIsOpen}
-        >
-            <DropdownTrigger 
-                className={clsx(
-                    "w-auto text-primaryText",
-                    "transition-all duration-200",
-                    "sm:hover:opacity-50",
-                    "active:opacity-50 sm:active:opacity"
-                )}
-            >
-                {trigger}
-            </DropdownTrigger>
-            <DropdownMenu
-                aria-label="Action event example"
-                itemClasses={{
-                    title: 'font-interTight font-medium text-primaryText',
-                    selectedIcon: "text-redText",
-                }}
-                className="aspect-[3/4] overflow-y-scroll"
-                variant="flat"
-                defaultSelectedKeys={filters.topics}
-                closeOnSelect={false}
-            >
-                {sections.map(({name, options}, index) => 
-                    <DropdownItem
-                        key={index}
-                        className="p-0"
+        <Listbox
+            aria-label="Single selection example"
+            defaultSelectedKeys={selectedKeys}
+            selectedKeys={selectedKeys}
+            key='topics'
+            selectionMode="multiple"
+            variant="flat"
+            className='w-full rounded-lg'
+            onSelectionChange={keys => setSelectedKeys(keys as Set<string>)}
+            topContent={
+                <div className={clsx(
+                    'flex flex-col gap-2 w-full'
+                )}>
+                    {searchInput}
+                    <ScrollShadow
+                        hideScrollBar
+                        className={clsx(
+                            "w-full flex items-center gap-1",
+                            selectedKeys.size <= 0 && 'hidden'
+                        )}
+                        orientation="horizontal"
                     >
-                        <Accordion 
-                            key={index}
-                            isCompact
-                            itemClasses={{
-                                title: 'font-interTight font-semibold text-primaryText text-sm'
-                            }}
+                        <Button
+                            isIconOnly
+                            className="text-default-400"
+                            size="sm"
+                            variant="light"
+                            onPress={() => setSelectedKeys(new Set([]))}
                         >
-                            <AccordionItem aria-label={name} title={name}>
-                                <CheckboxGroup
-                                    key={index}
-                                    value={selectedKeys[index]}
-                                    onValueChange={(keys) => setSelectedKeys(prev => ({
-                                        ...prev,
-                                        [index]: [...keys]
-                                    }))}
-                                >
-                                    {options.map(option => 
-                                        <Checkbox size="sm" color="secondary" key={option.value} value={option.value}>{option.name}</Checkbox>
-                                    )}
-                                </CheckboxGroup>
-                            </AccordionItem>
-                        </Accordion>
-                    </DropdownItem>
-                )}
-            </DropdownMenu>
-        </Dropdown>
+                            <div 
+                                className="w-3 aspect-square"
+                            >
+                                <CloseIcon customClassName="fill-secondaryText" />
+                            </div>
+                        </Button>
+                        {Array.from(selectedKeys).map(key =>
+                            <Chip
+                                size="sm"
+                                color="secondary"
+                                onClose={() => setSelectedKeys(prev => new Set([...prev].filter(option => option !== key)))}
+                                classNames={{
+                                    content: 'font-interTight font-medium'
+                                }}
+                            >
+                                {key}
+                            </Chip>
+                        )}
+                    </ScrollShadow>
+                </div>
+            }
+        >
+            {queriedSections.map(({name, count, options}, index) => 
+                <ListboxSection
+                    showDivider
+                    key={index}
+                    title={`${name} (${count})`}
+                    className={clsx(
+                        'p-0',
+                        options.length <= 0 && 'hidden'
+                    )}
+                    classNames={{
+                        heading: 'font-interTight font-semibold text-sm text-secondaryText'
+                    }}
+                >
+                    {options.map(option => 
+                        <ListboxItem
+                            key={option.value}
+                            classNames={{
+                                title: "font-interTight font-medium text-sm text-primaryText",
+                                selectedIcon: 'text-roseText'
+                            }}
+                            className={clsx(
+                                query && !option.name.toLowerCase().includes(query.toLowerCase()) && 'hidden'
+                            )}
+                        >
+                            {parseQueryText(`${option.name} (${(option as TopicsFilterOption).count})`, query || '', 'bg-roseText text-oppositeText')}
+                        </ListboxItem>
+                    )}
+                </ListboxSection>
+            )}
+        </Listbox>
     );
 }

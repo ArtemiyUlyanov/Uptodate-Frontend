@@ -1,12 +1,11 @@
 "use client";
 
-import { Article } from "@/models/article";
-import { ApiSearchParams, ApiSearchResponse, searchApi } from "@/services/api/search.endpoint"
-import { useQuery, UseQueryOptions } from "@tanstack/react-query"
-import { Dispatch, SetStateAction, useCallback, useContext, useEffect, useState } from "react";
-import { createContext } from "react";
-import { FiltersContext, useFilters } from "./useFilters";
-import { pages } from "next/dist/build/templates/app-page";
+import { ArticleModel } from "@/models/article";
+import { ApiSearchParams, ApiSearchResponse, searchApi } from "@/services/api/search.endpoint";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { createContext, Dispatch, SetStateAction, useCallback, useContext, useEffect, useState } from "react";
+import { useDebounced } from "../useDebounced";
+import { useFilters } from "./useFilters";
 
 export const useSearchQuery = (
     params: ApiSearchParams,
@@ -21,10 +20,10 @@ export const useSearchQuery = (
 
 type SearchContextType = {
   query: string
-  articles: Article[]
+  articles: ArticleModel[]
   setQuery: Dispatch<SetStateAction<string>>
-  page: number
-  setPage: Dispatch<SetStateAction<number>>
+  pagesCount: number
+  setPagesCount: Dispatch<SetStateAction<number>>
   totalElements: number
   totalPages: number
   isFetching: boolean
@@ -35,8 +34,8 @@ const defaultFilters: SearchContextType = {
     query: '',
     articles: [],
     setQuery: () => {},
-    page: 1,
-    setPage: () => {},
+    pagesCount: 1,
+    setPagesCount: () => {},
     totalElements: 1,
     totalPages: 1,
     isFetching: false,
@@ -52,17 +51,19 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({
     children,
     ...props
 }) => {
-    const [query, setQuery] = useState('');
-    const [page, setPage] = useState<number>(1);
-    const [totalElements, setTotalElements] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [articles, setArticles] = useState<Article[]>([]);
+    const [query, setQuery] = useState<string>('');
+    const debouncedQuery = useDebounced<string>(query);
+
+    const [pagesCount, setPagesCount] = useState<number>(1);
+    const [totalElements, setTotalElements] = useState<number>(1);
+    const [totalPages, setTotalPages] = useState<number>(1);
+    const [articles, setArticles] = useState<ArticleModel[]>([]);
 
     const { filters } = useFilters();
 
     const { data, isFetching, refetch } = useSearchQuery(
-        { 
-            page: page,
+        {
+            pagesCount: pagesCount,
             query: query,
             miniSearch: false,
             filters: filters
@@ -83,10 +84,10 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({
         
     useEffect(() => {
         refetch();
-    }, [query, page, filters]);
+    }, [query, pagesCount, filters]);
 
     useEffect(() => {
-        setPage(1);
+        setPagesCount(1);
     }, [query, filters]);
 
     useEffect(() => {
@@ -98,7 +99,7 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({
     }, [data]);
 
     return (
-        <SearchContext.Provider value={{ query, articles, setQuery, page, setPage, totalElements, totalPages, isFetching, performSearch }}>
+        <SearchContext.Provider value={{ query: debouncedQuery, articles, setQuery, pagesCount, setPagesCount, totalElements, totalPages, isFetching, performSearch }}>
             {children}
         </SearchContext.Provider>
     );

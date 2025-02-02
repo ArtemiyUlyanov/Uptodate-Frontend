@@ -1,10 +1,15 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 
 export type FiltersType = {
     topics: string[]
-    sort_by: string | undefined
+    sort_by?: string
+}
+
+export type TopicsFilterTemplate = {
+    parent: string
+    name: string
 }
 
 type FiltersContextType = {

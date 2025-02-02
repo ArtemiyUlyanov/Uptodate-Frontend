@@ -1,6 +1,6 @@
 import { TranslativeString } from "./translative_string"
 
-export type ArticleTopic = {
+export type ArticleTopicModel = {
     id: number
     parent: TranslativeString
     name: TranslativeString
@@ -9,5 +9,5 @@ export type ArticleTopic = {
 
 export type ParentTopicsSet = {
     parent: string
-    topics: ArticleTopic[]
+    topics: ArticleTopicModel[]
 }

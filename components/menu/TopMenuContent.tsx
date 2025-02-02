@@ -1,23 +1,20 @@
-import { useSearch } from "@/hooks/explore/useSearch";
-import { RootState } from "@/store/store";
-import { useDispatch, useSelector } from "react-redux";
-import { TopMenuTemplate } from "./TopMenu";
-import clsx from "clsx";
-import { UptodateIcon } from "../icons/UptodateIcon";
-import DefaultLink from "../links/DefaultLink";
-import { SearchIcon } from "../icons/SearchIcon";
-import { Dispatch, SetStateAction, use, useEffect } from "react";
-import { useTranslations } from "next-intl";
+import LoginForm from "@/components/forms/LoginForm";
+import { TopMenuProfileSettingsDropdown } from "@/components/menu/TopMenuProfileSettingsDropdown";
 import { useDictionary } from "@/hooks/useDictionary";
-import { setAuthenticationMenu } from "@/store/features/menu/authenticationMenuSlice";
-import { PersonalAccountIcon } from "../icons/PersonalAccountIcon";
-import UnwrappingContainer, { UnwrappingDefaultContainerButton, UnwrappingTransparentContainerButton } from "@/containers/UnwrappingContainer";
-import { LogoutIcon } from "../icons/LogoutIcon";
-import { useRouter } from "next/navigation";
-import { SettingsIcon } from "../icons/SettingsIcon";
-import DefaultButton from "../buttons/DefaultButton";
-import RedButton from "../buttons/RedButton";
-import { UserAvatarIcon } from "../icons/UserAvatarIcon";
+import { setLanguage } from "@/store/features/language/languageSlice";
+import { RootState } from "@/store/store";
+import { Link } from "@nextui-org/react";
+import clsx from "clsx";
+import { useDispatch, useSelector } from "react-redux";
+import DefaultDropdown from "../../ui/dropdowns/DefaultDropdown";
+import { FranceFlagIcon } from "../../ui/icons/FranceFlagIcon";
+import { LanguageIcon } from "../../ui/icons/LanguageIcon";
+import { RussiaFlagIcon } from "../../ui/icons/RussiaFlagIcon";
+import { UKFlagIcon } from "../../ui/icons/UKFlagIcon";
+import { UptodateIcon } from "../../ui/icons/UptodateIcon";
+import DefaultLink from "../../ui/links/DefaultLink";
+import { TopMenuTemplate } from "./TopMenu";
+import TopMenuSearch from "./TopMenuSearch";
 
 export type TopMenuContentProps = React.HTMLProps<HTMLDivElement[]> & {
     templates: TopMenuTemplate[]
@@ -31,22 +28,24 @@ const TopMenuContent: React.FC<TopMenuContentProps> = ({
     const { language, translate } = useDictionary();
     const dispatch = useDispatch();
 
-    const { user, isAuthenticated } = useSelector((state: RootState) => state.auth);
-    const { articles } = useSearch();
-
-    const router = useRouter();
+    const { isAuthenticated } = useSelector((state: RootState) => state.auth);
 
     return [
         <div className={clsx(
             'flex flex-row items-center w-auto h-full gap-8'
         )}>
-            <div className={clsx(
-                'w-auto h-[30%]'
-            )}>
+            <Link
+                href="/explore" 
+                className={clsx(
+                    'w-auto h-[30%]',
+                    'hover:opacity-50',
+                    'active:hover:opacity-50 sm:active:hover'
+                )}
+            >
                 <UptodateIcon
                     className='w-auto'
                 />
-            </div>
+            </Link>
             <div className={clsx(
                 'flex flex-row items-center gap-4 hidden md:flex'
             )}>
@@ -68,122 +67,78 @@ const TopMenuContent: React.FC<TopMenuContentProps> = ({
                 )}
             </div>
         </div>,
-            <div className={clsx(
-                'flex flex-row items-center gap-6 w-auto h-[100%] hidden md:flex',
-            )}>
-                <div className={clsx(
-                    'h-4'
-                )}>
-                    <SearchIcon
-                        className={clsx(
-                            'fill-primaryColor',
-                            'transition-all duration-200',
-                            'sm:hover:opacity-50',
-                            'active:opacity-50 sm:active:opacity'
-                        )}
-                        onClick={onTogglingSearch}
-                    />
-                </div>
-                {!isAuthenticated &&      
-                    <DefaultLink
-                        text={translate('common.menu.sign_in_button')}
-                        link=""
-                        onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
-                            e.preventDefault();
-                            dispatch(setAuthenticationMenu({unwrappedLogin: true, unwrappedRegister: false}));
-                        }}
-                        actived={true}
-                        arrowActived={false}
-                        underliningActived={false}
-                        customClassName="font-interTight font-semibold text-base"
+        <div className={clsx(
+            'flex flex-row items-center gap-6 w-auto h-[100%] hidden md:flex',
+        )}>
+            <TopMenuSearch />
+            <DefaultDropdown 
+                selectedKeys={[language]}
+                componentSize={'sm'}
+                icon={
+                    <LanguageIcon 
+                        className="w-auto aspect-square fill-primaryColor h-full"
                     />
                 }
-                {isAuthenticated && 
-                    <UnwrappingContainer
-                        x_axis="left"
-                        y_axis="bottom"
-                        showUnwrappingIcon={false}
-                        toggler={(
+                onSelected={(keys) => dispatch(setLanguage({language: Array.from(keys)[0]}))}
+                options={[
+                    {
+                        name: "English",
+                        classNames: {title: 'text-primaryText'},
+                        value: 'en',
+                        icon: (
                             <div className={clsx(
-                                'h-4'
+                                'w-4'
                             )}>
-                                <PersonalAccountIcon 
-                                    className="w-auto h-full fill-primaryColor"
-                                />
+                                <UKFlagIcon className="w-auto h-full rounded-full" />
                             </div>
-                        )}
-                    >
-                        <div className={clsx(
-                            'flex flex-row items-center p-2 gap-2'
-                        )}>
+                        )
+                    },
+                    {
+                        name: "Français (demo)",
+                        classNames: {title: 'text-primaryText'},
+                        value: 'fr',
+                        icon: (
                             <div className={clsx(
-                                'relative w-8 h-8 aspect-square overflow-hidden rounded-full'
+                                'w-4'
                             )}>
-                                <UserAvatarIcon
-                                    url={'/api/files/get?path=' + (user?.icon)}
-                                    size="sm"
-                                    customClassName='w-full h-full object-cover'
-                                />
+                                <FranceFlagIcon className="w-auto h-full rounded-full" />
                             </div>
+                        )
+                    },
+                    {
+                        name: "Русский",
+                        classNames: {title: 'text-primaryText'},
+                        value: 'ru',
+                        icon: (
                             <div className={clsx(
-                                'flex flex-col'
+                                'w-4'
                             )}>
-                                <p className={clsx(
-                                    'font-interTight font-semibold text-sm text-primaryText',
-                                    'whitespace-nowrap'
-                                )}>{`${user?.firstName} ${user?.lastName}`}</p>
-                                <p className={clsx(
-                                    'font-interTight font-medium text-sm text-secondaryText',
-                                    'whitespace-nowrap'
-                                )}>@{`${user?.username}`}</p>
+                                <RussiaFlagIcon className="w-auto h-full rounded-full" />
                             </div>
-                        </div>
-                        <div className={clsx(
-                            'flex flex-col gap-2'
-                        )}>
-                            <UnwrappingTransparentContainerButton
-                                text="My account"
-                                icon={
-                                    <PersonalAccountIcon
-                                        className="w-auto h-full fill-primaryColor"
-                                    />
-                                }
-                                customClassName="pr-2 pl-2 pt-1 pb-1"
-                                textClassName="text-primaryText"
-                                onClickButton={() => router.push('/account/settings')}
+                        )
+                    },
+                ]}
+            />
+            {!isAuthenticated &&      
+                <LoginForm 
+                    trigger={
+                        (onClick) =>
+                            <DefaultLink
+                                text={translate('common.menu.sign_in_button')}
+                                link=""
+                                onClick={onClick}
+                                actived={true}
+                                arrowActived={false}
+                                underliningActived={false}
+                                customClassName="font-interTight font-semibold text-base"
                             />
-                            <UnwrappingTransparentContainerButton
-                                text="Settings"
-                                icon={
-                                    <SettingsIcon
-                                        className="w-auto h-full fill-primaryColor"
-                                    />
-                                }
-                                customClassName="pr-2 pl-2 pt-1 pb-1"
-                                textClassName="text-primaryText"
-                                onClickButton={() => router.push('/account/settings')}
-                            />
-                            {/* <UnwrappingContainerButton
-                                text="Log out"
-                                icon={
-                                    <LogoutIcon 
-                                        className="w-auto h-full"
-                                    />
-                                }
-                                textClassName="text-red-500"
-                                onClickButton={() => router.push('/logout')}
-                            /> */}
-                            <UnwrappingDefaultContainerButton
-                                text={'Log out'}
-                                onClickButton={() => router.push('/logout')}
-                                textAlign="center"
-                                customClassName="pr-2 pl-2 pt-1 pb-1"
-                                textClassName="text-oppositeText"
-                            />
-                        </div>
-                    </UnwrappingContainer>
-                }
-            </div>
+                    }
+                />
+            }
+            {isAuthenticated && 
+                <TopMenuProfileSettingsDropdown />
+            }
+        </div>
     ];
 }
 

@@ -3,12 +3,14 @@ import type { Config } from "tailwindcss";
 const beforePropertiesPlugin = require('tailwindcss-pseudo-elements');
 const textShadowPlugin = require("tailwindcss-textshadow");
 const animatePlugin = require('tailwindcss-animate');
+const scrollbarHide = require("tailwind-scrollbar-hide");
 const {nextui} = require("@nextui-org/react");
 
 export default {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./ui/**/*.{js,ts,jsx,tsx,mdx}",
     "./containers/**/*.{js,ts,jsx,tsx,mdx}",
     "./hooks/**/*.{js,ts,jsx,tsx,mdx}",
     "./layouts/**/*.{js,ts,jsx,tsx,mdx}",
@@ -64,19 +66,54 @@ export default {
 
         backgroundColor: "#EFEEEC",
         primaryColor: "#232323",
+        secondaryColor: "#A2A2A2",
         emphasizingColor: "#E2E2E2",
         emphasizingColor2: "#F4F4F4",
         emphasizingColor3: "#202020",
-        redColor: "#FF78B7",
+        redColor: "#F44336",
+        roseColor: "#FF78B7",
         warnColor: "#FF4C4C",
 
         borderColor: "#CFCFCF",
         
         primaryText: "#232323",
-        redText: "#FF78B7",
+        redText: "#F44336",
+        roseText: "#FF78B7",
         secondaryText: "#A2A2A2",
 
         oppositeText: "#EFEEEC",
+
+        // backgroundColor: "#09090A",
+        // primaryColor: "white",
+        // emphasizingColor: "#E2E2E2",
+        // emphasizingColor2: "#F4F4F4",
+        // emphasizingColor3: "#202020",
+        // redColor: "#FF78B7",
+        // warnColor: "#FF4C4C",
+
+        // borderColor: "#CFCFCF",
+        
+        // primaryText: "white",
+        // redText: "#FF78B7",
+        // secondaryText: "#606060",
+
+        // oppositeText: "#EFEEEC",
+
+        // backgroundColor: "#151516",
+        // primaryColor: "#FFFFFF",
+        // emphasizingColor: "#1C1C1D",
+        // emphasizingColor2: "#F4F4F4",
+        // emphasizingColor3: "#202020",
+        // redColor: "#FF78B7",
+        // warnColor: "#FF4C4C",
+
+        // borderColor: "#242424",
+        
+        // primaryText: "#FFFFFF",
+        // redText: "#FF78B7",
+        // secondaryText: "#606060",
+
+        // oppositeText: "#EFEEEC",
 
         // backgroundColor: "#090909",
         // primaryColor: "#FFFFFF",
@@ -103,7 +140,7 @@ export default {
     },
   },
   darkMode: 'class',
-  plugins: [beforePropertiesPlugin, textShadowPlugin, animatePlugin,
+  plugins: [beforePropertiesPlugin, textShadowPlugin, animatePlugin, scrollbarHide,
     nextui({
       prefix: "nextui",
       addCommonColors: false,
@@ -126,12 +163,12 @@ export default {
         dark: {
           layout: {
             secondary: {
-              DEFAULT: '#FF78B7',
+              DEFAULT: '#FF78B7'
             }
           },
           colors: {
             secondary: {
-              DEFAULT: '#FF78B7',
+              DEFAULT: '#FF78B7'
             }
           },
         },

@@ -1,7 +1,7 @@
-import { Article } from "./article"
-import { ArticleComment } from "./article_comment"
+import { ArticleModel } from "./article"
+import { ArticleCommentModel } from "./article_comment"
 
-export type User = {
+export type UserModel = {
     id: number
     username: string
     email: string
@@ -9,9 +9,9 @@ export type User = {
     lastName: string
     icon: string
     roles: UserRole[]
-    articles?: Article[]
-    comments?: ArticleComment[]
-    jwt_token?: string
+    articles?: ArticleModel[]
+    likedArticles?: ArticleModel[]
+    comments?: ArticleCommentModel[]
 }
 
 export type UserRole = {

@@ -1,8 +1,7 @@
-import { Article } from "@/models/article";
-import { ArticleTopic } from "@/models/article_topic";
+import { ArticleTopicModel } from "@/models/article_topic";
 import { ApiTopicsGetParams, ApiTopicsGetResponse, topicsGetApi } from "@/services/api/topics.get.endpoint";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { useContext, useState, createContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const useTopicsQuery = (
     params: ApiTopicsGetParams,
@@ -16,7 +15,7 @@ const useTopicsQuery = (
 }
 
 type TopicsContextType = {
-    topics: ArticleTopic[]
+    topics: ArticleTopicModel[]
 }
 
 const defaultContext: TopicsContextType = {
@@ -30,7 +29,7 @@ export type TopicsProviderProps = React.HTMLProps<HTMLDivElement>
 export const TopicsProvider: React.FC<TopicsProviderProps> = ({
     children
 }) => {
-    const [topics, setTopics] = useState<ArticleTopic[]>([]);
+    const [topics, setTopics] = useState<ArticleTopicModel[]>([]);
     const topicsQuery = useTopicsQuery({});
 
     useEffect(() => {

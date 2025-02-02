@@ -5,7 +5,7 @@ export const splitTextBySubtexts = (text: string, subtexts: string[]) => {
     return text.split(regex);
 }
 
-export const splitQueryText = (text: string, query: string, className?: string) => {
+export const parseQueryText = (text: string, query: string, className?: string) => {
     return splitTextBySubtexts(text, [query]).map(part =>
         (query.length > 0 && part.toLowerCase() === query.toLowerCase()) ?
             <span className={clsx(
@@ -17,5 +17,6 @@ export const splitQueryText = (text: string, query: string, className?: string) 
 }
 
 export const capitalizeText = (text: string) => {
-    return text.replace(/\b\w|(?<=')\w/g, char => char.toUpperCase());
+    return text.replace(/\b\w/g, char => char.toUpperCase())
+               .replace(/(?<=['’])\w/g, (char) => char.toLowerCase());
 }

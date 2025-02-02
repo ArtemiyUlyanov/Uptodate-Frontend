@@ -1,19 +1,22 @@
-import clsx from "clsx";
-import IconInput from "../inputs/IconInput";
-import { SearchIcon } from "../icons/SearchIcon";
 import { useLocalSearch } from "@/hooks/explore/useLocalSearch";
 import { useSearchQuery } from "@/hooks/explore/useSearch";
-import { useEffect, useState } from "react";
-import { Article } from "@/models/article";
-import ArticleCover from "../articles/covers/ArticleCover";
-import DefaultLink from "../links/DefaultLink";
-import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import { clearHistory } from "@/store/features/history/historySlice";
-import { useTranslations } from "next-intl";
 import { useDictionary } from "@/hooks/useDictionary";
-import RedLink from "../links/RedLink";
+import { ArticleModel } from "@/models/article";
+import { clearHistory, removeQuery } from "@/store/features/history/historySlice";
+import { RootState } from "@/store/store";
+import { Accordion, AccordionItem, Button } from "@nextui-org/react";
+import clsx from "clsx";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { CentredDrawer } from "../../ui/drawers/CentredDrawer";
+import { DrawerBody, DrawerTrigger } from "../../ui/drawers/drawer_components";
+import { CloseIcon } from "../../ui/icons/CloseIcon";
+import { SearchIcon } from "../../ui/icons/SearchIcon";
+import IconInput from "../../ui/inputs/IconInput";
+import DefaultLink from "../../ui/links/DefaultLink";
+import RedLink from "../../ui/links/RedLink";
+import SearchArticleCover from "../articles/covers/SearchArticleCover";
 
 export type TopMenuSearchProps = React.HTMLProps<HTMLDivElement> & {
     onPerformingSearch?: () => void
@@ -23,7 +26,7 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
     onPerformingSearch,
     ...props
 }) => {
-    const [result, setResult] = useState<Article[]>([]);
+    const [result, setResult] = useState<ArticleModel[]>([]);
     const router = useRouter();
 
     const { language, translate } = useDictionary();
@@ -45,7 +48,7 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
         />
     );
 
-    const { data, isLoading, error, refetch } = useSearchQuery(
+    const { data, refetch } = useSearchQuery(
         { 
             count: 3,
             query: query,
@@ -76,91 +79,117 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
     }, [data]);
     
     return (
-        <div className={clsx(
-            'flex flex-col gap-4 p-8 pb-4 pt-0'
-        )}>
-            <form onSubmit={performSearch}>
-                {searchInput}
-            </form>
-            <div className={clsx(
-                'flex flex-col gap-8'
-            )}>
-                <div className={clsx(
-                    'flex flex-row gap-8'
-                )}>
+        <CentredDrawer
+            drawerSize="md"
+            title={translate('common.search.drawer.name')}
+            closeTooltip={translate('common.search.drawer.close_tooltip')}
+        >
+            <DrawerTrigger>
+                {(onClick) => (
                     <div className={clsx(
-                        'flex flex-col w-1/5 gap-2'
+                        'h-4'
                     )}>
-                        <p className={clsx(
-                            'whitespace-nowrap font-interTight font-semibold text-secondaryText'
-                        )}>{translate('common.search.recent_queries_text')}</p>
+                        <SearchIcon
+                            className={clsx(
+                                'fill-primaryColor',
+                                'transition-all duration-200',
+                                'sm:hover:opacity-50',
+                                'active:opacity-50 sm:active:opacity'
+                            )}
+                            onClick={onClick}
+                        />
+                    </div>
+                )}
+            </DrawerTrigger>
+            <DrawerBody>
+                <form onSubmit={performSearch}>
+                    {searchInput}
+                </form>
+                <Accordion
+                    isCompact
+                    itemClasses={{
+                        title: 'font-interTight font-semibold text-primaryText text-base'
+                    }}
+                >
+                    <AccordionItem
+                        title={translate('common.search.recent_queries_text')}
+                    >
                         <div className={clsx(
-                            'flex flex-col gap-4 justify-between w-full'
+                            'flex flex-col w-full gap-2'
                         )}>
                             <div className={clsx(
-                                'flex flex-col'
+                                'flex flex-col gap-4 justify-between w-full'
                             )}>
-                                {history.filter((query, index) => index < 3).map(query =>
-                                    <div className={clsx(
-                                        'w-auto'
-                                    )}>
-                                        <DefaultLink
-                                            text={query}
-                                            link=""
-                                            onClick={(event: React.MouseEvent<HTMLAnchorElement>) => performSearch(event, query)}
-                                            actived={true}
-                                            customClassName='font-interTight font-semibold text-primaryText'
-                                        />
-                                    </div>
-                                )}
-                            </div>
-                            <div className={clsx(
-                                'w-auto'
-                            )}>
-                                <RedLink 
-                                    text={translate('common.search.clear_history_button')}
-                                    link=''
-                                    onClick={(event: React.MouseEvent<HTMLAnchorElement>) => dispatch(clearHistory())}
-                                    customClassName={clsx(
-                                        'font-interTight font-semibold text-sm',
-                                        history.length <= 0 && 'hidden'
+                                <div className={clsx(
+                                    'flex flex-col'
+                                )}>
+                                    {history.filter((query, index) => index < 10).map(query =>
+                                        <div className={clsx(
+                                            'flex flex-row justify-between w-full'
+                                        )}>
+                                            <DefaultLink
+                                                text={query}
+                                                link=""
+                                                onClick={(event: React.MouseEvent<HTMLAnchorElement>) => performSearch(event, query)}
+                                                actived={true}
+                                                customClassName='font-interTight font-semibold text-primaryText'
+                                            />
+                                            <Button
+                                                isIconOnly
+                                                className="text-default-400"
+                                                size="sm"
+                                                variant="light"
+                                                onPress={() => dispatch(removeQuery({query: query}))}
+                                            >
+                                                <div 
+                                                    className="w-3 aspect-square"
+                                                >
+                                                    <CloseIcon customClassName="fill-secondaryText" />
+                                                </div>
+                                            </Button>
+                                        </div>
+
                                     )}
-                                    actived={true}
-                                />
+                                </div>
+                                <div className={clsx(
+                                    'w-auto'
+                                )}>
+                                    <RedLink 
+                                        text={translate('common.search.clear_history_button')}
+                                        link=''
+                                        onClick={(event: React.MouseEvent<HTMLAnchorElement>) => dispatch(clearHistory())}
+                                        customClassName={clsx(
+                                            'font-interTight font-semibold text-sm',
+                                            history.length <= 0 && 'hidden'
+                                        )}
+                                        actived={true}
+                                    />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className={clsx(
-                        'flex flex-col items-end gap-1 w-full'
-                    )}>
-                        <div className={clsx(
-                            'grid grid-cols-5 gap-4 w-full h-auto'
-                        )}>
-                            {
-                                result.map((article, index) => {
-                                    return <div>
-                                        <ArticleCover
-                                            key={index}
-                                            heading={article.heading}
-                                            description={article.description}
-                                            createdAt={article.createdAt}
-                                            query={query}
-                                            topics={article.topics}
-                                            author={article.author}
-                                            url={"/api/files/get?path=articles/" + article.id + "/icon.png"}
-                                        />
-                                    </div>
-                                })
-                            }
+                    </AccordionItem>
+                </Accordion>
+                <div className={clsx(
+                    'flex flex-col gap-1 w-full h-auto'
+                )}>
+                    {result.map((article, index) =>
+                        <div>
+                            <SearchArticleCover
+                                key={index}
+                                id={article.id}
+                                heading={article.heading}
+                                description={article.description}
+                                createdAt={article.createdAt}
+                                query={query}
+                                topics={article.topics}
+                                author={article.author}
+                                url={"/api/files/get?path=articles/" + article.id + "/icon.png"}
+                            />
                         </div>
-                        <p className={clsx(
-                            'font-interTight font-semibold text-redText text-sm',
-                            result.length <= 0 && 'hidden'
-                        )}>{translate('common.search.see_more_hint')}</p>
-                    </div>
+                    )}
                 </div>
-            </div>
-        </div>
+            </DrawerBody>
+        </CentredDrawer>
     );
 }
 

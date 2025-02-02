@@ -1,10 +1,13 @@
-import { Article } from "./article"
-import { User } from "./user"
+import { ArticleModel } from "./article"
+import { UserModel } from "./user"
 
-export type ArticleComment = {
+export type ArticleCommentModel = {
     id: number
-    article: Article
-    resources: String[]
+    article: ArticleModel
+    content: string
+    resources?: string[]
+    ArticleCommentModelLikeButtons?: UserModel[]
+    likedUsernames: string[]
     createdAt: string
-    author: User
+    author: UserModel
 }
