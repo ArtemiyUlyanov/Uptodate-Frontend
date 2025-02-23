@@ -6,6 +6,7 @@ import { useArticleLikeMutation } from "./mutations/useArticleLikeMutation"
 import { ApiArticleLikeParams, ApiArticleLikeResponse } from "@/services/api/articles.like.endpoint"
 import { ErrorResponse } from "@/services/api/responses.types"
 import { useRouter } from "next/navigation"
+import { useAccount } from "./useAccount"
 
 export type UseArticleParams = {
     id?: number
@@ -34,10 +35,13 @@ export const useArticle = ({
     id,
     slug
 }: UseArticleParams): UseArticleResponse => {
+    const { user } = useAccount();
     const { data, refetch } = useArticleQuery({ id, slug });
-    const { mutate: likeMutate } = useArticleLikeMutation({ queryKey: ['article', id, slug] });
+    const { likeMutate } = useArticleLikeMutation({ queryKey: ['article', id, slug] });
 
-    const router = useRouter();
+    useEffect(() => {
+        refetch();
+    }, [user]);
 
     return { article: data?.model, error: data?.error, refetch, likeMutate };
 }

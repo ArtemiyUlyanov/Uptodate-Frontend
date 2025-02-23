@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import React, { use, useEffect, useState } from "react";
 import { CustomInputProps } from "../input.type";
-import { InputOtp } from "@nextui-org/react";
+import { InputOtp } from "@heroui/react";
 
 export type DefaultInputOtpProps = {
     handleChange?: (value: string) => void

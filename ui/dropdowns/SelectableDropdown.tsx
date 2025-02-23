@@ -1,4 +1,4 @@
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/react";
 import clsx from "clsx";
 import React, { useMemo, useState } from "react"
 import { UnwrappingElementIcon } from "../icons/UnwrappingElementIcon";

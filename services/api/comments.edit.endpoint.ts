@@ -11,7 +11,7 @@ export type ApiCommentEditParams = {
 }
 
 export type ApiCommentEditResponse = {
-    message?: MessageResponse
+    model?: CommentModel
     error?: ErrorResponse
 }
 
@@ -35,8 +35,8 @@ export const editCommentApi = async ({
             }
         });
     
-        const message = JSON.parse(JSON.stringify(response.data));
-        return {message};
+        const model = JSON.parse(JSON.stringify(response.data.response));
+        return {model};
     } catch (error) {
         if (axios.isAxiosError(error)) {
             return {error: {status: error.response?.data.status, message: error.response?.data.message}}

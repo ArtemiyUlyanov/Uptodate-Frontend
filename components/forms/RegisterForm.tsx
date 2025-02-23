@@ -10,7 +10,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import LoginForm from "./LoginForm";
 import RegisterVerifyCodeForm from "./RegisterVerifyCodeForm";
-import { useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@heroui/react";
 
 export type RegisterFormProps = {
     trigger: (onClick: () => void) => React.ReactNode

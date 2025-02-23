@@ -1,7 +1,7 @@
 import { useUploader } from "@/hooks/uploader/useUploader";
 import { ArticleModel } from "@/models/article";
 import { ApiCommentCreateParams, ApiCommentCreateResponse, createCommentApi } from "@/services/api/comments.create.endpoint";
-import { Button, Card, CardFooter, Tooltip } from "@nextui-org/react";
+import { addToast, Button, Card, CardFooter, Tooltip } from "@heroui/react";
 import { UseMutateFunction, useQuery, UseQueryOptions } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useState } from "react";
@@ -10,6 +10,7 @@ import { CloseIcon } from "../../ui/icons/CloseIcon";
 import { UploadFileIcon } from "../../ui/icons/UploadFileIcon";
 import DefaultTextarea from "../../ui/textareas/DefaultTextarea";
 import { ErrorResponse } from "@/services/api/responses.types";
+import { CommentIcon } from "@/ui/icons/CommentIcon";
 
 export type CommentSendFormProps = React.HTMLProps<HTMLDivElement> & {
     article: ArticleModel
@@ -52,6 +53,18 @@ export const CommentSendForm: React.FC<CommentSendFormProps> = ({
     const sendForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         createMutate({ content: content, articleId: article.id, resources: selectedFiles });
+
+        addToast({
+            title: "Comment created!",
+            classNames: {
+                title: 'font-interTight font-semibold text-primaryText',
+                icon: 'h-4 fill-primaryColor',
+                base: 'bg-backgroundColor'
+            },
+            icon: (
+                <CommentIcon />
+            )
+        });
 
         clearForm();
     } 

@@ -1,8 +1,8 @@
 import clsx from "clsx"
 
-export type ViewsIconProps = React.SVGAttributes<SVGSVGElement>
+export type ViewIconProps = React.SVGAttributes<SVGSVGElement>
 
-export const ViewsIcon: React.FC<ViewsIconProps> = ({ 
+export const ViewIcon: React.FC<ViewIconProps> = ({ 
     ...props 
 }) => {
     return (

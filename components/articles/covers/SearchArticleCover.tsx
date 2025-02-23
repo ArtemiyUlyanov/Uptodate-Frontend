@@ -5,7 +5,7 @@ import { UserModel } from "@/models/user";
 import { UserAvatarIcon } from "@/ui/icons/UserAvatarIcon";
 import { formatDate, retrieveDateFromISO } from "@/utils/date_utils";
 import { capitalizeText, parseQueryText } from "@/utils/text_utils";
-import { Card, CardBody, Image, Link } from "@nextui-org/react";
+import { Card, CardBody, Image, Link } from "@heroui/react";
 import clsx from "clsx";
 import { useMemo } from "react";
 

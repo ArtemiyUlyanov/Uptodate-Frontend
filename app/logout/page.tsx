@@ -1,7 +1,7 @@
 'use client';
 
 import TopMenu from "@/components/menu/TopMenu";
-import ExplorePageLayout from "@/layouts/MenuPageLayout";
+import ExplorePageLayout from "@/layouts/MenuLayout";
 import { logout } from "@/store/features/auth/authSlice";
 import { RootState } from "@/store/store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

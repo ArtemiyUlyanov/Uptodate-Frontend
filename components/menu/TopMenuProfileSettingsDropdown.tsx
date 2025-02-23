@@ -8,7 +8,7 @@ import clsx from "clsx";
 import React, { useState } from "react"
 import { useSelector } from "react-redux";
 import { DashboardIcon } from "@/ui/icons/DashboardIcon";
-import { Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, User } from "@nextui-org/react";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, User } from "@heroui/react";
 import { UnwrappingElementIcon } from "@/ui/icons/UnwrappingElementIcon";
 import { SettingsIcon } from "@/ui/icons/SettingsIcon";
 
@@ -76,7 +76,7 @@ export const TopMenuProfileSettingsDropdown: React.FC<TopMenuProfileSettingsDrop
                 <DropdownSection 
                     showDivider 
                     key={0}
-                    aria-label="Profile & Actions"
+                    aria-label="Profile"
                 >
                     <DropdownItem
                         key='profile'
@@ -99,9 +99,13 @@ export const TopMenuProfileSettingsDropdown: React.FC<TopMenuProfileSettingsDrop
                             name={`${user?.firstName} ${user?.lastName}`}
                         />
                     </DropdownItem>
+                </DropdownSection>
+                <DropdownSection
+                    key={1}
+                    showDivider
+                    aria-label="Actions"
+                >
                     <DropdownItem
-                        as='a'
-                        href="/dashboard"
                         key='dashboard'
                         classNames={{
                             base: 'gap-1.5',
@@ -109,16 +113,14 @@ export const TopMenuProfileSettingsDropdown: React.FC<TopMenuProfileSettingsDrop
                         }}
                         startContent={
                             <div className="w-5 h-5 fill-secondaryColor">
-                                <DashboardIcon />
+                                <DashboardIcon wrapped={true} />
                             </div>
                         }
                     >
-                        {translate('common.menu.profile_dropdown.options.dashboard')}
+                        <a href="/dashboard">{translate('common.menu.profile_dropdown.options.dashboard')}</a>
                     </DropdownItem>
                     <DropdownItem
-                        as='a'
                         key='settings'
-                        href="/dashboard/settings"
                         classNames={{
                             base: 'gap-1.5',
                             title: 'font-interTight font-medium text-primaryText'
@@ -129,17 +131,15 @@ export const TopMenuProfileSettingsDropdown: React.FC<TopMenuProfileSettingsDrop
                             </div>
                         }
                     >
-                        {translate('common.menu.profile_dropdown.options.settings')}
+                        <a href="/dashboard/settings">{translate('common.menu.profile_dropdown.options.settings')}</a>
                     </DropdownItem>
                 </DropdownSection>
                 <DropdownSection 
-                    key={1}
+                    key={2}
                     aria-label="Logout"
                 >
                     <DropdownItem
-                        as='a'
                         key='logout'
-                        href="/logout"
                         classNames={{
                             base: 'gap-1.5',
                             title: 'font-interTight font-medium text-redText'
@@ -150,7 +150,7 @@ export const TopMenuProfileSettingsDropdown: React.FC<TopMenuProfileSettingsDrop
                             </div>
                         }
                     >
-                        {translate('common.menu.profile_dropdown.options.logout')}
+                        <a href="/logout">{translate('common.menu.profile_dropdown.options.logout')}</a>
                     </DropdownItem>
                 </DropdownSection>
             </DropdownMenu>

@@ -2,6 +2,9 @@
 
 import { logout, refresh } from "@/store/features/auth/authSlice";
 import { store } from "@/store/store";
+import { ClockIcon } from "@/ui/icons/ClockIcon";
+import { PersonalAccountIcon } from "@/ui/icons/PersonalAccountIcon";
+import { addToast } from "@heroui/toast";
 import axios from "axios";
 
 export const authorizedAxios = axios.create({
@@ -32,7 +35,19 @@ authorizedAxios.interceptors.response.use(
 
         if (error.response?.status === 401 && isAuthenticated) {
             store.dispatch(logout());
-            alert("Session timeout!");
+            addToast({
+                title: "Session timeout!",
+                description: "You need to sign in again",
+                classNames: {
+                    title: 'font-interTight font-semibold text-primaryText',
+                    icon: 'w-5 h-5 fill-primaryColor',
+                    description: 'font-interTight font-medium text-secondaryText',
+                    base: 'bg-backgroundColor'
+                },
+                icon: (
+                    <PersonalAccountIcon />
+                )
+            });
         }
 
         return Promise.reject(error);

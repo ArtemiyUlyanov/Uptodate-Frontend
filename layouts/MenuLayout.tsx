@@ -3,9 +3,9 @@ import clsx from 'clsx';
 import React from 'react';
 import { LayoutProps } from './layout.type';
 
-export type MenuPageLayoutProps = LayoutProps;
+export type MenuLayoutProps = LayoutProps;
 
-const MenuPageLayout: React.FC<MenuPageLayoutProps> = ({
+const MenuLayout: React.FC<MenuLayoutProps> = ({
     children,
     topMenu,
     footer,
@@ -28,4 +28,4 @@ const MenuPageLayout: React.FC<MenuPageLayoutProps> = ({
     );
 }
 
-export default MenuPageLayout;
+export default MenuLayout;

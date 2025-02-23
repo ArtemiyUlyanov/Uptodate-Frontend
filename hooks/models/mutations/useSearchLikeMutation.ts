@@ -14,7 +14,7 @@ export type UseSearchLikeMutationParams = {
 }
 
 export type UseSearchLikeMutationResponse = {
-    mutate: UseMutateFunction<ApiArticleLikeResponse, ErrorResponse, ApiArticleLikeParams, unknown>
+    likeMutate: UseMutateFunction<ApiArticleLikeResponse, ErrorResponse, ApiArticleLikeParams, unknown>
 }
 
 export const useSearchLikeMutation = ({ queryKey }: UseSearchLikeMutationParams): UseSearchLikeMutationResponse => {
@@ -36,5 +36,5 @@ export const useSearchLikeMutation = ({ queryKey }: UseSearchLikeMutationParams)
         },
     });
 
-    return { mutate };
+    return { likeMutate: mutate };
 }

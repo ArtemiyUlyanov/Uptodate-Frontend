@@ -26,6 +26,68 @@ export type AppFooterOption = {
     link: string
 }
 
+export const getAppFooterSections = (translate: (text: string) => string): AppFooterSection[] => [
+    {
+        name: translate('common.footer.sections.menu.name'),
+        options: [
+            {
+                text: translate('common.footer.sections.menu.options.home'),
+                link: `/`
+            },
+            {
+                text: translate('common.footer.sections.menu.options.explore'),
+                link: `/explore`
+            },
+            {
+                text: translate('common.footer.sections.menu.options.about_us'),
+                link: `/about-us/`
+            },
+            {
+                text: translate('common.footer.sections.menu.options.categories'),
+                link: `/categories/`
+            }
+        ]
+    },
+    {
+        name: translate('common.footer.sections.policy_and_conditions.name'),
+        options: [
+            {
+                text: translate('common.footer.sections.policy_and_conditions.options.privacy_policy'),
+                link: `/`
+            },
+            {
+                text: translate('common.footer.sections.policy_and_conditions.options.terms_of_service'),
+                link: `/`
+            },
+            {
+                text: translate('common.footer.sections.policy_and_conditions.options.cookie_policy'),
+                link: `/`
+            },
+            {
+                text: translate('common.footer.sections.policy_and_conditions.options.disclaimer'),
+                link: `/`
+            }
+        ]
+    },
+    {
+        name: translate('common.footer.sections.additionally.name'),
+        options: [
+            {
+                text: translate('common.footer.sections.additionally.options.faq'),
+                link: `/`
+            },
+            {
+                text: translate('common.footer.sections.additionally.options.advertising'),
+                link: `/`
+            },
+            {
+                text: translate('common.footer.sections.additionally.options.sitemap'),
+                link: `/`
+            }
+        ]
+    },
+]
+
 const AppFooter: React.FC<AppFooterProps> = ({
     sectionTemplates
 }) => {

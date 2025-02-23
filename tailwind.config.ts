@@ -4,7 +4,7 @@ const beforePropertiesPlugin = require('tailwindcss-pseudo-elements');
 const textShadowPlugin = require("tailwindcss-textshadow");
 const animatePlugin = require('tailwindcss-animate');
 const scrollbarHide = require("tailwind-scrollbar-hide");
-const {nextui} = require("@nextui-org/react");
+const {heroui} = require("@heroui/react");
 
 export default {
   content: [
@@ -16,6 +16,7 @@ export default {
     "./layouts/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@heroui/theme/dist/components/(toast|spinner).js"
   ],
   theme: {
     extend: {
@@ -68,7 +69,7 @@ export default {
         primaryColor: "#232323",
         secondaryColor: "#A2A2A2",
         emphasizingColor: "#E2E2E2",
-        emphasizingColor2: "#F4F4F4",
+        emphasizingColor2: "#D3D3D3",
         emphasizingColor3: "#202020",
         redColor: "#F44336",
         roseColor: "#FF78B7",
@@ -140,39 +141,23 @@ export default {
     },
   },
   darkMode: 'class',
-  plugins: [beforePropertiesPlugin, textShadowPlugin, animatePlugin, scrollbarHide,
-    nextui({
-      prefix: "nextui",
-      addCommonColors: false,
-      defaultTheme: "light",
-      defaultExtendTheme: "light",
-      layout: {},
-      themes: {
+  plugins: [beforePropertiesPlugin,textShadowPlugin,animatePlugin,scrollbarHide,heroui({
+      prefix: "nextui",addCommonColors: false,defaultTheme: "light",defaultExtendTheme: "light",layout: {},themes: {
         light: {
           layout: {
             secondary: {
-              DEFAULT: '#FF78B7',
-            }
-          },
-          colors: {
+              DEFAULT: '#FF78B7',}
+          },colors: {
             secondary: {
-              DEFAULT: '#FF78B7',
-            }
-          },
-        },
-        dark: {
+              DEFAULT: '#FF78B7',}
+          },},dark: {
           layout: {
             secondary: {
               DEFAULT: '#FF78B7'
             }
-          },
-          colors: {
+          },colors: {
             secondary: {
               DEFAULT: '#FF78B7'
             }
-          },
-        },
-      },
-    }),
-  ],
+          },},},}),heroui()],
 } satisfies Config;

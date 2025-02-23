@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx';
-import { Image } from '@nextui-org/react';
+import { Image } from '@heroui/react';
 
 export type ArticleCoverIconProps = React.ImgHTMLAttributes<HTMLElement> & {
     url: string,

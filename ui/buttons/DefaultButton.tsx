@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { CustomButtonProps } from "./button.type";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/react";
 
 export type DefaultButtonProps = CustomButtonProps & {
     size?: 'sm' | 'md' | 'lg'

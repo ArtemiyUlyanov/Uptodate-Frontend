@@ -9,6 +9,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Filters from "../filters/Filters";
+import { Spinner } from "@heroui/react";
 
 export type ArticlesListProps = React.HTMLProps<HTMLDivElement> & {
 }
@@ -73,6 +74,7 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
                     }
                 </div>
             </div>
+            {isFetching && <Spinner color="secondary" />}
             <div className={clsx(
                 'flex flex-col items-center gap-2'
             )}>
@@ -84,7 +86,7 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
                     customClassName='font-interTight font-semibold text-sm'
                     type='submit'
                     onClickButton={() => setPages((prev) => prev + 1)}
-                    isLoading={isFetching}
+                    // isLoading={isFetching}
                     isDisabled={articles.length >= totalElements}
                 />
             </div>

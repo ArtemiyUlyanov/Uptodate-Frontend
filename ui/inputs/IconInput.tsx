@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { use, useEffect, useState } from "react";
 import { CustomInputProps } from "./input.type";
 import { useTranslations } from "next-intl";
-import { Input } from "@nextui-org/react";
+import { Input } from "@heroui/react";
 
 export type IconInputProps = CustomInputProps & {
     icon?: React.ReactNode

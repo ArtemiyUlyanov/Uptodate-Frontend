@@ -13,11 +13,11 @@ export type UseArticleLikeMutationParams = {
 }
 
 export type UseArticleLikeMutationResponse = {
-    mutate: UseMutateFunction<ApiArticleLikeResponse, ErrorResponse, ApiArticleLikeParams, unknown>
+    likeMutate: UseMutateFunction<ApiArticleLikeResponse, ErrorResponse, ApiArticleLikeParams, unknown>
 }
 
 export const useArticleLikeMutation = ({ queryKey }: UseArticleLikeMutationParams): UseArticleLikeMutationResponse => {
-    const { mutate } = useMutation<ApiArticleLikeResponse, ErrorResponse, ApiArticleLikeParams>({
+    const { mutate: likeMutate } = useMutation<ApiArticleLikeResponse, ErrorResponse, ApiArticleLikeParams>({
         mutationFn: likeArticleApi,
         onSuccess: (data) => {
             queryClient.setQueryData(queryKey, (oldData: ApiArticleGetResponse | undefined) => {
@@ -27,5 +27,5 @@ export const useArticleLikeMutation = ({ queryKey }: UseArticleLikeMutationParam
         },
     });
 
-    return { mutate };
+    return { likeMutate };
 }

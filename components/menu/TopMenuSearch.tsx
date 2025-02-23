@@ -4,7 +4,7 @@ import { useDictionary } from "@/hooks/useDictionary";
 import { ArticleModel } from "@/models/article";
 import { clearHistory, removeQuery } from "@/store/features/history/historySlice";
 import { RootState } from "@/store/store";
-import { Accordion, AccordionItem, Button } from "@nextui-org/react";
+import { Accordion, AccordionItem, Button } from "@heroui/react";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

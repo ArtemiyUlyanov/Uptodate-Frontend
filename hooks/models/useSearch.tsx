@@ -78,7 +78,7 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({
           refetchOnWindowFocus: false,
         },
     );
-    const { mutate: likeMutate } = useSearchLikeMutation({ queryKey: ['search'] });
+    const { likeMutate } = useSearchLikeMutation({ queryKey: ['search'] });
 
     const performSearch = useCallback(() => {
         refetch();

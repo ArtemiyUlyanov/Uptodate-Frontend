@@ -7,7 +7,7 @@ import { EditIcon } from "@/ui/icons/EditIcon";
 import { TrashIcon } from "@/ui/icons/TrashIcon";
 import { UserAvatarIcon } from "@/ui/icons/UserAvatarIcon";
 import { formatDateExtended } from "@/utils/date_utils";
-import { Button, Divider, Tooltip } from "@nextui-org/react";
+import { addToast, Button, Divider, Tooltip } from "@heroui/react";
 import clsx from "clsx";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -18,17 +18,22 @@ import { ApiCommentLikeParams, ApiCommentLikeResponse } from "@/services/api/com
 import { ErrorResponse } from "@/services/api/responses.types";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { ApiCommentCreateParams, ApiCommentCreateResponse } from "@/services/api/comments.create.endpoint";
+import { ApiCommentEditParams, ApiCommentEditResponse } from "@/services/api/comments.edit.endpoint";
 
 export type CommentProps = {
     comment: CommentModel
     likeMutate: UseMutateFunction<ApiCommentLikeResponse, ErrorResponse, ApiCommentLikeParams, unknown>
     deleteMutate: UseMutateFunction<ApiCommentDeleteResponse, ErrorResponse, ApiCommentDeleteParams, unknown>
+    editMutate: UseMutateFunction<ApiCommentEditResponse, ErrorResponse, ApiCommentEditParams, unknown>
+    isEditPending: boolean
 }
 
 export const Comment: React.FC<CommentProps> = ({
     comment,
     likeMutate,
-    deleteMutate
+    deleteMutate,
+    editMutate,
+    isEditPending
 }) => {
     const [showEditForm, setShowEditForm] = useState<boolean>(false);
 
@@ -45,6 +50,18 @@ export const Comment: React.FC<CommentProps> = ({
 
     const deleteComment = () => {
         deleteMutate({ id: comment.id });
+
+        addToast({
+            title: "Comment deleted!",
+            classNames: {
+                title: 'font-interTight font-semibold text-primaryText',
+                icon: 'h-4 fill-redColor',
+                base: 'bg-backgroundColor'
+            },
+            icon: (
+                <TrashIcon />
+            )
+        });
     }
 
     return (
@@ -125,17 +142,21 @@ export const Comment: React.FC<CommentProps> = ({
                     </div>
                 </div>
                 <p className="font-interTight font-medium text-sm text-primaryColor">{comment.content}</p>
-                {comment.resources?.map((file, index) =>
-                    <img 
-                        key={index} 
-                        src={file} 
-                        alt={`Preview ${index}`} 
-                        className="w-24 h-24 object-cover rounded-lg border"
-                    />
-                )}
+                {comment.resources && comment.resources?.length > 0 &&
+                    <div className="flex flex-row flex-wrap w-full gap-2">
+                        {comment.resources?.map((file, index) =>
+                            <img 
+                                key={index} 
+                                src={file} 
+                                alt={`Preview ${index}`} 
+                                className="w-24 h-24 object-cover rounded-lg border"
+                            />
+                        )}
+                    </div>
+                }
                 <CommentLikeButton comment={comment} likeMutate={likeMutate} />
                 {comment.permissionScope.includes('EDIT') && showEditForm &&
-                    <CommentEditForm comment={comment} setShowEditForm={setShowEditForm} />
+                    <CommentEditForm comment={comment} editMutate={editMutate} isEditPending={isEditPending} setShowEditForm={setShowEditForm} />
                 }
             </div>
         </div>

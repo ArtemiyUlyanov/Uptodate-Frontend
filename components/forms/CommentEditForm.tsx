@@ -2,39 +2,30 @@ import { useUploader } from "@/hooks/uploader/useUploader";
 import { CommentModel } from "@/models/comment";
 import { ApiCommentEditParams, ApiCommentEditResponse, editCommentApi } from "@/services/api/comments.edit.endpoint";
 import { urlsToFiles } from "@/utils/file.utils";
-import { Button, Card, CardFooter, Tooltip } from "@nextui-org/react";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { Button, Card, CardFooter, Tooltip } from "@heroui/react";
+import { UseMutateFunction, useQuery, UseQueryOptions } from "@tanstack/react-query";
 import clsx from "clsx";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import DefaultButton from "../../ui/buttons/DefaultButton";
 import { CloseIcon } from "../../ui/icons/CloseIcon";
 import { UploadFileIcon } from "../../ui/icons/UploadFileIcon";
 import DefaultTextarea from "../../ui/textareas/DefaultTextarea";
-
-const useEditCommentQuery = (
-    params: ApiCommentEditParams,
-    opts: Partial<UseQueryOptions<ApiCommentEditResponse>> = {},
-) => {
-    return useQuery<ApiCommentEditResponse>({
-      queryKey: [],
-      queryFn: () => editCommentApi(params),
-      ...opts,
-    });
-}
+import { ErrorResponse } from "@/services/api/responses.types";
 
 export type CommentEditFormProps = React.HTMLProps<HTMLDivElement> & {
     comment: CommentModel
-    setShowEditForm?: Dispatch<SetStateAction<boolean>>
+    setShowEditForm: Dispatch<SetStateAction<boolean>>
+    editMutate: UseMutateFunction<ApiCommentEditResponse, ErrorResponse, ApiCommentEditParams, unknown>
+    isEditPending: boolean
 }
 
 export const CommentEditForm: React.FC<CommentEditFormProps> = ({
     comment,
     setShowEditForm,
+    editMutate,
+    isEditPending
 }) => {
     const [content, setContent] = useState<string>('');
-    const [isSent, setIsSent] = useState<boolean>(false);
-
-    const [isQueryEnabled, setIsQueryEnabled] = useState<boolean>(false);
     const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
 
     const { selectedFiles, setSelectedFiles, addFile, removeFile, clearFiles, uploader } = useUploader(
@@ -67,27 +58,11 @@ export const CommentEditForm: React.FC<CommentEditFormProps> = ({
         }
     }, []);
 
-    const { isFetching, refetch } = useEditCommentQuery(
-        {
-            id: comment.id,
-            content: content,
-            resources: selectedFiles
-        }, {
-            enabled: isQueryEnabled
-        }
-    );
-
     const sendForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setIsQueryEnabled(true);
-
-        refetch()
-            .then(response => {
-                response.data?.message && setIsSent(true)
-
-                setShowEditForm && setShowEditForm(false);
-                setIsQueryEnabled(false);
-            });
+        
+        editMutate({ id: comment.id, content: content, resources: selectedFiles });
+        setShowEditForm(false);
     } 
 
     return (
@@ -95,7 +70,7 @@ export const CommentEditForm: React.FC<CommentEditFormProps> = ({
             className="flex flex-col w-full gap-2 pt-2 pb-2"
             onSubmit={sendForm}
         >
-            {isDataLoaded && !isSent &&
+            {isDataLoaded &&
                 <>
                     <p className="font-interTight font-semibold text-sm text-secondaryText">Edit a comment</p>
                     <DefaultTextarea
@@ -139,9 +114,6 @@ export const CommentEditForm: React.FC<CommentEditFormProps> = ({
                     </div>
                 </>
             }
-            {isSent && 
-                <p className="font-interTight font-medium text-sm text-primaryText">Your comment has been left successfully!</p>
-            }
             <div className="flex flex-row items-center gap-4">
                 <Tooltip
                     content='Save a comment'
@@ -154,8 +126,8 @@ export const CommentEditForm: React.FC<CommentEditFormProps> = ({
                         <DefaultButton
                             text='Save'
                             customClassName='font-interTight font-semibold text-sm text-center rounded-md'
-                            isLoading={isFetching && isQueryEnabled}
-                            isDisabled={content.length <= 0 || isSent}
+                            isLoading={isEditPending}
+                            isDisabled={content.length <= 0}
                             type="submit"
                             size="sm"
                         />

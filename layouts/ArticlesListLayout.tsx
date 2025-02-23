@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { LayoutProps } from "./layout.type";
-import MenuPageLayout from "./MenuPageLayout";
+import MenuLayout from "./MenuLayout";
 import { useDictionary } from "@/hooks/useDictionary";
 
 export type ArticlesListLayoutProps = LayoutProps;
@@ -13,7 +13,7 @@ export const ArticlesListLayout: React.FC<ArticlesListLayoutProps> = ({
     const { translate } = useDictionary();
 
     return (
-        <MenuPageLayout
+        <MenuLayout
             topMenu={topMenu}
             footer={footer}
         >
@@ -40,6 +40,6 @@ export const ArticlesListLayout: React.FC<ArticlesListLayoutProps> = ({
                 </div>
             </div>
             {children}
-        </MenuPageLayout>
+        </MenuLayout>
     );
 }

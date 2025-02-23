@@ -49,7 +49,7 @@ export const CommentLikeButton: React.FC<CommentLikeButtonProps> = ({
                     !isAuthenticated && 'fill-secondaryColor'
                 )}
             >
-                <LikeIcon stroked={(isAuthenticated && !liked) || !isAuthenticated} />
+                <LikeIcon wrapped={false} stroked={(isAuthenticated && !liked) || !isAuthenticated} />
             </div>
             <p className={clsx(
                 "font-interTight font-semibold text-sm",

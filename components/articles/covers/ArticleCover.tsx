@@ -2,7 +2,7 @@ import { ArticleModel } from "@/models/article";
 import { UserAvatarIcon } from "@/ui/icons/UserAvatarIcon";
 import { formatDateExtended, retrieveDateFromISO } from "@/utils/date_utils";
 import { capitalizeText, parseQueryText } from "@/utils/text_utils";
-import { Card, CardBody, CardFooter, CardHeader, Image, Link, Tooltip } from "@nextui-org/react";
+import { Card, CardBody, CardFooter, CardHeader, Image, Link, Tooltip } from "@heroui/react";
 import clsx from "clsx";
 import { useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";

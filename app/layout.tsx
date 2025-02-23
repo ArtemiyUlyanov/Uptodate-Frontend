@@ -7,7 +7,8 @@ import { Provider } from 'react-redux';
 import { PersistGate } from "redux-persist/integration/react";
 import './globals.css';
 
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
+import {ToastProvider} from "@heroui/toast";
 import React from "react";
 
 export const queryClient = new QueryClient();
@@ -23,15 +24,16 @@ const RootLayout = ({
           'antialiased'
         )}
       >
-        <NextUIProvider>
+        <HeroUIProvider>
           <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
               <QueryClientProvider client={queryClient}>
+                <ToastProvider />
                 {children}
               </QueryClientProvider>
             </PersistGate>
           </Provider>
-        </NextUIProvider>
+        </HeroUIProvider>
       </body>
     </html>
   );

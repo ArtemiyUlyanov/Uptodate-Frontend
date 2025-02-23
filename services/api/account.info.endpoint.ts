@@ -5,12 +5,11 @@ import axios from "axios"
 
 export type ApiAccountInfoParams = {
     isAuthenticated: boolean
-    access_token: string
-    refresh_token: string
+    access_token: string | null
 }
 
 export type ApiAccountInfoResponse = {
-    user?: UserModel
+    model?: UserModel
     error?: ErrorResponse
 }
 
@@ -23,9 +22,8 @@ export const accountInfoApi = async ({
             }
         });
     
-        const user = JSON.parse(JSON.stringify(response.data.response));
-
-        return {user};
+        const model = JSON.parse(JSON.stringify(response.data.response));
+        return {model};
     } catch (error) {
         if (axios.isAxiosError(error)) {
             return {error: {status: error.response?.data.status, message: error.response?.data.message}}

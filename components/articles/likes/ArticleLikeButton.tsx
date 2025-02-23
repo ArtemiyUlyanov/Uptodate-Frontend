@@ -4,8 +4,7 @@ import { ApiArticleLikeParams, ApiArticleLikeResponse, likeArticleApi } from "@/
 import { ErrorResponse } from "@/services/api/responses.types";
 import { RootState } from "@/store/store";
 import { LikeIcon } from "@/ui/icons/LikeIcon";
-import { Button } from "@nextui-org/button";
-import { Tooltip } from "@nextui-org/react";
+import { Button, Tooltip } from "@heroui/react";
 import { UseMutateFunction } from "@tanstack/react-query";
 import clsx from "clsx";
 import React, { useEffect, useMemo, useState } from "react";
@@ -60,7 +59,7 @@ export const ArticleLikeButton: React.FC<ArticleLikeButtonProps> = ({
                         liked && 'fill-redColor',
                     )}
                 >
-                    <LikeIcon stroked={!liked} />
+                    <LikeIcon wrapped={false} stroked={!liked} />
                 </div>
             </Button>
         </Tooltip>

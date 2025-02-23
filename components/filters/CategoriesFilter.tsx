@@ -4,7 +4,7 @@ import { useFilters } from "@/hooks/explore/useFilters";
 import { useLocalSearch } from "@/hooks/explore/useLocalSearch";
 import { useDictionary } from "@/hooks/useDictionary";
 import { parseQueryText } from "@/utils/text_utils";
-import { Button, Chip, Listbox, ListboxItem, ListboxSection, ScrollShadow } from "@nextui-org/react";
+import { Button, Chip, Listbox, ListboxItem, ListboxSection, ScrollShadow } from "@heroui/react";
 import clsx from "clsx";
 import { useEffect, useMemo, useState } from "react";
 import { CloseIcon } from "../../ui/icons/CloseIcon";

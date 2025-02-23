@@ -11,6 +11,9 @@ import RegisterForm from "./RegisterForm";
 import { authLoginApi } from "@/services/api/auth.login.endpoint";
 import { setUser } from "@/store/features/auth/authSlice";
 import { useForm } from 'react-hook-form';
+import { addToast } from "@heroui/toast";
+import { PersonalAccountIcon } from "@/ui/icons/PersonalAccountIcon";
+import { KeyIcon } from "@/ui/icons/KeyIcon";
 
 export type LoginFormProps = {
     trigger: (onClick: () => void) => React.ReactNode
@@ -34,6 +37,20 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
         if (response.status == 202) {
             dispatch(setUser({access_token: response.access_token, refresh_token: response.refresh_token, isAuthenticated: true}));
+
+            addToast({
+                title: "You are in!",
+                description: "Now you are authenticated and able to use some of restricted features",
+                classNames: {
+                    title: 'font-interTight font-semibold text-primaryText',
+                    icon: 'h-5 fill-primaryColor',
+                    description: 'font-interTight font-medium text-secondaryText',
+                    base: 'bg-backgroundColor'
+                },
+                icon: (
+                    <KeyIcon />
+                )
+            });
         }
 
         if (response.error) {

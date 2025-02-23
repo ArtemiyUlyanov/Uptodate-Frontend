@@ -18,7 +18,7 @@ export type UseCommentsCreateMutationParams = {
 
 export type UseCommentsCreateMutationResponse = {
     isCreatePending: boolean
-    mutate: UseMutateFunction<ApiCommentCreateResponse, ErrorResponse, ApiCommentCreateParams, unknown>
+    createMutate: UseMutateFunction<ApiCommentCreateResponse, ErrorResponse, ApiCommentCreateParams, unknown>
 }
 
 export const useCommentsCreateMutation = ({ queryKey }: UseCommentsCreateMutationParams): UseCommentsCreateMutationResponse => {
@@ -37,5 +37,5 @@ export const useCommentsCreateMutation = ({ queryKey }: UseCommentsCreateMutatio
         onError: () => console.log('sddsds')
     });
 
-    return { mutate, isCreatePending: isPending };
+    return { createMutate: mutate, isCreatePending: isPending };
 }

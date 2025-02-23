@@ -14,6 +14,9 @@ import { ApiCommentDeleteParams, ApiCommentDeleteResponse } from "@/services/api
 import { useCommentsDeleteMutation } from "./mutations/useCommentsDeleteMutation"
 import { useCommentsCreateMutation } from "./mutations/useCommentsCreateMutation"
 import { ApiCommentCreateParams, ApiCommentCreateResponse } from "@/services/api/comments.create.endpoint"
+import { useCommentsEditMutation } from "./mutations/useCommentsEditMutation"
+import { ApiCommentEditParams, ApiCommentEditResponse } from "@/services/api/comments.edit.endpoint"
+import { useAccount } from "./useAccount"
 
 export type UseCommentsParams = {
     articleId?: number
@@ -25,7 +28,9 @@ export type UseCommentsResponse = {
     likeMutate: UseMutateFunction<ApiCommentLikeResponse, ErrorResponse, ApiCommentLikeParams, unknown>
     deleteMutate: UseMutateFunction<ApiCommentDeleteResponse, ErrorResponse, ApiCommentDeleteParams, unknown>
     createMutate: UseMutateFunction<ApiCommentCreateResponse, ErrorResponse, ApiCommentCreateParams, unknown>
+    editMutate: UseMutateFunction<ApiCommentEditResponse, ErrorResponse, ApiCommentEditParams, unknown>
     isCreatePending: boolean
+    isEditPending: boolean
 }
 
 const useCommentsQuery = (
@@ -42,12 +47,17 @@ const useCommentsQuery = (
 export const useComments = ({
     articleId
 }: UseCommentsParams): UseCommentsResponse => {
+    const { user } = useAccount();
     const { data, refetch } = useCommentsQuery({ articleId });
-    const { mutate: likeMutate } = useCommentsLikeMutation({ queryKey: ['comments', articleId] });
-    const { mutate: deleteMutate } = useCommentsDeleteMutation({ queryKey: ['comments', articleId] });
-    const { mutate: createMutate, isCreatePending } = useCommentsCreateMutation({ queryKey: ['comments', articleId] });
 
-    const router = useRouter();
+    const { likeMutate } = useCommentsLikeMutation({ queryKey: ['comments', articleId] });
+    const { deleteMutate } = useCommentsDeleteMutation({ queryKey: ['comments', articleId] });
+    const { createMutate, isCreatePending } = useCommentsCreateMutation({ queryKey: ['comments', articleId] });
+    const { editMutate, isEditPending } = useCommentsEditMutation({ queryKey: ['comments', articleId] });
 
-    return { comments: data?.model, refetch, likeMutate, deleteMutate, createMutate, isCreatePending };
+    useEffect(() => {
+        refetch();
+    }, [user]);
+
+    return { comments: data?.model, refetch, likeMutate, deleteMutate, createMutate, editMutate, isCreatePending, isEditPending };
 }

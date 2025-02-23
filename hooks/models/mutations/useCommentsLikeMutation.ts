@@ -15,7 +15,7 @@ export type UseCommentsLikeMutationParams = {
 }
 
 export type UseCommentsLikeMutationResponse = {
-    mutate: UseMutateFunction<ApiCommentLikeResponse, ErrorResponse, ApiCommentLikeParams, unknown>
+    likeMutate: UseMutateFunction<ApiCommentLikeResponse, ErrorResponse, ApiCommentLikeParams, unknown>
 }
 
 export const useCommentsLikeMutation = ({ queryKey }: UseCommentsLikeMutationParams): UseCommentsLikeMutationResponse => {
@@ -36,5 +36,5 @@ export const useCommentsLikeMutation = ({ queryKey }: UseCommentsLikeMutationPar
         onError: () => console.log('sddsds')
     });
 
-    return { mutate };
+    return { likeMutate: mutate };
 }

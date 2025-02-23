@@ -9,7 +9,7 @@ import clsx from "clsx";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import LoginForm from "./LoginForm";
-import { InputOtp } from "@nextui-org/react";
+import { InputOtp } from "@heroui/react";
 import DefaultInputOtp from "@/ui/inputs/otps/DefaultInputOtp";
 import { authRegisterVerifyCodeApi } from "@/services/api/auth.registerVerifyCode.endpoint";
 

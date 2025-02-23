@@ -8,18 +8,48 @@ import { useDispatch, useSelector } from "react-redux";
 import TopMenuContent from "./TopMenuContent";
 
 export type TopMenuProps = React.HTMLProps<HTMLDivElement[]> & {
-    templates: TopMenuTemplate[]
+    optionTemplates: TopMenuOption[]
 }
 
-export type TopMenuTemplate = {
+export type TopMenuOption = {
+    key: string
     text: string
     link: string
     selected: boolean
     className?: string
 }
 
+export const getTopMenuOptions = (translate: (text: string) => string, selectedKey?: 'home' | 'explore' | 'about-us' | 'categories'): TopMenuOption[] => {
+    return [
+        {
+            key: 'home',
+            text: translate('common.menu.home_page_link'),
+            link: '/',
+            selected: selectedKey === 'home'
+        },
+        {
+            key: 'explore',
+            text: translate('common.menu.explore_page_link'),
+            link: '/explore',
+            selected: selectedKey === 'explore'
+        },
+        {
+            key: 'about-us',
+            text: translate('common.menu.about_us_page_link'),
+            link: '/about-us',
+            selected: selectedKey === 'about-us'
+        },
+        {
+            key: 'categories',
+            text: translate('common.menu.categories_page_link'),
+            link: '/categories',
+            selected: selectedKey === 'categories'
+        }
+    ]
+}
+
 const TopMenu: React.FC<TopMenuProps> = ({
-    templates
+    optionTemplates
 }) => {
     const { isAuthenticated } = useSelector((state: RootState) => state.auth);
     const { articles } = useSearch();
@@ -53,7 +83,7 @@ const TopMenu: React.FC<TopMenuProps> = ({
                 )}
             >
                 <TopMenuContent
-                    templates={templates}
+                    optionTemplates={optionTemplates}
                     onTogglingSearch={() => setIsSearchUnwrapped(prev => !prev)}
                 />
             </div>

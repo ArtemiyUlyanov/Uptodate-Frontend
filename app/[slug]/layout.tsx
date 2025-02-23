@@ -4,7 +4,7 @@ import { FiltersProvider } from "@/hooks/explore/useFilters";
 import { SearchProvider } from "@/hooks/models/useSearch";
 import { CategoriesProvider } from "@/hooks/models/useCategories";
 
-const ExploreLayout = ({
+const DynamicArticleLayout = ({
     children
 }: Readonly<{children: React.ReactNode}>) => {
     return (
@@ -18,4 +18,4 @@ const ExploreLayout = ({
     );
   }
   
-  export default ExploreLayout;
+  export default DynamicArticleLayout;

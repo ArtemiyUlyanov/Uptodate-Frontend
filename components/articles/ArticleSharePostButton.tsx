@@ -1,9 +1,13 @@
+'use client';
+
 import { useDictionary } from "@/hooks/useDictionary";
 import { CentredDrawer } from "@/ui/drawers/CentredDrawer";
 import { DrawerBody, DrawerTrigger } from "@/ui/drawers/drawer_components";
+import { useCopyToClipboard, useTimeoutFn } from "react-use";
 import { ShareIcon } from "@/ui/icons/ShareIcon";
-import { Button, Snippet, Tooltip } from "@nextui-org/react";
+import { addToast, Button, Popover, PopoverContent, PopoverTrigger, Snippet, Tooltip } from "@heroui/react";
 import clsx from "clsx";
+import { useEffect, useState } from "react";
 
 export type ArticleSharePostButtonProps = React.HTMLProps<HTMLDivElement> & {
     url: string
@@ -12,30 +16,39 @@ export type ArticleSharePostButtonProps = React.HTMLProps<HTMLDivElement> & {
 export const ArticleSharePostButton: React.FC<ArticleSharePostButtonProps> = ({
     url
 }) => {
-    const { translate } = useDictionary();
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [state, copyToClipboard] = useCopyToClipboard();
+
+    useEffect(() => {
+        if (isOpen) {
+            copyToClipboard(url);
+
+            const timeout = setTimeout(() => setIsOpen(false), 1000);
+            return () => clearTimeout(timeout);
+        }
+    }, [isOpen])
 
     return (
-        <CentredDrawer
-            drawerSize="md"
-            title={'Share the article'}
-            closeTooltip={'Close the menu'}
+        <Popover
+            isOpen={isOpen}
+            onOpenChange={setIsOpen}
         >
-            <DrawerTrigger>
-                {(onClick) => (
-                    <Tooltip
-                        content='Share this post'
-                        closeDelay={0}
-                        classNames={{
-                            content: 'bg-backgroundColor font-interTight font-semibold text-primaryColor'
-                        }}
-                    >
+            <Tooltip
+                content='Copy link to clipboard'
+                closeDelay={0}
+                classNames={{
+                    content: 'bg-backgroundColor font-interTight font-semibold text-primaryColor'
+                }}
+                hidden={isOpen}
+            >
+                <div className="max-w-fit">
+                    <PopoverTrigger>
                         <Button
                             isIconOnly
                             className={clsx(
                                 'bg-[transparent]',
                                 'transition-all duration-200',
                             )}
-                            onPress={onClick}
                             variant='light'
                             size="sm"
                         >
@@ -47,25 +60,12 @@ export const ArticleSharePostButton: React.FC<ArticleSharePostButtonProps> = ({
                                 <ShareIcon />
                             </div>
                         </Button>
-                    </Tooltip>
-                )}
-            </DrawerTrigger>
-            <DrawerBody>
-                <Snippet
-                    tooltipProps={{
-                        closeDelay: 0,
-                        delay: 0,
-                        classNames: {
-                            content: 'bg-backgroundColor font-interTight font-semibold text-primaryColor'
-                        }
-                    }}
-                    size="sm"
-                >
-                    <div className="w-3/4 overflow-hidden">
-                        <span>{url}</span>
-                    </div>
-                </Snippet>
-            </DrawerBody>
-        </CentredDrawer>
+                    </PopoverTrigger>
+                </div>
+            </Tooltip>
+            <PopoverContent className="bg-backgroundColor">
+                <p className='font-interTight font-semibold text-primaryColor'>Copied!</p>
+            </PopoverContent>
+        </Popover>
     );
 }

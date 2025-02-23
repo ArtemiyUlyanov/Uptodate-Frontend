@@ -16,7 +16,7 @@ export type UseCommentsDeleteMutationParams = {
 }
 
 export type UseCommentsDeleteMutationResponse = {
-    mutate: UseMutateFunction<ApiCommentDeleteResponse, ErrorResponse, ApiCommentDeleteParams, unknown>
+    deleteMutate: UseMutateFunction<ApiCommentDeleteResponse, ErrorResponse, ApiCommentDeleteParams, unknown>
 }
 
 export const useCommentsDeleteMutation = ({ queryKey }: UseCommentsDeleteMutationParams): UseCommentsDeleteMutationResponse => {
@@ -25,8 +25,6 @@ export const useCommentsDeleteMutation = ({ queryKey }: UseCommentsDeleteMutatio
         onMutate: (variables) => {
             queryClient.setQueryData(queryKey, (oldData: ApiCommentsGetResponse | undefined) => {
                 if (!oldData?.model) return oldData?.model;
-
-                console.log('hello');
         
                 return {
                   ...oldData,
@@ -39,5 +37,5 @@ export const useCommentsDeleteMutation = ({ queryKey }: UseCommentsDeleteMutatio
         onError: () => console.log('sddsds')
     });
 
-    return { mutate };
+    return { deleteMutate: mutate };
 }

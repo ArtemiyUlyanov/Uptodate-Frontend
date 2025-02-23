@@ -1,7 +1,7 @@
 'use client';
 
 import { useFilters } from "@/hooks/explore/useFilters";
-import { Listbox, ListboxItem } from "@nextui-org/react";
+import { Listbox, ListboxItem } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { FilterOption } from "./filter.types";
 

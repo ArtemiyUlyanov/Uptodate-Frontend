@@ -4,10 +4,10 @@ import { ArticleLikeButton } from "@/components/articles/likes/ArticleLikeButton
 import { ArticleModel } from "@/models/article";
 import { LikeIcon } from "@/ui/icons/LikeIcon";
 import { UserAvatarIcon } from "@/ui/icons/UserAvatarIcon";
-import { ViewsIcon } from "@/ui/icons/ViewsIcon";
+import { ViewIcon } from "@/ui/icons/ViewIcon";
 import { formatDate, formatDateExtended } from "@/utils/date_utils";
 import { capitalizeText } from "@/utils/text_utils";
-import { BreadcrumbItem, Breadcrumbs, Divider, Image } from "@nextui-org/react";
+import { BreadcrumbItem, Breadcrumbs, Divider, Image } from "@heroui/react";
 import clsx from "clsx";
 import { useEffect, useMemo } from "react";
 import { ArticleSharePostButton } from "./ArticleSharePostButton";
@@ -95,14 +95,12 @@ const Article: React.FC<ArticleProps> = ({
                             <div className="flex flex-row items-center gap-4">
                                 <div className="flex flex-row items-center gap-1">
                                     <div className="h-3 fill-primaryColor">
-                                        <ViewsIcon />
+                                        <ViewIcon />
                                     </div>
                                     <p className="font-interTight font-semibold text-sm text-primaryText">{article.views.length}</p>
                                 </div>
                                 <div className="flex flex-row items-center gap-1">
-                                    <div className="h-3 fill-primaryColor">
-                                        <LikeIcon stroked={true} />
-                                    </div>
+                                    <LikeIcon className="w-4 h-4 fill-primaryColor" wrapped={false} stroked={true} />
                                     <p className="font-interTight font-semibold text-sm text-primaryText">{article.likes.length}</p>
                                 </div>
                             </div>

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import clsx from 'clsx';
-import { Avatar } from '@nextui-org/react';
+import { Avatar } from '@heroui/react';
 import Image from 'next/image';
 import empty_icon from '@/public/images/user_empty_icon.png';
 

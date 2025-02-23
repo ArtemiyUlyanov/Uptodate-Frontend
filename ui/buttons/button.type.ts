@@ -1,4 +1,4 @@
-import { Button } from "@nextui-org/button"
+import { Button } from "@heroui/react"
 import { ComponentProps } from "react"
 
 export type CustomButtonProps = ComponentProps<typeof Button> & {

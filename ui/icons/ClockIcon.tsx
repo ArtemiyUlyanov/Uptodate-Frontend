@@ -1,10 +1,10 @@
 import clsx from "clsx"
 
-export type SortbyFilterIconProps = React.SVGAttributes<SVGSVGElement> & {
+export type ClockIconProps = React.SVGAttributes<SVGSVGElement> & {
     className?: string
 }
 
-export const SortbyFilterIcon: React.FC<SortbyFilterIconProps> = ({
+export const ClockIcon: React.FC<ClockIconProps> = ({
     className,
     ...props
 }) => {

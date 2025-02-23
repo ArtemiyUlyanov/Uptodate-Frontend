@@ -9,9 +9,9 @@ import TransparentIconButton from "@/ui/buttons/TransparentIconButton";
 import { DefaultDrawer } from "@/ui/drawers/DefaultDrawer";
 import { DrawerBody, DrawerTrigger } from "@/ui/drawers/drawer_components";
 import { FiltersIcon } from "@/ui/icons/FiltersIcon";
-import { SortbyFilterIcon } from "@/ui/icons/SortByFilterIcon";
+import { ClockIcon } from "@/ui/icons/ClockIcon";
 import { CategoriesFilterIcon } from "@/ui/icons/CategoriesFilterIcon";
-import { Accordion, AccordionItem, Chip } from "@nextui-org/react";
+import { Accordion, AccordionItem, Chip } from "@heroui/react";
 import clsx from "clsx";
 import { useMemo } from "react";
 import { useCategories } from "@/hooks/models/useCategories";
@@ -82,7 +82,7 @@ const Filters: React.FC<FiltersProps> = ({
                             title={translate('common.filters.sort_by.name')}
                             startContent={
                                 <div className="w-3 h-4">
-                                    <SortbyFilterIcon 
+                                    <ClockIcon 
                                         className="fill-primaryText" 
                                     />
                                 </div>

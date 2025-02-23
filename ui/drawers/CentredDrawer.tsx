@@ -1,4 +1,4 @@
-import { Button, Drawer, DrawerBody, DrawerContent, DrawerHeader, Tooltip, useDisclosure } from "@nextui-org/react"
+import { Button, Drawer, DrawerBody, DrawerContent, DrawerHeader, Tooltip, useDisclosure } from "@heroui/react"
 import { DrawerTriggerProps, DrawerBodyProps } from "./drawer_components"
 import React from "react"
 import { CloseIcon } from "../icons/CloseIcon"
