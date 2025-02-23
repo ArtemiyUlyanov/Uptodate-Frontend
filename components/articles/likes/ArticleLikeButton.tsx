@@ -1,4 +1,4 @@
-import { useAccount } from "@/hooks/account/useAccount";
+import { useAccount } from "@/hooks/models/useAccount";
 import { ArticleModel } from "@/models/article";
 import { ApiArticleLikeParams, ApiArticleLikeResponse, likeArticleApi } from "@/services/api/articles.like.endpoint";
 import { ErrorResponse } from "@/services/api/responses.types";

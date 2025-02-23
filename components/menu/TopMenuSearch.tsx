@@ -1,5 +1,5 @@
 import { useLocalSearch } from "@/hooks/explore/useLocalSearch";
-import { useSearchQuery } from "@/hooks/explore/useSearch";
+import { useSearchQuery } from "@/hooks/models/useSearch";
 import { useDictionary } from "@/hooks/useDictionary";
 import { ArticleModel } from "@/models/article";
 import { clearHistory, removeQuery } from "@/store/features/history/historySlice";

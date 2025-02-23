@@ -1,4 +1,4 @@
-import { useAccount } from "@/hooks/account/useAccount";
+import { useAccount } from "@/hooks/models/useAccount";
 import { CommentModel } from "@/models/comment";
 import { ApiCommentLikeParams, ApiCommentLikeResponse, likeCommentApi } from "@/services/api/comments.like.endpoint";
 import { ErrorResponse } from "@/services/api/responses.types";

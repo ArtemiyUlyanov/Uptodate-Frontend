@@ -1,8 +1,8 @@
 'use client';
 
 import { FiltersProvider } from "@/hooks/explore/useFilters";
-import { SearchProvider } from "@/hooks/explore/useSearch";
-import { CategoriesProvider } from "@/hooks/useCategories";
+import { SearchProvider } from "@/hooks/models/useSearch";
+import { CategoriesProvider } from "@/hooks/models/useCategories";
 
 const ExploreLayout = ({
     children

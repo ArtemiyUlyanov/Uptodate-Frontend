@@ -5,8 +5,8 @@ import { ApiSearchParams, ApiSearchResponse, searchApi } from "@/services/api/ar
 import { UseMutateFunction, useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { createContext, Dispatch, SetStateAction, useCallback, useContext, useEffect, useState } from "react";
 import { useDebounced } from "../useDebounced";
-import { useFilters } from "./useFilters";
-import { useSearchLikeMutation } from "../models/mutations/useSearchLikeMutation";
+import { useFilters } from "../explore/useFilters";
+import { useSearchLikeMutation } from "./mutations/useSearchLikeMutation";
 import { ApiArticleLikeParams, ApiArticleLikeResponse } from "@/services/api/articles.like.endpoint";
 import { ErrorResponse } from "@/services/api/responses.types";
 

@@ -1,6 +1,6 @@
 import ArticleCover from "@/components/articles/covers/ArticleCover";
 import { useFilters } from "@/hooks/explore/useFilters";
-import { useSearch } from "@/hooks/explore/useSearch";
+import { useSearch } from "@/hooks/models/useSearch";
 import { useDictionary } from "@/hooks/useDictionary";
 import { addQuery } from "@/store/features/history/historySlice";
 import DefaultButton from "@/ui/buttons/DefaultButton";

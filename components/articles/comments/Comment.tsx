@@ -1,5 +1,5 @@
 import { CommentEditForm } from "@/components/forms/CommentEditForm";
-import { useAccount } from "@/hooks/account/useAccount";
+import { useAccount } from "@/hooks/models/useAccount";
 import { CommentModel } from "@/models/comment";
 import { ApiCommentDeleteParams, ApiCommentDeleteResponse, deleteCommentApi } from "@/services/api/comments.delete.endpoint";
 import { RootState } from "@/store/store";

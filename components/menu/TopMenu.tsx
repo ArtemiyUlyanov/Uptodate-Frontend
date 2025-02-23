@@ -1,6 +1,6 @@
 'use client';
 
-import { useSearch } from "@/hooks/explore/useSearch";
+import { useSearch } from "@/hooks/models/useSearch";
 import { RootState } from "@/store/store";
 import clsx from "clsx";
 import { useEffect, useState } from "react";

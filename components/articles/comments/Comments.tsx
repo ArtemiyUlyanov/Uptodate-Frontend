@@ -1,6 +1,6 @@
 import { Comment } from "@/components/articles/comments/Comment";
 import { CommentSendForm } from "@/components/forms/CommentSendForm";
-import { useAccount } from "@/hooks/account/useAccount";
+import { useAccount } from "@/hooks/models/useAccount";
 import { useComments } from "@/hooks/models/useComments";
 import { useDictionary } from "@/hooks/useDictionary";
 import { useRetrieve } from "@/hooks/useRetrieve";

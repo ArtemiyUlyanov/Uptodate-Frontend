@@ -14,7 +14,7 @@ import { CategoriesFilterIcon } from "@/ui/icons/CategoriesFilterIcon";
 import { Accordion, AccordionItem, Chip } from "@nextui-org/react";
 import clsx from "clsx";
 import { useMemo } from "react";
-import { useCategories } from "@/hooks/useCategories";
+import { useCategories } from "@/hooks/models/useCategories";
 
 export type FiltersProps = React.HTMLProps<HTMLDivElement>
 

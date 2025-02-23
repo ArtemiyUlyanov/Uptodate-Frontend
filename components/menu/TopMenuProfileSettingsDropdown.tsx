@@ -1,7 +1,7 @@
 import SelectableDropdown from "@/ui/dropdowns/SelectableDropdown";
 import { LogoutIcon } from "@/ui/icons/LogoutIcon";
 import { UserAvatarIcon } from "@/ui/icons/UserAvatarIcon";
-import { useAccount } from "@/hooks/account/useAccount";
+import { useAccount } from "@/hooks/models/useAccount";
 import { useDictionary } from "@/hooks/useDictionary";
 import { RootState } from "@/store/store";
 import clsx from "clsx";

@@ -1,5 +1,5 @@
 import { queryClient } from "@/app/layout";
-import { useAccount } from "@/hooks/account/useAccount";
+import { useAccount } from "@/hooks/models/useAccount";
 import { ArticleModel } from "@/models/article";
 import { ArticleLikeModel } from "@/models/article_like";
 import { UserModel } from "@/models/user";
