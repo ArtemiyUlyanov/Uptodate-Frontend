@@ -1,134 +1,148 @@
-import BlueButton from "@/components/buttons/BlueButton";
-import { ArticleCoverIcon } from "@/components/icons/ArticleCoverIcon";
-import { UserCoverIcon } from "@/components/icons/UserCoverIcon";
-import { useSearch } from "@/hooks/explore/useSearch";
-import { ArticleTopic } from "@/models/article_topic";
-import { User } from "@/models/user";
-import user_icon_1 from "@/public/images/user_icon_1.png";
-import { formatDate } from "@/utils/date_utils";
-import { capitalizeText, splitQueryText, splitTextBySubtexts } from "@/utils/text_utils";
+import { ArticleModel } from "@/models/article";
+import { UserAvatarIcon } from "@/ui/icons/UserAvatarIcon";
+import { formatDateExtended, retrieveDateFromISO } from "@/utils/date_utils";
+import { capitalizeText, parseQueryText } from "@/utils/text_utils";
+import { Card, CardBody, CardFooter, CardHeader, Image, Link, Tooltip } from "@nextui-org/react";
 import clsx from "clsx";
-import { StaticImageData } from "next/image";
-import { useState } from "react";
+import { useEffect, useMemo } from "react";
+import { useDispatch } from "react-redux";
+import { ArticleLikeButton } from "../likes/ArticleLikeButton";
+import { useRetrieve } from "@/hooks/useRetrieve";
+import { UserModel } from "@/models/user";
+import { ApiArticleLikeParams, ApiArticleLikeResponse } from "@/services/api/articles.like.endpoint";
+import { ErrorResponse } from "@/services/api/responses.types";
+import { UseMutateFunction } from "@tanstack/react-query";
 
-export type ArticleCoverProps = React.HTMLProps<HTMLDivElement> & {
-    heading: string
-    description: string
-    topics: ArticleTopic[]
-    createdAt: string
-    author: User | undefined
-    url: string
+export type ArticleCoverProps = {
+    article: ArticleModel
+    likeMutate: UseMutateFunction<ApiArticleLikeResponse, ErrorResponse, ApiArticleLikeParams, unknown>
+    query?: string
     className?: string
+    extended: boolean
 }
 
-const ArticleCover: React.FC<ArticleCoverProps> = ({
-    heading,
-    description,
-    topics,
-    url,
-    createdAt,
-    author,
+export const ArticleCover: React.FC<ArticleCoverProps> = ({
+    article,
+    query,
+    likeMutate,
+    extended,
     className
 }) => {
-    const [isHovered, setIsHovered] = useState(false);
-    const { query } = useSearch();
+    const [author] = useRetrieve<UserModel>(
+        article,
+        {
+            endpoint: '/users/%author_id%',
+            pathVariables: {
+                author_id: article.authorId
+            },
+            payload: {}
+        }
+    );
 
     return (
-        <div
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            className={clsx(
-                'flex flex-col-reverse sm:flex-row gap-2 relative group',
-                'w-[100%] h-auto rounded-md',
-                'transition-all duration-200 bg-emphasizingColor',
-                'sm:hover:opacity-[0.75]',
-                'active:opacity-[0.75] sm:active:opacity',
-                className
-            )}
+        <Card 
+            shadow="none"
+            radius="none"
+            classNames={{
+                base: 'bg-[transparent]'
+            }}
         >
-            <div className={clsx(
-                'w-full sm:w-1/2 h-auto flex flex-col justify-start p-4 pt-0 sm:pt-4 gap-2 lg:gap-4 z-[10]',
+            <CardHeader className={clsx(
+                "absolute p-2 z-[999]",
+                !extended && 'hidden'
             )}>
+                <ArticleLikeButton article={article} likeMutate={likeMutate} />
+            </CardHeader>
+            <CardBody className={clsx(
+                "overflow-visible p-0",
+                !extended && 'hidden'
+            )}>
+                <Image
+                    alt={article.heading}
+                    className="w-full object-cover object-top aspect-[5/3]"
+                    radius="lg"
+                    shadow="none"
+                    disableSkeleton={false}
+                    src={article.cover}
+                    width="100%"
+                />
+            </CardBody>
+            <CardFooter className="pl-0 pr-0 pb-0">
                 <div className={clsx(
-                    'w-auto flex flex-row gap-2 items-center flex-wrap overflow-hidden text-ellipsis whitespace-nowrap'
+                    'flex gap-2',
+                    extended && 'flex-col',
+                    !extended && 'flex-row'
                 )}>
-                    <div className={clsx(
-                        'flex flex-row gap-2 items-center'
-                    )}>
-                        <div className={clsx(
-                            'relative w-10 sm:w-8 aspect-square overflow-hidden rounded-full'
-                        )}>
-                            <UserCoverIcon 
-                                url={'/api/files/get?path=' + (author && author?.icon)}
-                                className='w-full h-full object-cover'
+                    {!extended &&
+                        <div className="w-2/5">
+                            <Image
+                                alt={article.heading}
+                                className="w-full object-cover object-top aspect-[5/3]"
+                                radius="lg"
+                                shadow="none"
+                                disableSkeleton={false}
+                                src={article.cover}
+                                width="100%"
                             />
                         </div>
+                    }
+                    {extended &&
                         <div className={clsx(
-                            'flex flex-col w-full'
+                            'flex flex-row gap-2 items-center'
                         )}>
-                            <p className={clsx(
-                                'font-interTight font-medium text text-base sm:text-sm text-primaryText whitespace-nowrap'
-                            )}>{author?.firstName + " " + author?.lastName}</p>
-                            <p className={clsx(
-                                'font-interTight font-medium text text-base sm:text-sm text-secondaryText whitespace-nowrap'
-                            )}>@{splitQueryText(author?.username || '', query, 'bg-blueText text-primaryText')}</p>
+                            <UserAvatarIcon 
+                                url={author?.icon}
+                                size="sm"
+                                customClassName='aspect-square object-cover'
+                            />
+                            <div className={clsx(
+                                'flex flex-col h-auto'
+                            )}>
+                                <p className={clsx(
+                                    'relative font-interTight font-semibold text text-sm text-primaryText line-clamp-1'
+                                )}>{author?.firstName + " " + author?.lastName}</p>
+                                <p className={clsx(
+                                    'relative font-interTight font-medium text text-sm text-roseText line-clamp-1'
+                                )}>{formatDateExtended(article.createdAt)}</p>
+                            </div>
                         </div>
-                    </div>
+                    }
                     <div className={clsx(
-                        'flex flex-row gap-2',
-                        'pl-2 pr-2 pt-1 pb-1 select-none',
-                        'bg-blueColor rounded-full'
+                        'flex flex-col gap-2',
+                        !extended && 'w-3/5'
                     )}>
-                        {/* <p className={clsx(
-                            'font-interTight font-medium text text-primaryText text-sm whitespace-nowrap text-ellipsis'
-                        )}>·</p> */}
-                        <p className={clsx(
-                            'font-interTight font-medium text text-primaryText text-xs sm:text-xs'
-                        )}>{formatDate(createdAt)}</p>
+                        <div className="flex flex-col gap-1">
+                            <Tooltip
+                                content='Click to read'
+                                closeDelay={0}
+                                classNames={{
+                                    content: 'bg-backgroundColor font-interTight font-semibold text-primaryColor'
+                                }}
+                            >
+                                <Link 
+                                    href={`/${article.slug}`}
+                                    className={clsx(
+                                        'sm:hover:opacity-50',
+                                        'active:opacity-50 sm:active:opacity'
+                                    )}
+                                >
+                                    <p className={clsx(
+                                        "font-interTight font-semibold text-primaryText line-clamp-2",
+                                        extended && 'text-base',
+                                        !extended && 'text-sm'
+                                    )}>{parseQueryText(capitalizeText(article.heading), query || '', 'bg-roseText text-primaryText')}</p>
+                                </Link>
+                            </Tooltip>
+                            <p className={clsx(
+                                "font-interTight font-medium text-secondaryText line-clamp-3",
+                                extended && 'text-base',
+                                !extended && 'text-sm' 
+                            )}>{parseQueryText(article.description, query || '', 'bg-roseText text-primaryText')}</p>
+                        </div>
                     </div>
                 </div>
-                
-                <div className={clsx(
-                    'flex flex-col h-auto gap-1'
-                )}>
-                    <p className={clsx(
-                        'font-interTight font-medium text text-base sm:text-sm lg:text-base text-left line-clamp-2'
-                    )}>{splitQueryText(capitalizeText(heading), query, 'bg-blueText text-primaryText')}</p>
-                    <p className={clsx(
-                        'font-interTight font-medium text text-base sm:text-sm lg:text-base text-secondaryText text-left line-clamp-3'
-                    )}>{splitQueryText(description, query, 'bg-blueText text-primaryText')}</p>
-                </div>
-
-                <div className={clsx(
-                    'w-auto flex flex-row gap-2 items-center flex-wrap overflow-hidden text-ellipsis whitespace-nowrap'
-                )}>
-                    {topics.map(topic =>
-                        <div className={clsx(
-                            'flex flex-row pl-2 pr-2 pt-1 pb-1 select-none',
-                            'border border-borderColor',
-                            'rounded-full'
-                        )}>
-                            <p className={clsx(
-                                'font-interTight font-semibold text-sm'
-                            )}>{topic.name}</p>
-                        </div>
-                    )}
-                </div>
-            </div>
-            <div className={clsx(
-                'flex flex-col w-full p-2 sm:w-1/2',
-                // "before:content-[''] before:absolute before:w-full before:h-full before:bg-gradient-to-b before:from-black/10 before:to-black/100 before:z-[5]"
-            )}>
-                <ArticleCoverIcon 
-                    url={url}
-                    className={clsx(
-                        'w-full rounded',
-                        // 'transition-all duration-200 z-[1]',
-                        // isHovered && 'scale-105'
-                    )}
-                />
-            </div>
-        </div>
+            </CardFooter>
+        </Card>
     );
 }
 

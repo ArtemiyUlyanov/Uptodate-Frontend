@@ -1,48 +1,37 @@
 'use client';
 
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import localFont from "next/font/local";
-import './globals.css';
-import clsx from "clsx";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Provider } from 'react-redux';
 import { persistor, store } from "@/store/store";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import clsx from "clsx";
+import { Provider } from 'react-redux';
 import { PersistGate } from "redux-persist/integration/react";
+import './globals.css';
 
-// const interTight = localFont({
-//   src: [
-//     {
-//       path: 'fonts/InterTight/InterTight-Regular.ttf',
-//       weight: '400',
-//       style: 'normal'
-//     }
-//   ],
-//   display: 'swap'
-// });
+import { NextUIProvider } from "@nextui-org/react";
+import React from "react";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
-const RootLayout = ({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) => {
+const RootLayout = ({ 
+  children 
+}: Readonly<{children: React.ReactNode}>) => {
   return (
-    <html lang="en">
+    <html className="bg-backgroundColor" lang="en">
       <body
         className={clsx(
           'bg-backgroundColor',
           'antialiased'
         )}
       >
-        <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <QueryClientProvider client={queryClient}>
-              {children}
-            </QueryClientProvider>
-          </PersistGate>
-        </Provider>
+        <NextUIProvider>
+          <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+              <QueryClientProvider client={queryClient}>
+                {children}
+              </QueryClientProvider>
+            </PersistGate>
+          </Provider>
+        </NextUIProvider>
       </body>
     </html>
   );
