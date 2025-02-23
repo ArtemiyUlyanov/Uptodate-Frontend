@@ -1,6 +1,6 @@
 import { useDictionary } from "@/hooks/useDictionary";
 import { setLanguage } from "@/store/features/language/languageSlice";
-import DefaultDropdown from "@/ui/dropdowns/DefaultDropdown";
+import SelectableDropdown from "@/ui/dropdowns/SelectableDropdown";
 import { FranceFlagIcon } from "@/ui/icons/FranceFlagIcon";
 import { LanguageIcon } from "@/ui/icons/LanguageIcon";
 import { RussiaFlagIcon } from "@/ui/icons/RussiaFlagIcon";
@@ -50,7 +50,7 @@ const AppFooter: React.FC<AppFooterProps> = ({
                         <DefaultLink 
                             text={option.text}
                             link={option.link}
-                            customClassName='font-interTight font-medium'
+                            customClassName='font-interTight font-medium text-secondaryText'
                             actived={true}
                             underliningActived={false}
                             arrowActived={false}
@@ -63,32 +63,33 @@ const AppFooter: React.FC<AppFooterProps> = ({
 
     return (
         <div className={clsx(
-            'flex flex-col w-full pl-16 pr-16 gap-8',
+            'flex flex-col w-full pl-16 pr-16 pt-8 pb-8 gap-8 bg-emphasizingColor',
         )}>
             <div className={clsx(
-                'flex flex-row gap-4'
+                'flex flex-row gap-32'
             )}>
                 <div className={clsx(
-                    'flex flex-col items-start w-1/5 gap-2'
+                    'flex flex-col items-start w-1/5 gap-4'
                 )}>
                     <div className={clsx(
-                        'w-1/3'
+                        'h-5'
                     )}>
                         <UptodateIcon
                             className='w-auto'
                         />
                     </div>
+                    <p className="font-interTight font-medium text-secondaryText">{translate('common.footer.slogan')}</p>
                 </div>
                 <div className={clsx(
-                    'grid grid-cols-5 w-full'
+                    'flex flex-row justify-around w-full'
                 )}>
                     {sections}
                 </div>
             </div>
             <div className={clsx(
-                'flex flex-row pb-4'
+                'flex flex-row'
             )}>
-                <DefaultDropdown 
+                <SelectableDropdown 
                     name={translate('common.footer.change_language_button')}
                     selectedKeys={[language]}
                     componentSize={'sm'}

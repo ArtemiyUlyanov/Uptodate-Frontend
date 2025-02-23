@@ -2,29 +2,29 @@ import axios from "axios"
 import { authorizedAxios } from "./axios.config"
 import { ErrorResponse } from "./responses.types"
 import { MessageResponse } from "./responses.types"
+import { ArticleModel } from "@/models/article"
 
-export type ApiArticleLikeButtonParams = {
+export type ApiArticleLikeParams = {
     id: number
 }
 
-export type ApiArticleLikeButtonResponse = {
-    message?: MessageResponse
+export type ApiArticleLikeResponse = {
+    model?: ArticleModel
     error?: ErrorResponse
 }
 
 export const likeArticleApi = async ({
     id
-}: ApiArticleLikeButtonParams): Promise<ApiArticleLikeButtonResponse> => {
+}: ApiArticleLikeParams): Promise<ApiArticleLikeResponse> => {
     try {
-        const response = await authorizedAxios.post("/articles/like", null, {
-            params: {
-                id: id
+        const response = await authorizedAxios.patch(`/articles/${id}/like`, null, {
+            headers: {
+                "Content-Type": "application/json"
             }
         });
     
-        const message = JSON.parse(JSON.stringify(response.data));
-
-        return {message};
+        const model = JSON.parse(JSON.stringify(response.data.response));
+        return {model};
     } catch (error) {
         if (axios.isAxiosError(error)) {
             return {error: {status: error.response?.data.status, message: error.response?.data.message}}

@@ -17,7 +17,7 @@ export type ApiAccountInfoResponse = {
 export const accountInfoApi = async ({
 }: ApiAccountInfoParams): Promise<ApiAccountInfoResponse> => {
     try {
-        const response = await authorizedAxios.get("/account/info", {
+        const response = await authorizedAxios.get("/account", {
             headers: {
                 'Content-Type': 'application/json'
             }

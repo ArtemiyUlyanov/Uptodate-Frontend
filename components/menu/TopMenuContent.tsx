@@ -6,7 +6,7 @@ import { RootState } from "@/store/store";
 import { Link } from "@nextui-org/react";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
-import DefaultDropdown from "../../ui/dropdowns/DefaultDropdown";
+import SelectableDropdown from "../../ui/dropdowns/SelectableDropdown";
 import { FranceFlagIcon } from "../../ui/icons/FranceFlagIcon";
 import { LanguageIcon } from "../../ui/icons/LanguageIcon";
 import { RussiaFlagIcon } from "../../ui/icons/RussiaFlagIcon";
@@ -71,7 +71,7 @@ const TopMenuContent: React.FC<TopMenuContentProps> = ({
             'flex flex-row items-center gap-6 w-auto h-[100%] hidden md:flex',
         )}>
             <TopMenuSearch />
-            <DefaultDropdown 
+            <SelectableDropdown 
                 selectedKeys={[language]}
                 componentSize={'sm'}
                 icon={

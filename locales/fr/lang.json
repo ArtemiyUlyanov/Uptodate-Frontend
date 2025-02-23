@@ -13,7 +13,14 @@
             "explore_page_link": "Explorer",
             "about_us_page_link": "À propos de nous",
             "categories_page_link": "Catégories",
-            "sign_in_button": "Se connecter"
+            "sign_in_button": "Se connecter",
+            "profile_dropdown": {
+                "options": {
+                    "dashboard": "Tableau de bord",
+                    "settings": "Paramètres",
+                    "logout": "Déconnexion"
+                }
+            }
         },
         "login": {
             "login_form_greetings_text": "Ravi de vous revoir !",
@@ -102,6 +109,7 @@
         },
         "footer": {
             "change_language_button": "Changer la langue",
+            "slogan": "Bénéfice élevé, faible impact",
             "sections": {
                 "menu": {
                     "name": "Menu",
@@ -112,8 +120,22 @@
                         "categories": "Catégories"
                     }
                 },
-                "categories": {
-                    "name": "Catégories"
+                "policy_and_conditions": {
+                    "name": "Politique et conditions",
+                    "options": {
+                        "privacy_policy": "Politique de confidentialité",
+                        "terms_of_service": "Conditions d'utilisation",
+                        "cookie_policy": "Politique de cookies",
+                        "disclaimer": "Avertissement"
+                    }
+                },
+                "additionally": {
+                    "name": "En supplément",
+                    "options": {
+                      "faq": "FAQ",
+                      "advertising": "Publicité",
+                      "sitemap": "Plan du site"
+                    }
                 }
             }
         },
@@ -141,7 +163,7 @@
                     "alphabetically": "Alphabétiquement"
                 }
             },
-            "topics": {
+            "categories": {
                 "name": "Catégories"
             },
             "search_placeholder": "Rechercher dans %name%"

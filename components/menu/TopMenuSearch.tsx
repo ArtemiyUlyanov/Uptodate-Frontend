@@ -53,7 +53,7 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
             count: 3,
             query: query,
             miniSearch: true,
-            filters: {topics: [], sort_by: undefined}
+            filters: {categories: [], sort_by: undefined}
         },
         {
             enabled: false,
@@ -176,14 +176,8 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
                         <div>
                             <SearchArticleCover
                                 key={index}
-                                id={article.id}
-                                heading={article.heading}
-                                description={article.description}
-                                createdAt={article.createdAt}
+                                article={article}
                                 query={query}
-                                topics={article.topics}
-                                author={article.author}
-                                url={"/api/files/get?path=articles/" + article.id + "/icon.png"}
                             />
                         </div>
                     )}

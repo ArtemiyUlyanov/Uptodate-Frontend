@@ -12,7 +12,7 @@ const MenuPageLayout: React.FC<MenuPageLayoutProps> = ({
     ...props
 }) => {
     return (
-        <div className='relative flex flex-col items-center gap-16 w-full h-auto'>
+        <div className='relative flex flex-col justify-between items-center gap-16 w-full min-h-[100vh]'>
             <div className={clsx(
                 'relative flex flex-col items-center gap-8 w-full h-auto'
             )}>

@@ -1,5 +1,5 @@
 import { useUploader } from "@/hooks/uploader/useUploader";
-import { ArticleCommentModel } from "@/models/article_comment";
+import { CommentModel } from "@/models/comment";
 import { ApiCommentEditParams, ApiCommentEditResponse, editCommentApi } from "@/services/api/comments.edit.endpoint";
 import { urlsToFiles } from "@/utils/file.utils";
 import { Button, Card, CardFooter, Tooltip } from "@nextui-org/react";
@@ -23,14 +23,12 @@ const useEditCommentQuery = (
 }
 
 export type CommentEditFormProps = React.HTMLProps<HTMLDivElement> & {
-    comment: ArticleCommentModel,
-    updateData?: () => void
+    comment: CommentModel
     setShowEditForm?: Dispatch<SetStateAction<boolean>>
 }
 
 export const CommentEditForm: React.FC<CommentEditFormProps> = ({
     comment,
-    updateData,
     setShowEditForm,
 }) => {
     const [content, setContent] = useState<string>('');
@@ -62,7 +60,7 @@ export const CommentEditForm: React.FC<CommentEditFormProps> = ({
         if (!isDataLoaded) {
             setContent(comment.content);
         
-            urlsToFiles(comment.resources?.map(filePath => `/api/files/get?path=${filePath}`) || [])
+            urlsToFiles(comment.resources || [])
                 .then((files) => setSelectedFiles(files));
 
             setIsDataLoaded(true);
@@ -71,11 +69,9 @@ export const CommentEditForm: React.FC<CommentEditFormProps> = ({
 
     const { isFetching, refetch } = useEditCommentQuery(
         {
-            comment: {
-                id: comment.id,
-                content: content
-            },
-            files: selectedFiles
+            id: comment.id,
+            content: content,
+            resources: selectedFiles
         }, {
             enabled: isQueryEnabled
         }
@@ -88,7 +84,6 @@ export const CommentEditForm: React.FC<CommentEditFormProps> = ({
         refetch()
             .then(response => {
                 response.data?.message && setIsSent(true)
-                updateData && updateData();
 
                 setShowEditForm && setShowEditForm(false);
                 setIsQueryEnabled(false);
@@ -114,10 +109,6 @@ export const CommentEditForm: React.FC<CommentEditFormProps> = ({
                         maxLength={500}
                         value={content}
                         handleChange={(value) => setContent(value)}
-                        // onInvalid={(e: React.FormEvent<HTMLTextAreaElement>) => handleInputInvalid(e, 'password', translate('common.login.errors.password_field_incorrect'))}
-                        // onInput={(e: React.FormEvent<HTMLInputElement>) => handleInput(e, 'password')}
-                        // type="password"
-                        // required
                     />
                     <div className="flex flex-row flex-wrap gap-4">
                         {selectedFiles.map((file, index) => (

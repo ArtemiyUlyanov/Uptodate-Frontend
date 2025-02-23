@@ -1,8 +1,6 @@
 'use client';
 
 import TopMenu from "@/components/menu/TopMenu";
-import ExplorePageContent from "@/containers/explore/ExplorePageContent";
-import ExplorePageGreeting from "@/containers/explore/ExplorePageGreeting";
 import ExplorePageLayout from "@/layouts/MenuPageLayout";
 import { logout } from "@/store/features/auth/authSlice";
 import { RootState } from "@/store/store";

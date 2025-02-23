@@ -1,4 +1,6 @@
-import { ArticleTopicModel } from "@/models/article_topic";
+import { useRetrieve } from "@/hooks/useRetrieve";
+import { ArticleModel } from "@/models/article";
+import { CategoryModel } from "@/models/category";
 import { UserModel } from "@/models/user";
 import { UserAvatarIcon } from "@/ui/icons/UserAvatarIcon";
 import { formatDate, retrieveDateFromISO } from "@/utils/date_utils";
@@ -8,29 +10,28 @@ import clsx from "clsx";
 import { useMemo } from "react";
 
 export type SearchArticleCoverProps = {
-    id: number
-    heading: string
-    description: string
-    topics: ArticleTopicModel[]
-    createdAt: string
+    article: ArticleModel
     query?: string
-    author?: UserModel
-    url: string
     className?: string
 }
 
 export const SearchArticleCover: React.FC<SearchArticleCoverProps> = ({
-    id,
-    heading,
-    description,
-    topics,
-    url,
+    article,
     query,
-    createdAt,
-    author,
     className
 }) => {
-    const [dayCreated, monthCreated, yearCreated] = useMemo(() => retrieveDateFromISO(createdAt), [createdAt]);
+    const [dayCreated, monthCreated, yearCreated] = useMemo(() => retrieveDateFromISO(article.createdAt), [article.createdAt]);
+
+    const [author] = useRetrieve<UserModel>(
+        article,
+        {
+            endpoint: '/users/%author_id%',
+            pathVariables: {
+                author_id: article.authorId
+            },
+            payload: {}
+        }
+    );
 
     return (
         <Card 
@@ -47,12 +48,12 @@ export const SearchArticleCover: React.FC<SearchArticleCoverProps> = ({
                 )}>
                     <div className="w-1/4">
                         <Image
-                            alt={heading}
+                            alt={article.heading}
                             className="w-full object-cover object-top aspect-square"
                             radius="lg"
                             shadow="none"
                             disableSkeleton={false}
-                            src={url}
+                            src={article.cover}
                         />
                     </div>
                     <div className={clsx(
@@ -65,7 +66,7 @@ export const SearchArticleCover: React.FC<SearchArticleCoverProps> = ({
                                 'flex flex-row gap-2 items-center'
                             )}>
                                 <UserAvatarIcon 
-                                    url={'/api/files/get?path=' + (author && author?.icon)}
+                                    url={author?.icon}
                                     size="sm"
                                     className='w-full h-full aspect-square object-cover'
                                 />
@@ -77,7 +78,7 @@ export const SearchArticleCover: React.FC<SearchArticleCoverProps> = ({
                                     )}>{author?.firstName + " " + author?.lastName}</p>
                                     <p className={clsx(
                                         'relative font-interTight font-medium text text-sm text-roseText line-clamp-1'
-                                    )}>{formatDate(createdAt)}</p>
+                                    )}>{formatDate(article.createdAt)}</p>
                                 </div>
                             </div>
                         </div>
@@ -85,12 +86,12 @@ export const SearchArticleCover: React.FC<SearchArticleCoverProps> = ({
                             'flex flex-col'
                         )}>
                             <Link
-                                href={`/${dayCreated}/${monthCreated}/${yearCreated}/${heading}`}
+                                href={`/${dayCreated}/${monthCreated}/${yearCreated}/${article.heading}`}
                                 className="hover:opacity-50"
                             >
-                                <p className="font-interTight font-semibold text-primaryText text-sm line-clamp-2">{parseQueryText(capitalizeText(heading), query || '', 'bg-roseText text-oppositeText')}</p>
+                                <p className="font-interTight font-semibold text-primaryText text-sm line-clamp-2">{parseQueryText(capitalizeText(article.heading), query || '', 'bg-roseText text-oppositeText')}</p>
                             </Link>
-                            <p className="font-interTight font-medium text-secondaryText text-sm line-clamp-3">{parseQueryText(description, query || '', 'bg-roseText text-oppositeText')}</p>
+                            <p className="font-interTight font-medium text-secondaryText text-sm line-clamp-3">{parseQueryText(article.description, query || '', 'bg-roseText text-oppositeText')}</p>
                         </div>
                     </div>
                 </div>

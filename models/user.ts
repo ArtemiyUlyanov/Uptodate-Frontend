@@ -1,5 +1,7 @@
 import { ArticleModel } from "./article"
-import { ArticleCommentModel } from "./article_comment"
+import { ArticleLikeModel } from "./article_like"
+import { CommentModel } from "./comment"
+import { CommentLikeModel } from "./comment_like"
 
 export type UserModel = {
     id: number
@@ -8,10 +10,11 @@ export type UserModel = {
     firstName: string
     lastName: string
     icon: string
-    roles: UserRole[]
-    articles?: ArticleModel[]
-    likedArticles?: ArticleModel[]
-    comments?: ArticleCommentModel[]
+    roles: Array<UserRole>
+    likedArticles?: Array<ArticleLikeModel>
+    likedComments?: Array<CommentLikeModel>
+    articlesIds: Array<number>
+    commentsIds: Array<number>
 }
 
 export type UserRole = {

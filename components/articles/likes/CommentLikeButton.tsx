@@ -1,43 +1,38 @@
 import { useAccount } from "@/hooks/account/useAccount";
-import { ArticleCommentModel } from "@/models/article_comment";
-import { likeCommentApi } from "@/services/api/comments.like.endpoint";
+import { CommentModel } from "@/models/comment";
+import { ApiCommentLikeParams, ApiCommentLikeResponse, likeCommentApi } from "@/services/api/comments.like.endpoint";
+import { ErrorResponse } from "@/services/api/responses.types";
 import { RootState } from "@/store/store";
 import { LikeIcon } from "@/ui/icons/LikeIcon";
+import { UseMutateFunction } from "@tanstack/react-query";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 
 export type CommentLikeButtonProps = React.HTMLProps<HTMLDivElement> & {
-    comment: ArticleCommentModel
-    updateData?: () => void
+    comment: CommentModel
+    likeMutate: UseMutateFunction<ApiCommentLikeResponse, ErrorResponse, ApiCommentLikeParams, unknown>
 }
 
 export const CommentLikeButton: React.FC<CommentLikeButtonProps> = ({
     comment,
-    updateData
+    likeMutate
 }) => {
     const { isAuthenticated } = useSelector((state: RootState) => state.auth);
     const { user } = useAccount();
 
-    const [ liked, setLiked ] = useState<boolean>(false);
+    const liked = useMemo(() => comment.likes.some(comment => comment.userId == user?.id), [comment, user]);
 
     const toggleLiked = () => {
-        setLiked(prev => !prev);
-
         if (isAuthenticated) {
-            likeCommentApi({ id: comment.id })
-                .then(() => updateData && updateData());
+            likeMutate({ id: comment.id });
         }
     };
     
-    useEffect(() => 
-        setLiked(comment.likedUsernames?.includes(user?.username || '') || false)
-    , [user, comment.likedUsernames]);
-
     return (
         <div 
             className={clsx(
-                "flex flex-row items-center gap-1",
+                "flex flex-row items-center gap-1 select-none",
                 "transition-all duration-200",
                 isAuthenticated && "sm:hover:opacity-50",
                 isAuthenticated && "active:opacity-50 sm:active:opacity"

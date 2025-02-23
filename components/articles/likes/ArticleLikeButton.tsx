@@ -1,40 +1,35 @@
 import { useAccount } from "@/hooks/account/useAccount";
 import { ArticleModel } from "@/models/article";
-import { likeArticleApi } from "@/services/api/articles.like.endpoint";
+import { ApiArticleLikeParams, ApiArticleLikeResponse, likeArticleApi } from "@/services/api/articles.like.endpoint";
+import { ErrorResponse } from "@/services/api/responses.types";
 import { RootState } from "@/store/store";
 import { LikeIcon } from "@/ui/icons/LikeIcon";
 import { Button } from "@nextui-org/button";
 import { Tooltip } from "@nextui-org/react";
+import { UseMutateFunction } from "@tanstack/react-query";
 import clsx from "clsx";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 
 export type ArticleLikeButtonProps = React.HTMLProps<HTMLDivElement> & {
     article: ArticleModel,
-    updateData?: () => void
+    likeMutate?: UseMutateFunction<ApiArticleLikeResponse, ErrorResponse, ApiArticleLikeParams, unknown>
 }
 
 export const ArticleLikeButton: React.FC<ArticleLikeButtonProps> = ({
     article,
-    updateData
+    likeMutate
 }) => {
     const { isAuthenticated } = useSelector((state: RootState) => state.auth);
     const { user } = useAccount();
 
-    const [ liked, setLiked ] = useState<boolean>();
+    const liked = useMemo(() => article.likes.some(article => article.userId == user?.id), [article, user]);
 
     const toggleLiked = () => {
-        setLiked(prev => !prev);
-
         if (isAuthenticated) {
-            likeArticleApi({ id: article.id })
-                .then(() => updateData && updateData());
+            likeMutate && likeMutate({ id: article.id });
         }
     };
-    
-    useEffect(() => 
-        setLiked(article.likedUsernames?.includes(user?.username || '') || false)
-    , [user, article.likedUsernames]);
 
     return (
         <Tooltip

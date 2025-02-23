@@ -16,10 +16,7 @@ export const deleteCommentApi = async ({
     id
 }: ApiCommentDeleteParams): Promise<ApiCommentDeleteResponse> => {
     try {
-        const response = await authorizedAxios.delete("/articles/comments/delete", {
-            params: {
-                id: id
-            },
+        const response = await authorizedAxios.delete(`/comments/${id}`, {
             headers: {
                 'Content-Type': 'application/json'
             }

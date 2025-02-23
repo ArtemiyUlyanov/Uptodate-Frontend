@@ -3,11 +3,11 @@
 import { createContext, useCallback, useContext, useState } from "react";
 
 export type FiltersType = {
-    topics: string[]
+    categories: string[]
     sort_by?: string
 }
 
-export type TopicsFilterTemplate = {
+export type categoriesFilterTemplate = {
     parent: string
     name: string
 }
@@ -19,7 +19,7 @@ type FiltersContextType = {
 }
 
 const defaultFilters: FiltersContextType = {
-    filters: {topics: [], sort_by: 'Ascending'},
+    filters: {categories: [], sort_by: 'Ascending'},
     setFilter: (key: string, value: any) => {},
     clearFilters: () => {}
 }
@@ -33,7 +33,7 @@ export const FiltersProvider: React.FC<FiltersProviderProps> = ({
     ...props
 }) => {
     const [filters, setFilters] = useState<FiltersType>({
-        topics: [], 
+        categories: [], 
         sort_by: 'Ascending'
     });
 
@@ -46,7 +46,7 @@ export const FiltersProvider: React.FC<FiltersProviderProps> = ({
 
     const clearFilters = useCallback(() => {
         setFilters({
-            topics: [],
+            categories: [],
             sort_by: 'Ascending'
         });
     }, []);

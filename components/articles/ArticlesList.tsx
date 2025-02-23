@@ -16,7 +16,7 @@ export type ArticlesListProps = React.HTMLProps<HTMLDivElement> & {
 const ArticlesList: React.FC<ArticlesListProps> = ({
     children
 }) => {
-    const { articles, query, setQuery, pagesCount, setPagesCount, totalElements, totalPages, isFetching } = useSearch();
+    const { articles, query, setQuery, pages, setPages, totalElements, totalPages, likeMutate, isFetching } = useSearch();
     const searchParams = useSearchParams();
 
     const { filters, setFilter } = useFilters();
@@ -64,10 +64,10 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
                         articles.map((article, index) =>
                             <ArticleCover
                                 key={index}
+                                likeMutate={likeMutate}
                                 article={article}
                                 query={query}
                                 extended={true}
-                                url={"/api/files/get?path=articles/" + article.id + "/icon.png"}
                             />
                         )
                     }
@@ -83,7 +83,7 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
                     text={translate('explore.articles_see_more_button')}
                     customClassName='font-interTight font-semibold text-sm'
                     type='submit'
-                    onClickButton={() => setPagesCount((prev) => prev + 1)}
+                    onClickButton={() => setPages((prev) => prev + 1)}
                     isLoading={isFetching}
                     isDisabled={articles.length >= totalElements}
                 />

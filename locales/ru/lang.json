@@ -14,7 +14,14 @@
             "explore_page_link": "Статьи",
             "about_us_page_link": "О нас",
             "categories_page_link": "Категории",
-            "sign_in_button": "Войти"
+            "sign_in_button": "Войти",
+            "profile_dropdown": {
+                "options": {
+                    "dashboard": "Панель управления",
+                    "settings": "Настройки",
+                    "logout": "Выйти"
+                }
+            }
         },
         "login": {
             "login_form_greetings_text": "Рады видеть Вас снова!",
@@ -103,6 +110,7 @@
         },
         "footer": {
             "change_language_button": "Сменить язык",
+            "slogan": "Максимум пользы, минимум воздействия",
             "sections": {
                 "menu": {
                     "name": "Меню",
@@ -113,8 +121,22 @@
                         "categories": "Категории"
                     }
                 },
-                "categories": {
-                    "name": "Категории"
+                "policy_and_conditions": {
+                    "name": "Политика и условия",
+                    "options": {
+                        "privacy_policy": "Политика конфиденциальности",
+                        "terms_of_service": "Условия обслуживания",
+                        "cookie_policy": "Политика использования файлов cookie",
+                        "disclaimer": "Дисклеймер"
+                    }
+                },
+                "additionally": {
+                    "name": "Дополнительно",
+                    "options": {
+                        "faq": "FAQ",
+                        "advertising": "Реклама",
+                        "sitemap": "Карта сайта"
+                    }
                 }
             }
         },
@@ -142,7 +164,7 @@
                     "alphabetically": "По алфавиту"
                 }
             },
-            "topics": {
+            "categories": {
                 "name": "Категории"
             },
             "search_placeholder": "Искать в %name%"

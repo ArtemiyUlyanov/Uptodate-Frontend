@@ -1,7 +1,7 @@
 {
     "explore": {
         "explore_greetings_text": "Explore all articles on our website",
-        "explore_greetings_subtext": "There are a plenty of various articles in there with lots of different topics for every taste and need",
+        "explore_greetings_subtext": "There are a plenty of various articles in there with lots of different categories for every taste and need",
         "articles_found_default_text": "%count% articles found",
         "articles_found_with_query_text": "%count% articles found with '%query%' query",
         "articles_showed_count_text": "Showing %count% of %total% articles",
@@ -13,7 +13,14 @@
             "explore_page_link": "Explore",
             "about_us_page_link": "About us",
             "categories_page_link": "Categories",
-            "sign_in_button": "Sign in"
+            "sign_in_button": "Sign in",
+            "profile_dropdown": {
+                "options": {
+                    "dashboard": "Dashboard",
+                    "settings": "Settings",
+                    "logout": "Logout"
+                }
+            }
         },
         "login": {
             "login_form_greetings_text": "Nice to see you again!",
@@ -102,6 +109,7 @@
         },
         "footer": {
             "change_language_button": "Change language",
+            "slogan": "High benefit, low impact",
             "sections": {
                 "menu": {
                     "name": "Menu",
@@ -112,8 +120,22 @@
                         "categories": "Categories"
                     }
                 },
-                "categories": {
-                    "name": "Categories"
+                "policy_and_conditions": {
+                    "name": "Policy and conditions",
+                    "options": {
+                        "privacy_policy": "Privacy Policy",
+                        "terms_of_service": "Terms of Service",
+                        "cookie_policy": "Cookie Policy",
+                        "disclaimer": "Disclaimer"
+                    }
+                },
+                "additionally": {
+                    "name": "Additionally",
+                    "options": {
+                        "faq": "FAQ",
+                        "advertising": "Advertising",
+                        "sitemap": "Cookie Policy"
+                    }
                 }
             }
         },
@@ -141,7 +163,7 @@
                     "alphabetically": "Alphabetically"
                 }
             },
-            "topics": {
+            "categories": {
                 "name": "Categories"
             },
             "search_placeholder": "Search in %name%"

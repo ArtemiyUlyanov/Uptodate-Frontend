@@ -10,7 +10,7 @@ import './globals.css';
 import { NextUIProvider } from "@nextui-org/react";
 import React from "react";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 const RootLayout = ({ 
   children 

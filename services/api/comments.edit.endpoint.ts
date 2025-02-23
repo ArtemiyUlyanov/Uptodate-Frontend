@@ -1,12 +1,13 @@
-import { ArticleCommentModel } from "@/models/article_comment"
+import { CommentModel } from "@/models/comment"
 import axios from "axios"
 import { authorizedAxios } from "./axios.config"
 import { ErrorResponse } from "./responses.types"
 import { MessageResponse } from "./responses.types"
 
 export type ApiCommentEditParams = {
-    comment: Partial<ArticleCommentModel>
-    files: File[]
+    id: number
+    content: string
+    resources: File[]
 }
 
 export type ApiCommentEditResponse = {
@@ -15,22 +16,20 @@ export type ApiCommentEditResponse = {
 }
 
 export const editCommentApi = async ({
-    comment,
-    files
+    id,
+    content,
+    resources
 }: ApiCommentEditParams): Promise<ApiCommentEditResponse> => {
     try {
         const formData = new FormData();
 
-        if (comment.id && comment.content) {
-            formData.append("id", comment.id.toString());
-            formData.append("content", comment.content);
-        }
+        formData.append("content", content);
 
-        files.forEach((file) => {
+        resources.forEach((file) => {
             formData.append("resources", file);
         });
 
-        const response = await authorizedAxios.put("/articles/comments/edit", formData, {
+        const response = await authorizedAxios.put(`/comments/${id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -40,7 +39,6 @@ export const editCommentApi = async ({
         return {message};
     } catch (error) {
         if (axios.isAxiosError(error)) {
-            console.log(error.response);
             return {error: {status: error.response?.data.status, message: error.response?.data.message}}
         }
         

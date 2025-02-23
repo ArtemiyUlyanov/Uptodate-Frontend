@@ -1,18 +1,21 @@
 "use client";
 
 import { ArticleModel } from "@/models/article";
-import { ApiSearchParams, ApiSearchResponse, searchApi } from "@/services/api/search.endpoint";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { ApiSearchParams, ApiSearchResponse, searchApi } from "@/services/api/articles.search.endpoint";
+import { UseMutateFunction, useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { createContext, Dispatch, SetStateAction, useCallback, useContext, useEffect, useState } from "react";
 import { useDebounced } from "../useDebounced";
 import { useFilters } from "./useFilters";
+import { useSearchLikeMutation } from "../models/mutations/useSearchLikeMutation";
+import { ApiArticleLikeParams, ApiArticleLikeResponse } from "@/services/api/articles.like.endpoint";
+import { ErrorResponse } from "@/services/api/responses.types";
 
 export const useSearchQuery = (
     params: ApiSearchParams,
     opts: Partial<UseQueryOptions<ApiSearchResponse>> = {},
 ) => {
     return useQuery<ApiSearchResponse>({
-      queryKey: ['search', params.query, 'mini_search', params.miniSearch, 'filters', params.filters, 'page', params.page],
+      queryKey: [!params.miniSearch ? 'search' : 'miniSearch'],
       queryFn: () => searchApi(params),
       ...opts,
     });
@@ -22,11 +25,12 @@ type SearchContextType = {
   query: string
   articles: ArticleModel[]
   setQuery: Dispatch<SetStateAction<string>>
-  pagesCount: number
-  setPagesCount: Dispatch<SetStateAction<number>>
+  pages: number
+  setPages: Dispatch<SetStateAction<number>>
   totalElements: number
   totalPages: number
   isFetching: boolean
+  likeMutate: UseMutateFunction<ApiArticleLikeResponse, ErrorResponse, ApiArticleLikeParams, unknown>
   performSearch: () => void
 }
 
@@ -34,11 +38,12 @@ const defaultFilters: SearchContextType = {
     query: '',
     articles: [],
     setQuery: () => {},
-    pagesCount: 1,
-    setPagesCount: () => {},
+    pages: 1,
+    setPages: () => {},
     totalElements: 1,
     totalPages: 1,
     isFetching: false,
+    likeMutate: () => {},
     performSearch: () => {}
 }
 
@@ -54,7 +59,7 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({
     const [query, setQuery] = useState<string>('');
     const debouncedQuery = useDebounced<string>(query);
 
-    const [pagesCount, setPagesCount] = useState<number>(1);
+    const [pages, setPages] = useState<number>(1);
     const [totalElements, setTotalElements] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [articles, setArticles] = useState<ArticleModel[]>([]);
@@ -63,7 +68,7 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({
 
     const { data, isFetching, refetch } = useSearchQuery(
         {
-            pagesCount: pagesCount,
+            pages: pages,
             query: query,
             miniSearch: false,
             filters: filters
@@ -73,10 +78,11 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({
           refetchOnWindowFocus: false,
         },
     );
+    const { mutate: likeMutate } = useSearchLikeMutation({ queryKey: ['search'] });
 
     const performSearch = useCallback(() => {
         refetch();
-    }, [])
+    }, []);
 
     useEffect(() => {
         refetch();
@@ -84,10 +90,10 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({
         
     useEffect(() => {
         refetch();
-    }, [query, pagesCount, filters]);
+    }, [query, pages, filters]);
 
     useEffect(() => {
-        setPagesCount(1);
+        setPages(1);
     }, [query, filters]);
 
     useEffect(() => {
@@ -99,7 +105,7 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({
     }, [data]);
 
     return (
-        <SearchContext.Provider value={{ query: debouncedQuery, articles, setQuery, pagesCount, setPagesCount, totalElements, totalPages, isFetching, performSearch }}>
+        <SearchContext.Provider value={{ query: debouncedQuery, articles, setQuery, pages, setPages, totalElements, likeMutate, totalPages, isFetching, performSearch }}>
             {children}
         </SearchContext.Provider>
     );

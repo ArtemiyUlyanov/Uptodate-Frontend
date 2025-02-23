@@ -3,8 +3,10 @@
 import AppFooter from "@/components/AppFooter";
 import ArticlesList from "@/components/articles/ArticlesList";
 import TopMenu from "@/components/menu/TopMenu";
+import { useArticle } from "@/hooks/models/useArticle";
 import { useDictionary } from "@/hooks/useDictionary";
 import { ArticlesListLayout } from "@/layouts/ArticlesListLayout";
+import { Button } from "@nextui-org/button";
 
 const ExplorePage = () => {
     const { translate } = useDictionary();
@@ -60,7 +62,45 @@ const ExplorePage = () => {
                                     link: `/categories/`
                                 }
                             ]
-                        }
+                        },
+                        {
+                            name: translate('common.footer.sections.policy_and_conditions.name'),
+                            options: [
+                                {
+                                    text: translate('common.footer.sections.policy_and_conditions.options.privacy_policy'),
+                                    link: `/`
+                                },
+                                {
+                                    text: translate('common.footer.sections.policy_and_conditions.options.terms_of_service'),
+                                    link: `/`
+                                },
+                                {
+                                    text: translate('common.footer.sections.policy_and_conditions.options.cookie_policy'),
+                                    link: `/`
+                                },
+                                {
+                                    text: translate('common.footer.sections.policy_and_conditions.options.disclaimer'),
+                                    link: `/`
+                                }
+                            ]
+                        },
+                        {
+                            name: translate('common.footer.sections.additionally.name'),
+                            options: [
+                                {
+                                    text: translate('common.footer.sections.additionally.options.faq'),
+                                    link: `/`
+                                },
+                                {
+                                    text: translate('common.footer.sections.additionally.options.advertising'),
+                                    link: `/`
+                                },
+                                {
+                                    text: translate('common.footer.sections.additionally.options.sitemap'),
+                                    link: `/`
+                                }
+                            ]
+                        },
                     ]}
                 />
             }

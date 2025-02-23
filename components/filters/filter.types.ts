@@ -8,11 +8,11 @@ export type FilterSection = {
     options: FilterOption[]
 }
 
-export type TopicsFilterOption = FilterOption & {
+export type CategoriesFilterOption = FilterOption & {
     count: number
 }
 
-export type TopicsFilterSection = FilterSection & {
+export type CategoriesFilterSection = FilterSection & {
     count: number
-    options: TopicsFilterOption[]
+    options: CategoriesFilterOption[]
 }
