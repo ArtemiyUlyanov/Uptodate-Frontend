@@ -80,6 +80,7 @@ const TopMenu: React.FC<TopMenuProps> = ({
             <div 
                 className={clsx(
                     'flex w-full pr-16 pl-16 justify-between h-[60px] z-[9999] bg-backgroundColor',
+                    'border-b border-b-borderColor'
                 )}
             >
                 <TopMenuContent

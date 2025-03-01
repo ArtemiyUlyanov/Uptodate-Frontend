@@ -1,4 +1,4 @@
-import LoginForm from "@/components/forms/LoginForm";
+import LoginForm from "@/components/forms/auth/LoginForm";
 import { TopMenuProfileSettingsDropdown } from "@/components/menu/TopMenuProfileSettingsDropdown";
 import { useDictionary } from "@/hooks/useDictionary";
 import { setLanguage } from "@/store/features/language/languageSlice";
@@ -38,7 +38,8 @@ const TopMenuContent: React.FC<TopMenuContentProps> = ({
                 <Link
                     href="/explore" 
                     className={clsx(
-                        'w-auto h-[30%]',
+                        'fill-primaryText',
+                        'w-auto h-5',
                         'hover:opacity-50',
                         'active:hover:opacity-50 sm:active:hover'
                     )}
@@ -52,13 +53,13 @@ const TopMenuContent: React.FC<TopMenuContentProps> = ({
                 )}>
                     {optionTemplates.map((option) => 
                         <DefaultLink
-                            key={option.key}
+                            key={`menu-option-${option.text}`}
                             text={option.text}
                             link={option.link}
                             actived={!option.selected}
                             underliningActived={!option.selected}
                             customClassName={clsx(
-                                'text-base font-semibold',
+                                'font-interTight font-semibold text-sm',
                                 'transition-all duration-200',
                                 option.selected && 'text-primaryText',
                                 !option.selected && 'text-secondaryText hover:text-primaryText',
@@ -67,19 +68,23 @@ const TopMenuContent: React.FC<TopMenuContentProps> = ({
                         />
                     )}
                 </div>
-            </div>,
+            </div>
             <div className={clsx(
                 'flex flex-row items-center gap-6 w-auto h-[100%] hidden md:flex',
             )}>
                 <TopMenuSearch />
                 <SelectableDropdown 
                     selectedKeys={[language]}
-                    componentSize={'sm'}
+                    size='sm'
                     icon={
                         <LanguageIcon 
                             className="w-auto aspect-square fill-primaryColor h-full"
                         />
                     }
+                    classNames={{
+                        trigger: 'text-primaryText',
+                        unwrappingElement: 'fill-primaryText'
+                    }}
                     onSelected={(keys) => dispatch(setLanguage({language: Array.from(keys)[0]}))}
                     options={[
                         {

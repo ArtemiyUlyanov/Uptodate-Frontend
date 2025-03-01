@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 
 export type ArticleLikeButtonProps = React.HTMLProps<HTMLDivElement> & {
     article: ArticleModel,
-    likeMutate?: UseMutateFunction<ApiArticleLikeResponse, ErrorResponse, ApiArticleLikeParams, unknown>
+    likeMutate: UseMutateFunction<ApiArticleLikeResponse, ErrorResponse, ApiArticleLikeParams, unknown>
 }
 
 export const ArticleLikeButton: React.FC<ArticleLikeButtonProps> = ({
@@ -26,7 +26,7 @@ export const ArticleLikeButton: React.FC<ArticleLikeButtonProps> = ({
 
     const toggleLiked = () => {
         if (isAuthenticated) {
-            likeMutate && likeMutate({ id: article.id });
+            likeMutate({ id: article.id });
         }
     };
 
@@ -38,7 +38,7 @@ export const ArticleLikeButton: React.FC<ArticleLikeButtonProps> = ({
                 !isAuthenticated && 'hidden'
             )}
             classNames={{
-                content: 'bg-backgroundColor font-interTight font-semibold text-primaryColor'
+                content: 'bg-emphasizingColor2 border border-borderColor font-interTight font-semibold text-primaryColor'
             }}
         >
             <Button

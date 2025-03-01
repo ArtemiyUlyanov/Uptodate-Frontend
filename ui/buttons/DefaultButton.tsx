@@ -18,7 +18,7 @@ const DefaultButton: React.FC<DefaultButtonProps> = ({
     return (
         <Button
             className={clsx(
-                'font-interTight pt-2 pb-2 pl-3 pr-3 rounded-full text-oppositeText bg-primaryColor select-none whitespace-nowrap',
+                'font-interTight pt-2 pb-2 pl-3 pr-3 rounded-full text-primaryText bg-aspectColor select-none whitespace-nowrap',
                 'transition-all duration-200',
                 'sm:hover:opacity-[0.5]',
                 'active:opacity-[0.5] sm:active:opacity',

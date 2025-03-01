@@ -16,7 +16,7 @@ import { SearchIcon } from "../../ui/icons/SearchIcon";
 import IconInput from "../../ui/inputs/IconInput";
 import DefaultLink from "../../ui/links/DefaultLink";
 import RedLink from "../../ui/links/RedLink";
-import SearchArticleCover from "../articles/covers/SearchArticleCover";
+import SearchArticleCard from "../articles/cards/SearchArticleCard";
 
 export type TopMenuSearchProps = React.HTMLProps<HTMLDivElement> & {
     onPerformingSearch?: () => void
@@ -123,10 +123,13 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
                                 <div className={clsx(
                                     'flex flex-col'
                                 )}>
-                                    {history.filter((query, index) => index < 10).map(query =>
-                                        <div className={clsx(
-                                            'flex flex-row justify-between w-full'
-                                        )}>
+                                    {history.filter((query, index) => index < 10).map((query, index) =>
+                                        <div
+                                            key={`${query}-${index}`} 
+                                            className={clsx(
+                                                'flex flex-row justify-between w-full'
+                                            )}
+                                        >
                                             <DefaultLink
                                                 text={query}
                                                 link=""
@@ -173,9 +176,10 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
                     'flex flex-col gap-1 w-full h-auto'
                 )}>
                     {result.map((article, index) =>
-                        <div>
-                            <SearchArticleCover
-                                key={index}
+                        <div
+                            key={`${query}-result-${index}`} 
+                        >
+                            <SearchArticleCard
                                 article={article}
                                 query={query}
                             />

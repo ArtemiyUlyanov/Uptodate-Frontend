@@ -15,7 +15,7 @@ const RedLink: React.FC<RedLinkProps> = ({
 }) => {
     return (
         <Link className={clsx(
-            'relative font-interTight text-roseText w-auto all-unset select-none',
+            'relative font-interTight text-aspectText w-auto all-unset select-none',
             'transition-all duration-200',
             actived && underliningActived && "before:content-[''] before:absolute before:h-[1px] before:bg-[#ff0000] before:-bottom-1 before:bg-primaryText",
             actived && underliningActived && 'before:transition-all before:duration-200',

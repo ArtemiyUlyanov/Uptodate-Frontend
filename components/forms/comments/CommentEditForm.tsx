@@ -6,10 +6,10 @@ import { Button, Card, CardFooter, Tooltip } from "@heroui/react";
 import { UseMutateFunction, useQuery, UseQueryOptions } from "@tanstack/react-query";
 import clsx from "clsx";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import DefaultButton from "../../ui/buttons/DefaultButton";
-import { CloseIcon } from "../../ui/icons/CloseIcon";
-import { UploadFileIcon } from "../../ui/icons/UploadFileIcon";
-import DefaultTextarea from "../../ui/textareas/DefaultTextarea";
+import DefaultButton from "../../../ui/buttons/DefaultButton";
+import { CloseIcon } from "../../../ui/icons/CloseIcon";
+import { UploadFileIcon } from "../../../ui/icons/UploadFileIcon";
+import DefaultTextarea from "../../../ui/textareas/DefaultTextarea";
 import { ErrorResponse } from "@/services/api/responses.types";
 
 export type CommentEditFormProps = React.HTMLProps<HTMLDivElement> & {
@@ -29,22 +29,27 @@ export const CommentEditForm: React.FC<CommentEditFormProps> = ({
     const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
 
     const { selectedFiles, setSelectedFiles, addFile, removeFile, clearFiles, uploader } = useUploader(
-        <Tooltip
-            content='Upload files (3 max, 8MB limit)'
-            closeDelay={0}
-            classNames={{
-                content: 'bg-backgroundColor font-interTight font-semibold text-primaryColor'
-            }}
-        >
-            <div className={clsx(
-                'w-4',
-                'transition-all duration-200',
-                'hover:opacity-50',
-                'active:opacity-50 sm:active:opacity'
-            )}>
-                <UploadFileIcon className="fill-secondaryColor" />
-            </div>
-        </Tooltip>
+        (onClick) => (
+            <Tooltip
+                content='Upload files (3 max, 8MB limit)'
+                closeDelay={0}
+                classNames={{
+                    content: 'bg-emphasizingColor2 border border-borderColor font-interTight font-semibold text-primaryColor'
+                }}
+            >
+                <div
+                    onClick={onClick} 
+                    className={clsx(
+                        'w-4',
+                        'transition-all duration-200',
+                        'hover:opacity-50',
+                        'active:opacity-50 sm:active:opacity'
+                    )}
+                >
+                    <UploadFileIcon className="fill-secondaryColor" />
+                </div>
+            </Tooltip>
+        )
     )
 
     useEffect(() => {
@@ -119,7 +124,7 @@ export const CommentEditForm: React.FC<CommentEditFormProps> = ({
                     content='Save a comment'
                     closeDelay={0}
                     classNames={{
-                        content: 'bg-backgroundColor font-interTight font-semibold text-primaryColor'
+                        content: 'bg-emphasizingColor2 border border-borderColor font-interTight font-semibold text-primaryColor'
                     }}
                 >
                     <div>

@@ -1,9 +1,8 @@
-import { Comment } from "@/components/articles/comments/Comment";
-import { CommentSendForm } from "@/components/forms/CommentSendForm";
+import { Comment } from "@/components/comments/Comment";
+import { CommentSendForm } from "@/components/forms/comments/CommentSendForm";
 import { useAccount } from "@/hooks/models/useAccount";
 import { useComments } from "@/hooks/models/useComments";
 import { useDictionary } from "@/hooks/useDictionary";
-import { useRetrieve } from "@/hooks/useRetrieve";
 import { ArticleModel } from "@/models/article";
 import { CommentModel } from "@/models/comment";
 import { RootState } from "@/store/store";
@@ -11,7 +10,7 @@ import { Divider } from "@heroui/react";
 import { useSelector } from "react-redux";
 
 export type CommentsProps = {
-    article: ArticleModel,
+    article: ArticleModel
 }
 
 const Comments: React.FC<CommentsProps> = ({

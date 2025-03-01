@@ -6,22 +6,20 @@ import { DashboardCreate } from "@/components/dashboard/articles/create/Dashboar
 import { Dashboard } from "@/components/dashboard/Dashboard";
 import { DashboardNavigation, getDashboardOptions } from "@/components/dashboard/DashboardNavigation";
 import TopMenu, { getTopMenuOptions } from "@/components/menu/TopMenu";
+import { useAccount } from "@/hooks/models/useAccount";
 import { useArticle } from "@/hooks/models/useArticle";
 import { useDictionary } from "@/hooks/useDictionary";
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import MenuLayout from "@/layouts/MenuLayout";
-import { formatDateToISO } from "@/utils/date_utils";
-import { capitalizeText } from "@/utils/text_utils";
+import { formatDateToISO } from "@/utils/date.utils";
+import { capitalizeText } from "@/utils/text.utils";
 import { BreadcrumbItem, Breadcrumbs, Spinner } from "@heroui/react";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 
-const ArticleCreatePage = () => {
+const DashboardArticleCreatePage = () => {
     const { translate } = useDictionary();
-
-    const { slug } = useParams();
-    const { article, refetch, likeMutate } = useArticle({ slug: slug?.toString() });
 
     return (
         <DefaultLayout
@@ -36,4 +34,4 @@ const ArticleCreatePage = () => {
     );
 }
 
-export default ArticleCreatePage;
+export default DashboardArticleCreatePage;

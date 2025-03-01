@@ -21,11 +21,7 @@ const LogoutPage = () => {
         if (isAuthenticated) {
             dispath(logout());
         }
-
-        if (!isAuthenticated) {
-            router.back();
-        }
-    }, [isAuthenticated, router]);
+    });
     
     return null;
 }

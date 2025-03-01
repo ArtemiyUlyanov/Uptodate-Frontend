@@ -1,4 +1,3 @@
-import { queryClient } from "@/app/layout";
 import { useAccount } from "@/hooks/models/useAccount";
 import { ArticleModel } from "@/models/article";
 import { ArticleLikeModel } from "@/models/article_like";
@@ -6,6 +5,7 @@ import { UserModel } from "@/models/user";
 import { ApiArticleGetParams, ApiArticleGetResponse } from "@/services/api/articles.get.endpoint";
 import { ApiArticleLikeParams, ApiArticleLikeResponse, likeArticleApi } from "@/services/api/articles.like.endpoint";
 import { ErrorResponse } from "@/services/api/responses.types";
+import { queryClient } from "@/utils/queryClient";
 import { useQuery, useMutation, useQueryClient, UseMutateFunction } from "@tanstack/react-query";
 
 export type UseArticleLikeMutationParams = {

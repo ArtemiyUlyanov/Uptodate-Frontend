@@ -27,7 +27,7 @@ const DefaultTextarea: React.FC<DefaultTextareaProps> = ({
         <div className={clsx(
             'flex flex-col items-start gap-2',
             'pl-[10px] pr-[10px] pt-[5px] pb-[5px]',
-            !fullBordered && 'border border-[transparent] border-b-borderColor',
+            !fullBordered && 'border border-b border-b-borderColor',
             fullBordered && 'border border-borderColor rounded-md',
             'transition-all duration-200',
             customClassName

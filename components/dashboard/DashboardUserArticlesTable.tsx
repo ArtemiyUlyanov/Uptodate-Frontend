@@ -1,49 +1,42 @@
 import { useAccount } from "@/hooks/models/useAccount";
 import { useArticles } from "@/hooks/models/useArticles";
+import { ArticleModel } from "@/models/article";
+import { ApiArticleLikeParams, ApiArticleLikeResponse } from "@/services/api/articles.like.endpoint";
+import { ErrorResponse } from "@/services/api/responses.types";
 import { AddIcon } from "@/ui/icons/AddIcon";
 import { EditIcon } from "@/ui/icons/EditIcon";
 import { LikeIcon } from "@/ui/icons/LikeIcon";
 import { TrashIcon } from "@/ui/icons/TrashIcon";
 import { ViewIcon } from "@/ui/icons/ViewIcon";
-import { capitalizeText } from "@/utils/text_utils";
+import { capitalizeText } from "@/utils/text.utils";
 import { addToast, Button, Image, Selection, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from "@heroui/react";
+import { UseMutateFunction } from "@tanstack/react-query";
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 
 export type DashboardUserArticlesTableProps = React.HTMLProps<HTMLDivElement> & {
-    
+    articles?: ArticleModel[]
+    deleteArticle: (id: number) => void
 }
 
 export const DashboardUserArticlesTable: React.FC<DashboardUserArticlesTableProps> = ({
-
+    articles,
+    deleteArticle
 }) => {
-    const { user } = useAccount();
-    const { articles, likeMutate, deleteMutate } = useArticles({ ids: user?.articlesIds || [] });
-
     const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set([]));
 
     const handleChange = (keys: Selection) => {
         if (keys == 'all') {
-            setSelectedKeys(new Set(articles?.map(article => article.slug)));
+            setSelectedKeys(new Set(articles?.map(article => article.id.toString())));
         } else {
             setSelectedKeys(keys as Set<string>);
         }
     }
-    
-    const deleteArticle = (id: number) => {
-        deleteMutate({ id });
 
-        addToast({
-            title: "Article deleted!",
-            classNames: {
-                title: 'font-interTight font-semibold text-primaryText',
-                icon: 'h-4 fill-redColor',
-                base: 'bg-backgroundColor'
-            },
-            icon: (
-                <TrashIcon />
-            )
-        });
+    const deleteSelectedArticles = () => {
+        selectedKeys.forEach(key =>
+            deleteArticle(Number(key))
+        );
     }
 
     return (
@@ -53,13 +46,13 @@ export const DashboardUserArticlesTable: React.FC<DashboardUserArticlesTableProp
                     <p className="font-interTight font-semibold text-base text-primaryText">Your articles</p>
                     <p className="font-interTight font-semibold text-base text-secondaryText">These are your articles</p>
                 </div>
-                <div className="flex flex-row gap-2">
+                <div className="flex flex-row gap-1">
                     <Button
                         className={clsx(
                             'gap-1.5 bg-[transparent]',
                             'transition-all duration-200',
                         )}
-                        // onPress={deleteArticle}
+                        onPress={deleteSelectedArticles}
                         isDisabled={selectedKeys.size <= 0}
                         size="sm"
                         variant='light'
@@ -95,7 +88,7 @@ export const DashboardUserArticlesTable: React.FC<DashboardUserArticlesTableProp
                 removeWrapper 
                 aria-label="Table with images"
                 classNames={{
-                    th: 'font-interTight font-semibold text-xs text-oppositeText bg-primaryColor'
+                    th: 'rounded-none font-interTight font-semibold text-xs text-primaryText bg-emphasizingColor2'
                 }}
                 selectionMode="multiple"
                 selectedKeys={selectedKeys}
@@ -111,7 +104,7 @@ export const DashboardUserArticlesTable: React.FC<DashboardUserArticlesTableProp
                 <TableBody emptyContent={"No articles to show"}>
                     {(articles || []).map(article =>
                         <TableRow 
-                            key={article.slug}
+                            key={article.id}
                         >
                             <TableCell>
                                 <Image
@@ -124,22 +117,22 @@ export const DashboardUserArticlesTable: React.FC<DashboardUserArticlesTableProp
                                 />
                             </TableCell>
                             <TableCell>
-                                <p className="font-interTight font-medium text-primaryText">{capitalizeText(article.heading)}</p>
+                                <p className="font-interTight font-medium text-primaryColor">{capitalizeText(article.heading)}</p>
                             </TableCell>
                             <TableCell>
-                                <p className="font-interTight font-medium text-primaryText">{article.description}</p>
+                                <p className="font-interTight font-medium text-primaryColor">{article.description}</p>
                             </TableCell>
                             <TableCell>
                                 <div className="flex flex-row items-center gap-4">
                                     <div className="flex flex-row items-center gap-1">
-                                        <div className="h-3 fill-primaryColor">
+                                        <div className="h-3 fill-primaryText">
                                             <ViewIcon />
                                         </div>
                                         <p className="font-interTight font-semibold text-primaryText">{article.views.length}</p>
                                     </div>
                                     <div className="flex flex-row items-center gap-1">
                                         <LikeIcon 
-                                            className="w-4 h-4 fill-primaryColor" 
+                                            className="w-4 h-4 fill-primaryText" 
                                             wrapped={false}
                                             stroked={true} 
                                         />
@@ -153,7 +146,7 @@ export const DashboardUserArticlesTable: React.FC<DashboardUserArticlesTableProp
                                         content='View the article'
                                         closeDelay={0}
                                         classNames={{
-                                            content: 'bg-backgroundColor font-interTight font-semibold text-primaryColor'
+                                            content: 'bg-emphasizingColor2 border border-borderColor font-interTight font-semibold text-primaryColor'
                                         }}
                                     >
                                         <Button
@@ -177,10 +170,12 @@ export const DashboardUserArticlesTable: React.FC<DashboardUserArticlesTableProp
                                         content='Edit the article'
                                         closeDelay={0}
                                         classNames={{
-                                            content: 'bg-backgroundColor font-interTight font-semibold text-primaryColor'
+                                            content: 'bg-emphasizingColor2 border border-borderColor font-interTight font-semibold text-primaryColor'
                                         }}
                                     >
                                         <Button
+                                            as='a'
+                                            href={`/dashboard/articles/${article.slug}/edit`}
                                             isIconOnly
                                             className={clsx(
                                                 'bg-[transparent]',
@@ -199,7 +194,7 @@ export const DashboardUserArticlesTable: React.FC<DashboardUserArticlesTableProp
                                         content='Delete the article'
                                         closeDelay={0}
                                         classNames={{
-                                            content: 'bg-backgroundColor font-interTight font-semibold text-primaryColor'
+                                            content: 'bg-emphasizingColor2 border border-borderColor font-interTight font-semibold text-primaryColor'
                                         }}
                                     >
                                         <Button

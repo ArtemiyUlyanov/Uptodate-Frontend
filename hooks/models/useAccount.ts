@@ -21,11 +21,14 @@ export type UseAccountResponse = {
     user?: UserModel,
     error?: ErrorResponse
     refetch: () => void
+    isFetched: boolean
 }
 
 export const useAccount = (): UseAccountResponse => {
     const { isAuthenticated, access_token } = useSelector((state: RootState) => state.auth);
-    const { data, refetch } = useAccountQuery({ isAuthenticated, access_token });
+    const { data, refetch, isFetched } = useAccountQuery(
+        { isAuthenticated, access_token }
+    );
 
-    return { user: data?.model, error: data?.error, refetch };
+    return { user: data?.model, error: data?.error, refetch, isFetched };
 };

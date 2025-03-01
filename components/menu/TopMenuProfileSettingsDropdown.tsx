@@ -8,7 +8,7 @@ import clsx from "clsx";
 import React, { useState } from "react"
 import { useSelector } from "react-redux";
 import { DashboardIcon } from "@/ui/icons/DashboardIcon";
-import { Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, User } from "@heroui/react";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Skeleton, User } from "@heroui/react";
 import { UnwrappingElementIcon } from "@/ui/icons/UnwrappingElementIcon";
 import { SettingsIcon } from "@/ui/icons/SettingsIcon";
 
@@ -21,13 +21,14 @@ export const TopMenuProfileSettingsDropdown: React.FC<TopMenuProfileSettingsDrop
 }) => {
     const { language, translate } = useDictionary();
     const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-    const { user } = useAccount();
+    const { user, isFetched: isUserFetched } = useAccount();
 
     const [isOpen, setIsOpen] = useState<boolean>();
 
     return (
         <Dropdown
-            className="relative w-auto"
+            className="relative w-auto rounded-lg bg-emphasizingColor2"
+            isDisabled={!isUserFetched || user == null}
             shouldBlockScroll={false}
             onOpenChange={setIsOpen}
         >
@@ -39,120 +40,108 @@ export const TopMenuProfileSettingsDropdown: React.FC<TopMenuProfileSettingsDrop
                     "active:opacity-50 sm:active:opacity"
                 )}
             >
-                <div className={clsx(
-                    'flex flex-row items-center gap-2',
-                    'font-interTight font-semibold'
-                )}>
-                    <UserAvatarIcon
-                        url={user?.icon}
-                        size={undefined}
-                        customClassName='w-4 h-4 rounded-full aspect-square object-cover'
-                    />
-                    <p className={clsx(
-                        `text-sm`
-                    )}>{`${user?.firstName} ${user?.lastName}`}</p>
+                <Skeleton isLoaded={isUserFetched && user !== undefined} className="bg-emphasizingColor2 rounded-lg">
                     <div className={clsx(
-                        'h-1.5'
+                        'flex flex-row items-center gap-2',
+                        'font-interTight font-semibold'
                     )}>
-                        <UnwrappingElementIcon
-                            className={clsx(
-                                'w-auto h-full fill-primaryColor',
-                                'transition-all duration-200',
-                                isOpen && 'rotate-180'
-                            )}
+                        <UserAvatarIcon
+                            url={user?.icon}
+                            size={undefined}
+                            customClassName='w-4 h-4 rounded-full aspect-square object-cover'
                         />
+                        <p className={clsx(
+                            `text-sm`
+                        )}>{`${user?.firstName} ${user?.lastName}`}</p>
+                        <div className={clsx(
+                            'h-1.5'
+                        )}>
+                            <UnwrappingElementIcon
+                                className={clsx(
+                                    'w-auto h-full fill-primaryColor',
+                                    'transition-all duration-200',
+                                    isOpen && 'rotate-180'
+                                )}
+                            />
+                        </div>
                     </div>
-                </div>    
+                </Skeleton>   
             </DropdownTrigger>
             <DropdownMenu
                 disallowEmptySelection
                 itemClasses={{
                     title: 'font-interTight font-medium',
-                    selectedIcon: "text-roseText",
+                    selectedIcon: 'text-aspectText',
                 }}
+                className="p-0"
                 variant="flat"
                 disabledKeys={["profile"]}
             >
-                <DropdownSection 
-                    showDivider 
-                    key={0}
-                    aria-label="Profile"
-                >
-                    <DropdownItem
-                        key='profile'
-                        isReadOnly
-                        classNames={{
-                            base: 'opacity-100',
-                            title: 'text-primaryText'
-                        }}
-                    >
-                        <User
-                            avatarProps={{
-                                size: "sm",
-                                src: user?.icon,
-                            }}
-                            classNames={{
-                                name: "font-interTight font-semibold text-primaryText",
-                                description: "font-interTight font-medium text-secondaryText",
-                            }}
-                            description={`@${user?.username}`}
-                            name={`${user?.firstName} ${user?.lastName}`}
-                        />
-                    </DropdownItem>
-                </DropdownSection>
-                <DropdownSection
-                    key={1}
+                <DropdownItem
+                    key='profile'
+                    isReadOnly
+                    classNames={{
+                        base: 'opacity-100',
+                        title: 'text-primaryText'
+                    }}
                     showDivider
-                    aria-label="Actions"
                 >
-                    <DropdownItem
-                        key='dashboard'
-                        classNames={{
-                            base: 'gap-1.5',
-                            title: 'font-interTight font-medium text-primaryText'
+                    <User
+                        avatarProps={{
+                            size: "sm",
+                            src: user?.icon,
                         }}
-                        startContent={
-                            <div className="w-5 h-5 fill-secondaryColor">
-                                <DashboardIcon wrapped={true} />
-                            </div>
-                        }
-                    >
-                        <a href="/dashboard">{translate('common.menu.profile_dropdown.options.dashboard')}</a>
-                    </DropdownItem>
-                    <DropdownItem
-                        key='settings'
                         classNames={{
-                            base: 'gap-1.5',
-                            title: 'font-interTight font-medium text-primaryText'
+                            name: "font-interTight font-semibold text-sm text-primaryText",
+                            description: "font-interTight font-medium text-xs text-secondaryText",
                         }}
-                        startContent={
-                            <div className="w-5 h-5 fill-secondaryColor">
-                                <SettingsIcon wrapped={true} />
-                            </div>
-                        }
-                    >
-                        <a href="/dashboard/settings">{translate('common.menu.profile_dropdown.options.settings')}</a>
-                    </DropdownItem>
-                </DropdownSection>
-                <DropdownSection 
-                    key={2}
-                    aria-label="Logout"
+                        description={`@${user?.username}`}
+                        name={`${user?.firstName} ${user?.lastName}`}
+                    />
+                </DropdownItem>
+                <DropdownItem
+                    key='dashboard'
+                    classNames={{
+                        base: 'gap-1.5',
+                        title: 'font-interTight font-semibold text-primaryText'
+                    }}
+                    startContent={
+                        <div className="w-4 h-4 fill-secondaryColor">
+                            <DashboardIcon wrapped={true} />
+                        </div>
+                    }
                 >
-                    <DropdownItem
-                        key='logout'
-                        classNames={{
-                            base: 'gap-1.5',
-                            title: 'font-interTight font-medium text-redText'
-                        }}
-                        startContent={
-                            <div className="w-5 h-5 fill-redColor">
-                                <LogoutIcon />
-                            </div>
-                        }
-                    >
-                        <a href="/logout">{translate('common.menu.profile_dropdown.options.logout')}</a>
-                    </DropdownItem>
-                </DropdownSection>
+                    <a href="/dashboard">{translate('common.menu.profile_dropdown.options.dashboard')}</a>
+                </DropdownItem>
+                <DropdownItem
+                    key='settings'
+                    showDivider
+                    classNames={{
+                        base: 'gap-1.5',
+                        title: 'font-interTight font-semibold text-primaryText'
+                    }}
+                    startContent={
+                        <div className="w-4 h-4 fill-secondaryColor">
+                            <SettingsIcon wrapped={true} />
+                        </div>
+                    }
+                >
+                    <a href="/dashboard/settings">{translate('common.menu.profile_dropdown.options.settings')}</a>
+                </DropdownItem>
+                <DropdownItem
+                    key='logout'
+                    classNames={{
+                        base: 'gap-1.5',
+                        title: 'font-interTight font-semibold text-redText'
+                    }}
+                    startContent={
+                        <div className="w-4 h-4 fill-redColor">
+                            <LogoutIcon />
+                        </div>
+                    }
+                >
+                    <a href="/logout">{translate('common.menu.profile_dropdown.options.logout')}</a>
+                </DropdownItem>
             </DropdownMenu>
         </Dropdown>
     );

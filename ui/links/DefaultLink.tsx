@@ -8,6 +8,7 @@ const DefaultLink: React.FC<DefaultLinkProps> = ({
     text,
     link,
     actived,
+    arrowPlacement,
     arrowActived,
     underliningActived,
     customClassName,
@@ -15,7 +16,7 @@ const DefaultLink: React.FC<DefaultLinkProps> = ({
 }) => {
     return (
         <Link className={clsx(
-            'relative font-interTight text-primaryText w-auto all-unset select-none',
+            'relative text-primaryText w-auto all-unset select-none flex flex-row gap-1 hover:gap-3',
             'transition-all duration-200',
             actived && underliningActived && "before:content-[''] before:absolute before:h-[1px] before:bg-[#ff0000] before:-bottom-1 before:bg-primaryText",
             actived && underliningActived && 'before:transition-all before:duration-200',
@@ -24,7 +25,13 @@ const DefaultLink: React.FC<DefaultLinkProps> = ({
             actived && 'hover:before:w-full before:w-0',
             customClassName
         )} href={link} {...props}>
+            {arrowActived && arrowPlacement === 'left' &&
+                <p>←</p>
+            }
             {text}
+            {arrowActived && (arrowPlacement === 'right' || arrowPlacement === undefined) &&
+                <p>→</p>
+            }
         </Link>
     );
 }

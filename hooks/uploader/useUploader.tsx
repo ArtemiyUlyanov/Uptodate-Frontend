@@ -9,11 +9,15 @@ export type UseUploaderResponse = {
     clearFiles: () => void
 }
 
-export const useUploader = (trigger: React.ReactNode): UseUploaderResponse => {
+export type UseUploaderProps = {
+    maxFiles?: number
+} 
+
+export const useUploader = (trigger: (onClick: () => void) => React.ReactNode, props?: UseUploaderProps): UseUploaderResponse => {
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const uploaderRef = useRef<HTMLInputElement>(null);
 
-    const MAX_FILES = 3;
+    const MAX_FILES = props?.maxFiles || 3;
     const MAX_FILE_SIZE_MB = 8;
 
     const handleClick = () => {
@@ -51,10 +55,8 @@ export const useUploader = (trigger: React.ReactNode): UseUploaderResponse => {
     }
 
     const uploader = useMemo(() =>
-        <div
-            onClick={handleClick}
-        >
-            {trigger}
+        <div>
+            {trigger(handleClick)}
             <input
                 multiple
                 type="file"

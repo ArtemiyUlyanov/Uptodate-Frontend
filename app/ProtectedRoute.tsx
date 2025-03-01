@@ -1,3 +1,4 @@
+import { useAccount } from "@/hooks/models/useAccount";
 import { RootState } from "@/store/store";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -10,16 +11,16 @@ export type ProtectedRouteProps = {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     children
 }) => {
-    const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+    const { user, isFetched } = useAccount();
     const router = useRouter();
 
     useEffect(() => {
-        if (!isAuthenticated) {
+        if (isFetched && user == undefined) {
             router.back();
         }
     });
 
-    return isAuthenticated ? children : null;
+    return user !== undefined ? children : null;
 }
 
 export default ProtectedRoute;

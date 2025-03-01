@@ -1,4 +1,4 @@
-import { queryClient } from "@/app/layout";
+import { queryClient } from "@/utils/queryClient";
 import { useAccount } from "@/hooks/models/useAccount";
 import { ArticleModel } from "@/models/article";
 import { ArticleLikeModel } from "@/models/article_like";

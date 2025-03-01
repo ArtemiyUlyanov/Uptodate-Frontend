@@ -4,7 +4,7 @@ import DefaultButton from "@/ui/buttons/DefaultButton";
 import { DefaultDrawer } from "@/ui/drawers/DefaultDrawer";
 import { DrawerBody, DrawerTrigger } from "@/ui/drawers/drawer_components";
 import DefaultInput from "@/ui/inputs/DefaultInput";
-import BlueLink from "@/ui/links/BlueLink";
+import RoseLink from "@/ui/links/RoseLink";
 import clsx from "clsx";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -85,7 +85,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
                                 <LoginForm 
                                     trigger={
                                         (onClick) =>
-                                            <BlueLink
+                                            <RoseLink
                                                 text={translate('common.register.register_form_sign_up_link')}
                                                 link=''
                                                 onClick={onClick}

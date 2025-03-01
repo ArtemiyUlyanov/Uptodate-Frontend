@@ -9,7 +9,7 @@ import TransparentIconButton from "@/ui/buttons/TransparentIconButton";
 import { DefaultDrawer } from "@/ui/drawers/DefaultDrawer";
 import { DrawerBody, DrawerTrigger } from "@/ui/drawers/drawer_components";
 import { FiltersIcon } from "@/ui/icons/FiltersIcon";
-import { ClockIcon } from "@/ui/icons/ClockIcon";
+import { SortbyFilterIcon } from "@/ui/icons/SortbyFilterIcon";
 import { CategoriesFilterIcon } from "@/ui/icons/CategoriesFilterIcon";
 import { Accordion, AccordionItem, Chip } from "@heroui/react";
 import clsx from "clsx";
@@ -60,10 +60,8 @@ const Filters: React.FC<FiltersProps> = ({
                             text={translate('common.filters.drawer.open_drawer_button')}
                             hoverEffect="opacity"
                             image={
-                                <div className="h-3">
-                                    <FiltersIcon 
-                                        className="fill-black" 
-                                    />
+                                <div className="h-3 fill-primaryText">
+                                    <FiltersIcon />
                                 </div>
                             }
                             onClickButton={onClick}
@@ -81,10 +79,8 @@ const Filters: React.FC<FiltersProps> = ({
                             key='sort_by'
                             title={translate('common.filters.sort_by.name')}
                             startContent={
-                                <div className="w-3 h-4">
-                                    <ClockIcon 
-                                        className="fill-primaryText" 
-                                    />
+                                <div className="h-5 fill-secondaryText">
+                                    <SortbyFilterIcon />
                                 </div>
                             }
                         >
@@ -109,14 +105,14 @@ const Filters: React.FC<FiltersProps> = ({
                         <AccordionItem
                             key='categories'
                             title={
-                                <div className="flex flex-row gap-1">
+                                <div className="flex flex-row gap-2">
                                     <p>{translate('common.filters.categories.name')}</p> 
                                     {filters.categories.length > 0 &&
                                         <Chip
                                             size="sm"
                                             color="secondary"
                                             className={clsx(
-                                                'font-interTight font-semibold text-oppositeText aspect-square p-0 text-center'
+                                                'font-interTight font-semibold text-primaryText aspect-square p-0 text-center text-sm'
                                             )}
                                         >
                                             {filters.categories.length}

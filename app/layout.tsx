@@ -10,8 +10,7 @@ import './globals.css';
 import { HeroUIProvider } from "@heroui/react";
 import {ToastProvider} from "@heroui/toast";
 import React from "react";
-
-export const queryClient = new QueryClient();
+import { queryClient } from "@/utils/queryClient";
 
 const RootLayout = ({ 
   children 

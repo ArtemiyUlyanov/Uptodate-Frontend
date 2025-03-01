@@ -37,7 +37,7 @@ export const ArticleSharePostButton: React.FC<ArticleSharePostButtonProps> = ({
                 content='Copy link to clipboard'
                 closeDelay={0}
                 classNames={{
-                    content: 'bg-backgroundColor font-interTight font-semibold text-primaryColor'
+                    content: 'bg-emphasizingColor2 border border-borderColor font-interTight font-semibold text-primaryColor'
                 }}
                 hidden={isOpen}
             >
@@ -63,7 +63,7 @@ export const ArticleSharePostButton: React.FC<ArticleSharePostButtonProps> = ({
                     </PopoverTrigger>
                 </div>
             </Tooltip>
-            <PopoverContent className="bg-backgroundColor">
+            <PopoverContent className="bg-emphasizingColor2 border border-borderColor">
                 <p className='font-interTight font-semibold text-primaryColor'>Copied!</p>
             </PopoverContent>
         </Popover>

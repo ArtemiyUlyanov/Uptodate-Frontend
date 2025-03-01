@@ -1,4 +1,4 @@
-import ArticleCover from "@/components/articles/covers/ArticleCover";
+import ArticleCard from "@/components/articles/cards/ArticleCard";
 import { useFilters } from "@/hooks/explore/useFilters";
 import { useSearch } from "@/hooks/models/useSearch";
 import { useDictionary } from "@/hooks/useDictionary";
@@ -48,7 +48,7 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
                         'flex flex-col gap-2'
                     )}>
                         <p color="primary" className={clsx(
-                            'font-interTight font-semibold text-roseText'
+                            'font-interTight font-semibold text-aspectText'
                         )}>{query ? 
                                 translate('explore.articles_found_with_query_text').replace('%count%', totalElements.toString()).replace('%query%', query) 
                             : 
@@ -63,7 +63,7 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
                 )}>
                     {
                         articles.map((article, index) =>
-                            <ArticleCover
+                            <ArticleCard
                                 key={index}
                                 likeMutate={likeMutate}
                                 article={article}
@@ -83,10 +83,10 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
                 </p>
                 <DefaultButton
                     text={translate('explore.articles_see_more_button')}
-                    customClassName='font-interTight font-semibold text-sm'
+                    customClassName='font-interTight pl-2 pr-2 pt-4 pb-4 font-semibold rounded-md text-sm'
+                    size="sm"
                     type='submit'
                     onClickButton={() => setPages((prev) => prev + 1)}
-                    // isLoading={isFetching}
                     isDisabled={articles.length >= totalElements}
                 />
             </div>

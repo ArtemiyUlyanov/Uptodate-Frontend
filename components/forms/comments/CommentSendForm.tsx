@@ -5,12 +5,13 @@ import { addToast, Button, Card, CardFooter, Tooltip } from "@heroui/react";
 import { UseMutateFunction, useQuery, UseQueryOptions } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useState } from "react";
-import DefaultButton from "../../ui/buttons/DefaultButton";
-import { CloseIcon } from "../../ui/icons/CloseIcon";
-import { UploadFileIcon } from "../../ui/icons/UploadFileIcon";
-import DefaultTextarea from "../../ui/textareas/DefaultTextarea";
+import DefaultButton from "../../../ui/buttons/DefaultButton";
+import { CloseIcon } from "../../../ui/icons/CloseIcon";
+import { UploadFileIcon } from "../../../ui/icons/UploadFileIcon";
+import DefaultTextarea from "../../../ui/textareas/DefaultTextarea";
 import { ErrorResponse } from "@/services/api/responses.types";
 import { CommentIcon } from "@/ui/icons/CommentIcon";
+import { CheckmarkIcon } from "@/ui/icons/CheckmarkIcon";
 
 export type CommentSendFormProps = React.HTMLProps<HTMLDivElement> & {
     article: ArticleModel
@@ -24,25 +25,29 @@ export const CommentSendForm: React.FC<CommentSendFormProps> = ({
     isCreatePending
 }) => {
     const [content, setContent] = useState<string>('');
-    const [isQueryEnabled, setIsQueryEnabled] = useState<boolean>(false);
 
     const { selectedFiles, addFile, removeFile, clearFiles, uploader } = useUploader(
-        <Tooltip
-            content='Upload files (3 max, 8MB limit)'
-            closeDelay={0}
-            classNames={{
-                content: 'bg-backgroundColor font-interTight font-semibold text-primaryColor'
-            }}
-        >
-            <div className={clsx(
-                'w-4',
-                'transition-all duration-200',
-                'hover:opacity-50',
-                'active:opacity-50 sm:active:opacity'
-            )}>
-                <UploadFileIcon className="fill-secondaryColor" />
-            </div>
-        </Tooltip>
+        (onClick) => (
+            <Tooltip
+                content='Upload files (3 max, 8MB limit)'
+                closeDelay={0}
+                classNames={{
+                    content: 'bg-emphasizingColor2 border border-borderColor font-interTight font-semibold text-primaryColor'
+                }}
+            >
+                <div
+                    onClick={onClick} 
+                    className={clsx(
+                        'w-4',
+                        'transition-all duration-200',
+                        'hover:opacity-50',
+                        'active:opacity-50 sm:active:opacity'
+                    )}
+                >
+                    <UploadFileIcon className="fill-secondaryColor" />
+                </div>
+            </Tooltip>
+        )
     )
 
     const clearForm = () => {
@@ -55,14 +60,14 @@ export const CommentSendForm: React.FC<CommentSendFormProps> = ({
         createMutate({ content: content, articleId: article.id, resources: selectedFiles });
 
         addToast({
-            title: "Comment created!",
+            title: "Comment left!",
             classNames: {
                 title: 'font-interTight font-semibold text-primaryText',
                 icon: 'h-4 fill-primaryColor',
-                base: 'bg-backgroundColor'
+                base: 'bg-emphasizingColor2 border-borderColor'
             },
             icon: (
-                <CommentIcon />
+                <CheckmarkIcon />
             )
         });
 
@@ -119,14 +124,14 @@ export const CommentSendForm: React.FC<CommentSendFormProps> = ({
                     content='Send a comment'
                     closeDelay={0}
                     classNames={{
-                        content: 'bg-backgroundColor font-interTight font-semibold text-primaryColor'
+                        content: 'bg-emphasizingColor2 border border-borderColor font-interTight font-semibold text-primaryColor'
                     }}
                 >
                     <div>
                         <DefaultButton
                             text='Send'
                             customClassName='font-interTight font-semibold text-sm text-center rounded-md'
-                            isLoading={isCreatePending && isQueryEnabled}
+                            isLoading={isCreatePending}
                             isDisabled={content.length <= 0}
                             type="submit"
                             size="sm"

@@ -3,7 +3,7 @@ export const TextContentBlock: React.FC<React.HTMLProps<HTMLPreElement>> = ({
     ...props
 }) => {
     return (
-        <pre className="font-interTight font-medium text-base text-primaryText" key={Math.random()} {...props}>
+        <pre className="font-interTight font-medium text-base text-primaryText" {...props}>
             {children}
         </pre>
     );

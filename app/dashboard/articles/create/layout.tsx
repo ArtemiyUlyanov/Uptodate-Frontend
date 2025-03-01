@@ -3,19 +3,22 @@
 import { FiltersProvider } from "@/hooks/explore/useFilters";
 import { SearchProvider } from "@/hooks/models/useSearch";
 import { CategoriesProvider } from "@/hooks/models/useCategories";
+import ProtectedRoute from "@/app/ProtectedRoute";
 
-const ArticleCreateLayout = ({
+const DashboardArticleEditLayout = ({
     children
 }: Readonly<{children: React.ReactNode}>) => {
     return (
-        <FiltersProvider>
-            <SearchProvider>
-                <CategoriesProvider>
-                    {children}
-                </CategoriesProvider>
-            </SearchProvider>
-        </FiltersProvider>
+        <ProtectedRoute>
+            <FiltersProvider>
+                <SearchProvider>
+                    <CategoriesProvider>
+                        {children}
+                    </CategoriesProvider>
+                </SearchProvider>
+            </FiltersProvider>
+        </ProtectedRoute>
     );
   }
   
-  export default ArticleCreateLayout;
+  export default DashboardArticleEditLayout;

@@ -3,11 +3,12 @@ import clsx from "clsx";
 import React, { useMemo, useState } from "react"
 import { UnwrappingElementIcon } from "../icons/UnwrappingElementIcon";
 
-export type SelectableDropdownProps = React.HTMLProps<HTMLDivElement> & {
+export type SelectableDropdownProps = {
     name?: string
     icon?: React.ReactNode
     selectedKeys?: string[]
-    componentSize: 'sm' | 'base' | 'md'
+    size: 'sm' | 'base' | 'md'
+    classNames?: Partial<{unwrappingElement: string, trigger: string}>
     onSelected?: (key: Set<string>) => void
     options: SelectableDropdownOption[]
 }
@@ -23,8 +24,8 @@ export type SelectableDropdownOption = {
 const SelectableDropdown: React.FC<SelectableDropdownProps> = ({
     name,
     icon,
-    type,
-    componentSize,
+    size,
+    classNames,
     selectedKeys,
     onSelected,
     options
@@ -37,24 +38,26 @@ const SelectableDropdown: React.FC<SelectableDropdownProps> = ({
             'font-interTight font-semibold'
         )}>
             <div className={clsx(
-                componentSize === 'sm' && 'h-4',
-                componentSize === 'base' && 'h-4',
-                componentSize === 'md' && 'h-5',
+                size === 'sm' && 'h-4',
+                size === 'base' && 'h-4',
+                size === 'md' && 'h-5',
             )}>
                 {icon}
             </div>
             <p className={clsx(
                 !name && 'hidden',
-                `text-${componentSize}`
+                `text-${size}`,
+                classNames?.trigger
             )}>{name}</p>
             <div className={clsx(
                 'h-1.5'
             )}>
                 <UnwrappingElementIcon
                     className={clsx(
-                        'w-auto h-full fill-primaryColor',
+                        'w-auto h-full',
                         'transition-all duration-200',
-                        isOpen && 'rotate-180'
+                        isOpen && 'rotate-180',
+                        classNames?.unwrappingElement
                     )}
                 />
             </div>
@@ -63,7 +66,7 @@ const SelectableDropdown: React.FC<SelectableDropdownProps> = ({
 
     return (
         <Dropdown
-            className="relative w-auto"
+            className="relative w-auto bg-emphasizingColor2"
             shouldBlockScroll={false}
             onOpenChange={setIsOpen}
         >
@@ -82,7 +85,7 @@ const SelectableDropdown: React.FC<SelectableDropdownProps> = ({
                 selectionMode="single"
                 itemClasses={{
                     title: 'font-interTight font-medium',
-                    selectedIcon: "text-roseText",
+                    selectedIcon: "text-aspectText",
                 }}
                 variant="flat"
                 selectedKeys={selectedKeys}

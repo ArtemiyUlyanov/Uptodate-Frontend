@@ -34,7 +34,7 @@ const DefaultInput: React.FC<DefaultInputProps> = ({
         <div className={clsx(
             'inline-flex flex-row items-center gap-2',
             'pl-[10px] pr-[10px] pt-[5px] pb-[5px]',
-            !fullBordered && 'border border-[transparent] border-b-borderColor',
+            !fullBordered && 'border-b border-b-borderColor',
             fullBordered && 'border border-borderColor rounded-md',
             'transition-all duration-200',
             customClassName

@@ -41,7 +41,7 @@ export const SortFilter: React.FC<SortFilterProps> = ({
                     key={option.value}
                     classNames={{
                         title: "font-interTight font-medium text-sm text-primaryText",
-                        selectedIcon: 'text-roseText'
+                        selectedIcon: 'text-aspectText'
                     }}
                 >
                     {option.name}

@@ -2,7 +2,7 @@
 
 import { logout, refresh } from "@/store/features/auth/authSlice";
 import { store } from "@/store/store";
-import { ClockIcon } from "@/ui/icons/ClockIcon";
+import { SortbyFilterIcon } from "@/ui/icons/SortbyFilterIcon";
 import { PersonalAccountIcon } from "@/ui/icons/PersonalAccountIcon";
 import { addToast } from "@heroui/toast";
 import axios from "axios";
@@ -40,9 +40,9 @@ authorizedAxios.interceptors.response.use(
                 description: "You need to sign in again",
                 classNames: {
                     title: 'font-interTight font-semibold text-primaryText',
-                    icon: 'w-5 h-5 fill-primaryColor',
+                    icon: 'h-4 fill-primaryColor',
                     description: 'font-interTight font-medium text-secondaryText',
-                    base: 'bg-backgroundColor'
+                    base: 'bg-emphasizingColor2 border-borderColor'
                 },
                 icon: (
                     <PersonalAccountIcon />

@@ -9,7 +9,7 @@ export const ImageContentBlock: React.FC<ImageContentBlockProps> = ({
     return (
         <img
             src={url} 
-            className="w-full h-auto"
+            className="w-full h-auto rounded-lg"
         />
     );
 }

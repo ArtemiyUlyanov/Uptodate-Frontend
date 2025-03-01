@@ -3,7 +3,7 @@ import DefaultButton from "@/ui/buttons/DefaultButton";
 import { DefaultDrawer } from "@/ui/drawers/DefaultDrawer";
 import { DrawerBody, DrawerTrigger } from "@/ui/drawers/drawer_components";
 import DefaultInput from "@/ui/inputs/DefaultInput";
-import BlueLink from "@/ui/links/BlueLink";
+import RoseLink from "@/ui/links/RoseLink";
 import clsx from "clsx";
 import { useDispatch } from "react-redux";
 import RegisterForm from "./RegisterForm";
@@ -43,9 +43,9 @@ const LoginForm: React.FC<LoginFormProps> = ({
                 description: "Now you are authenticated and able to use some of restricted features",
                 classNames: {
                     title: 'font-interTight font-semibold text-primaryText',
-                    icon: 'h-5 fill-primaryColor',
+                    icon: 'h-4 fill-primaryColor',
                     description: 'font-interTight font-medium text-secondaryText',
-                    base: 'bg-backgroundColor'
+                    base: 'bg-emphasizingColor2 border-borderColor'
                 },
                 icon: (
                     <KeyIcon />
@@ -99,12 +99,12 @@ const LoginForm: React.FC<LoginFormProps> = ({
                                 <RegisterForm
                                     trigger={
                                         (onClick) =>
-                                            <BlueLink
+                                            <RoseLink
                                                 text={translate('common.login.login_form_sign_up_link')}
                                                 link=''
                                                 onClick={onClick}
                                                 customClassName={clsx(
-                                                    'font-interTight font-semibold text-sm text-roseColor',
+                                                    'font-interTight font-semibold text-sm text-aspectColor',
                                                     history.length <= 0 && 'hidden'
                                                 )}
                                                 actived={true}

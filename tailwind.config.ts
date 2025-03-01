@@ -65,24 +65,26 @@ export default {
 
         // darkText: "#151516",
 
-        backgroundColor: "#EFEEEC",
-        primaryColor: "#232323",
-        secondaryColor: "#A2A2A2",
-        emphasizingColor: "#E2E2E2",
-        emphasizingColor2: "#D3D3D3",
+        backgroundColor: "#0B0B0E",
+        primaryColor: "#EFEEEC",
+        secondaryColor: "#5F5F5F",
+        secondaryColor2: "#C4C4C4",
+        emphasizingColor: "#111115",
+        emphasizingColor2: "#1A1A1F",
         emphasizingColor3: "#202020",
         redColor: "#F44336",
-        roseColor: "#FF78B7",
+        aspectColor: "#1C77FF",
         warnColor: "#FF4C4C",
 
-        borderColor: "#CFCFCF",
+        borderColor: "#1D1D24",
         
-        primaryText: "#232323",
+        primaryText: "#EFEEEC",
         redText: "#F44336",
-        roseText: "#FF78B7",
-        secondaryText: "#A2A2A2",
+        aspectText: "#1C77FF",
+        secondaryText: "#5F5F5F",
+        secondaryText2: "#C4C4C4",
 
-        oppositeText: "#EFEEEC",
+        oppositeText: "#050505",
 
         // backgroundColor: "#09090A",
         // primaryColor: "white",
@@ -141,23 +143,38 @@ export default {
     },
   },
   darkMode: 'class',
-  plugins: [beforePropertiesPlugin,textShadowPlugin,animatePlugin,scrollbarHide,heroui({
-      prefix: "nextui",addCommonColors: false,defaultTheme: "light",defaultExtendTheme: "light",layout: {},themes: {
+  plugins: [beforePropertiesPlugin,textShadowPlugin,animatePlugin,scrollbarHide,
+    heroui({
+      prefix: "nextui",
+      addCommonColors: false,
+      defaultTheme: "dark",
+      defaultExtendTheme: "dark",
+      layout: {},
+      themes: {
         light: {
           layout: {
             secondary: {
-              DEFAULT: '#FF78B7',}
-          },colors: {
+              DEFAULT: '#1C77FF',
+            }
+          },
+          colors: {
             secondary: {
-              DEFAULT: '#FF78B7',}
-          },},dark: {
+              DEFAULT: '#1C77FF',
+            }
+          },
+        },
+        dark: {
           layout: {
             secondary: {
-              DEFAULT: '#FF78B7'
+              DEFAULT: '#1C77FF'
             }
-          },colors: {
+          },
+          colors: {
             secondary: {
-              DEFAULT: '#FF78B7'
+              DEFAULT: '#1C77FF'
             }
-          },},},}),heroui()],
+          },
+        },
+      },
+    }),heroui()],
 } satisfies Config;

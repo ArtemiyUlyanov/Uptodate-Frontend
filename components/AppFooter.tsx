@@ -94,25 +94,26 @@ const AppFooter: React.FC<AppFooterProps> = ({
     const { language, translate } = useDictionary();
     const dispatch = useDispatch();
 
-    const router = useRouter();
-    const pathname = usePathname();
-
     const sections = useMemo(() => 
-        sectionTemplates.map(section =>
-            <div className={clsx(
-                'flex flex-col items-start gap-2'
-            )}>
+        sectionTemplates.map((section) =>
+            <div
+                key={section.name} 
+                className={clsx(
+                    'flex flex-col items-start gap-2'
+                )}
+            >
                 <p className={clsx(
                     'font-interTight font-semibold text-primaryText'
                 )}>{section.name}</p>
                 <div className={clsx(
-                    'flex flex-col items-start'
+                    'flex flex-col gap-1 items-start'
                 )}>
                     {section.options.map(option =>
                         <DefaultLink 
+                            key={option.text}
                             text={option.text}
                             link={option.link}
-                            customClassName='font-interTight font-medium text-secondaryText'
+                            customClassName='font-interTight font-medium text-sm text-secondaryText'
                             actived={true}
                             underliningActived={false}
                             arrowActived={false}
@@ -126,21 +127,22 @@ const AppFooter: React.FC<AppFooterProps> = ({
     return (
         <div className={clsx(
             'flex flex-col w-full pl-16 pr-16 pt-8 pb-8 gap-8 bg-emphasizingColor',
+            'border-t border-t-borderColor'
         )}>
             <div className={clsx(
                 'flex flex-row gap-32'
             )}>
                 <div className={clsx(
-                    'flex flex-col items-start w-1/5 gap-4'
+                    'flex flex-col items-start w-1/5 gap-2'
                 )}>
                     <div className={clsx(
-                        'h-5'
+                        'h-5 fill-primaryText'
                     )}>
                         <UptodateIcon
                             className='w-auto'
                         />
                     </div>
-                    <p className="font-interTight font-medium text-secondaryText">{translate('common.footer.slogan')}</p>
+                    <p className="font-interTight font-medium text-lg text-secondaryText">{translate('common.footer.slogan')}</p>
                 </div>
                 <div className={clsx(
                     'flex flex-row justify-around w-full'
@@ -154,12 +156,16 @@ const AppFooter: React.FC<AppFooterProps> = ({
                 <SelectableDropdown 
                     name={translate('common.footer.change_language_button')}
                     selectedKeys={[language]}
-                    componentSize={'sm'}
+                    size='sm'
                     icon={
                         <LanguageIcon 
-                            className="w-auto aspect-square fill-primaryColor h-full"
+                            className="w-auto aspect-square fill-primaryText h-full"
                         />
                     }
+                    classNames={{
+                        trigger: 'text-primaryText',
+                        unwrappingElement: 'fill-primaryText'
+                    }}
                     onSelected={(keys) => dispatch(setLanguage({language: Array.from(keys)[0]}))}
                     options={[
                         {

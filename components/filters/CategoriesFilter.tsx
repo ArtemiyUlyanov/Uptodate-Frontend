@@ -3,7 +3,7 @@
 import { useFilters } from "@/hooks/explore/useFilters";
 import { useLocalSearch } from "@/hooks/explore/useLocalSearch";
 import { useDictionary } from "@/hooks/useDictionary";
-import { parseQueryText } from "@/utils/text_utils";
+import { parseQueryText } from "@/utils/text.utils";
 import { Button, Chip, Listbox, ListboxItem, ListboxSection, ScrollShadow } from "@heroui/react";
 import clsx from "clsx";
 import { useEffect, useMemo, useState } from "react";
@@ -91,11 +91,12 @@ export const CategoriesFilter: React.FC<CategoriesFilterProps> = ({
                         </Button>
                         {Array.from(selectedKeys).map(key =>
                             <Chip
+                                key={key}
                                 size="sm"
                                 color="secondary"
                                 onClose={() => setSelectedKeys(prev => new Set([...prev].filter(option => option !== key)))}
                                 classNames={{
-                                    content: 'font-interTight font-medium'
+                                    content: 'font-interTight font-medium text-sm'
                                 }}
                             >
                                 {key}
@@ -123,13 +124,13 @@ export const CategoriesFilter: React.FC<CategoriesFilterProps> = ({
                             key={option.value}
                             classNames={{
                                 title: "font-interTight font-medium text-sm text-primaryText",
-                                selectedIcon: 'text-roseText'
+                                selectedIcon: 'text-aspectText'
                             }}
                             className={clsx(
                                 query && !option.name.toLowerCase().includes(query.toLowerCase()) && 'hidden'
                             )}
                         >
-                            {parseQueryText(`${option.name} (${(option as CategoriesFilterOption).count})`, query || '', 'bg-roseText text-oppositeText')}
+                            {parseQueryText(`${option.name} (${(option as CategoriesFilterOption).count})`, query || '', 'bg-aspectText text-oppositeText')}
                         </ListboxItem>
                     )}
                 </ListboxSection>

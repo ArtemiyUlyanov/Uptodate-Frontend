@@ -35,6 +35,7 @@ export const UserAvatarIcon: React.FC<UserAvatarIconProps> = ({
                     'select-none',
                     customClassName
                 )}
+                fallback={emptyIcon}
                 size={size}
             />
         :

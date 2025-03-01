@@ -2,12 +2,12 @@ import React from 'react'
 import clsx from 'clsx';
 import { Image } from '@heroui/react';
 
-export type ArticleCoverIconProps = React.ImgHTMLAttributes<HTMLElement> & {
+export type ArticleCardIconProps = React.ImgHTMLAttributes<HTMLElement> & {
     url: string,
     className?: string
 }
 
-export const ArticleCoverIcon: React.FC<ArticleCoverIconProps> = ({
+export const ArticleCardIcon: React.FC<ArticleCardIconProps> = ({
     url,
     className,
     ...props

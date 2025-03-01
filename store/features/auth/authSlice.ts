@@ -1,4 +1,3 @@
-import { User } from '@/models/user';
 import { createSlice } from '@reduxjs/toolkit';
 
 export type AuthSliceType = {

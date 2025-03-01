@@ -37,7 +37,7 @@ export const DefaultDrawer: React.FC<DefaultDrawerProps> = ({
                 classNames={{
                     wrapper: "z-[99999]",
                     backdrop: 'z-[99998]',
-                    base: "bg-backgroundColor data-[placement=right]:sm:m-2 data-[placement=left]:sm:m-2 rounded-medium"
+                    base: "bg-emphasizingColor data-[placement=right]:sm:m-2 data-[placement=left]:sm:m-2 rounded-medium"
                 }}
                 motionProps={{
                     variants: {
@@ -56,12 +56,12 @@ export const DefaultDrawer: React.FC<DefaultDrawerProps> = ({
                 <DrawerContent>
                     {(onClose) => (
                         <>
-                            <DrawerHeader className="absolute top-0 inset-x-0 z-50 bg-backgroundColor border-b border-borderColor flex flex-row items-center gap-2 px-2 py-2 justify-start">
+                            <DrawerHeader className="absolute top-0 inset-x-0 z-50 bg-emphasizingColor border-b border-borderColor flex flex-row items-center gap-2 px-2 py-2 justify-start">
                                 <Tooltip
                                     content={closeTooltip}
                                     closeDelay={0}
                                     classNames={{
-                                        content: 'bg-backgroundColor font-interTight font-semibold text-primaryColor'
+                                        content: 'bg-emphasizingColor2 border border-borderColor font-interTight font-semibold text-primaryColor'
                                     }}
                                 >
                                     <Button

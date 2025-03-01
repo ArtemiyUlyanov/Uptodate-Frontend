@@ -3,7 +3,7 @@ export const ListContentBlock: React.FC<React.HTMLProps<HTMLLIElement>> = ({
     ...props
 }) => {
     return (
-        <li className="font-interTight font-medium text-base text-primaryText" key={Math.random()} {...props}>
+        <li className="font-interTight font-medium text-base text-primaryText" {...props}>
             {children}
         </li>
     );

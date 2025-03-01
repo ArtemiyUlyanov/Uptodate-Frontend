@@ -17,6 +17,7 @@ export type UseArticleResponse = {
     article?: ArticleModel | undefined
     error?: ErrorResponse
     refetch: () => Promise<QueryObserverResult<ApiArticleGetResponse, Error>>
+    isFetched: boolean
     likeMutate: UseMutateFunction<ApiArticleLikeResponse, ErrorResponse, ApiArticleLikeParams, unknown>
 }
 
@@ -36,12 +37,12 @@ export const useArticle = ({
     slug
 }: UseArticleParams): UseArticleResponse => {
     const { user } = useAccount();
-    const { data, refetch } = useArticleQuery({ id, slug });
+    const { data, refetch, isFetched } = useArticleQuery({ id, slug });
     const { likeMutate } = useArticleLikeMutation({ queryKey: ['article', id, slug] });
 
     useEffect(() => {
         refetch();
     }, [user]);
 
-    return { article: data?.model, error: data?.error, refetch, likeMutate };
+    return { article: data?.model, error: data?.error, refetch, likeMutate, isFetched };
 }

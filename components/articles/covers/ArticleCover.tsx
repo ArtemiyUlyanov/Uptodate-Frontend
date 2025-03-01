@@ -1,149 +1,166 @@
 import { ArticleModel } from "@/models/article";
-import { UserAvatarIcon } from "@/ui/icons/UserAvatarIcon";
-import { formatDateExtended, retrieveDateFromISO } from "@/utils/date_utils";
-import { capitalizeText, parseQueryText } from "@/utils/text_utils";
-import { Card, CardBody, CardFooter, CardHeader, Image, Link, Tooltip } from "@heroui/react";
-import clsx from "clsx";
-import { useEffect, useMemo } from "react";
-import { useDispatch } from "react-redux";
-import { ArticleLikeButton } from "../likes/ArticleLikeButton";
-import { useRetrieve } from "@/hooks/useRetrieve";
-import { UserModel } from "@/models/user";
 import { ApiArticleLikeParams, ApiArticleLikeResponse } from "@/services/api/articles.like.endpoint";
 import { ErrorResponse } from "@/services/api/responses.types";
+import { LikeIcon } from "@/ui/icons/LikeIcon";
+import { UserAvatarIcon } from "@/ui/icons/UserAvatarIcon";
+import { ViewIcon } from "@/ui/icons/ViewIcon";
+import { formatDate } from "@/utils/date.utils";
+import { capitalizeText } from "@/utils/text.utils";
 import { UseMutateFunction } from "@tanstack/react-query";
+import clsx from "clsx";
+import { ArticleLikeButton } from "../buttons/ArticleLikeButton";
+import { ArticleSharePostButton } from "../buttons/ArticleSharePostButton";
+import { UserModel } from "@/models/user";
+import Link from "next/link";
+import { Skeleton, Tooltip } from "@heroui/react";
 
-export type ArticleCoverProps = {
+// export type ArticleCoverProps = React.HTMLProps<HTMLDivElement> & {
+//     article: ArticleModel
+//     author?: UserModel
+//     likeMutate: UseMutateFunction<ApiArticleLikeResponse, ErrorResponse, ApiArticleLikeParams, unknown>
+// }
+
+// export const ArticleCover: React.FC<ArticleCoverProps> = ({
+//     article,
+//     author,
+//     likeMutate
+// }) => {
+//     return (
+//         <div className="flex flex-col gap-6">
+//             <div className="flex flex-col gap-2 w-full">
+//                 <p className="font-interTight font-semibold text-aspectText text-sm">{formatDate(article.createdAt)}</p>
+//                 <p className="font-interTight font-semibold text-primaryText text-xl">{capitalizeText(article?.heading)}</p>
+//                 <p className="font-interTight font-medium text-secondaryText text-base">{article.description}</p>
+//             </div>
+//             <div className={clsx(
+//                 "flex flex-row justify-between w-full items-center gap-8",
+//                 "pt-3 border border-[transparent] border-t-borderColor"
+//             )}>
+//                 <div className={clsx(
+//                     'flex flex-row gap-4 items-center'
+//                 )}>
+//                     <div className="flex flex-row items-center gap-2">
+//                         <UserAvatarIcon
+//                             url={author?.icon}
+//                             size="sm"
+//                             className='w-full h-full aspect-square object-cover'
+//                         />
+//                         <div className={clsx(
+//                             'flex flex-col h-auto'
+//                         )}>
+//                             <p className={clsx(
+//                                 'relative font-interTight font-semibold text text-sm text-primaryText line-clamp-1'
+//                             )}>{author?.firstName + " " + author?.lastName}</p>
+//                             <p className={clsx(
+//                                 'relative font-interTight font-medium text text-sm text-secondaryText line-clamp-1'
+//                             )}>@{author?.username}</p>
+//                         </div>
+//                     </div>
+//                     <div className="flex flex-row items-center gap-4">
+//                         <div className="flex flex-row items-center gap-1">
+//                             <div className="h-3 fill-primaryColor">
+//                                 <ViewIcon />
+//                             </div>
+//                             <p className="font-interTight font-semibold text-sm text-primaryText">{article.views.length}</p>
+//                         </div>
+//                         <div className="flex flex-row items-center gap-1">
+//                             <LikeIcon className="w-4 h-4 fill-primaryColor" wrapped={false} stroked={true} />
+//                             <p className="font-interTight font-semibold text-sm text-primaryText">{article.likes.length}</p>
+//                         </div>
+//                     </div>
+//                 </div>
+//                 <div className="flex flex-row gap-1">
+//                     <ArticleLikeButton article={article} likeMutate={likeMutate} />
+//                     <ArticleSharePostButton url={window.location.href} />
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// }
+
+export type ArticleCoverProps = React.HTMLProps<HTMLDivElement> & {
     article: ArticleModel
+    author?: UserModel
+    isAuthorFetched: boolean
     likeMutate: UseMutateFunction<ApiArticleLikeResponse, ErrorResponse, ApiArticleLikeParams, unknown>
-    query?: string
-    className?: string
-    extended: boolean
 }
 
 export const ArticleCover: React.FC<ArticleCoverProps> = ({
     article,
-    query,
-    likeMutate,
-    extended,
-    className
+    author,
+    isAuthorFetched,
+    likeMutate
 }) => {
-    const [author] = useRetrieve<UserModel>(
-        article,
-        {
-            endpoint: '/users/%author_id%',
-            pathVariables: {
-                author_id: article.authorId
-            },
-            payload: {}
-        }
-    );
-
     return (
-        <Card 
-            shadow="none"
-            radius="none"
-            classNames={{
-                base: 'bg-[transparent]'
-            }}
-        >
-            <CardHeader className={clsx(
-                "absolute p-2 z-[999]",
-                !extended && 'hidden'
-            )}>
-                <ArticleLikeButton article={article} likeMutate={likeMutate} />
-            </CardHeader>
-            <CardBody className={clsx(
-                "overflow-visible p-0",
-                !extended && 'hidden'
-            )}>
-                <Image
-                    alt={article.heading}
-                    className="w-full object-cover object-top aspect-[5/3]"
-                    radius="lg"
-                    shadow="none"
-                    disableSkeleton={false}
-                    src={article.cover}
-                    width="100%"
-                />
-            </CardBody>
-            <CardFooter className="pl-0 pr-0 pb-0">
+        <div className="flex flex-row gap-4">
+            <div className="flex flex-col w-full justify-between gap-4">
                 <div className={clsx(
-                    'flex gap-2',
-                    extended && 'flex-col',
-                    !extended && 'flex-row'
+                    "flex flex-row justify-between w-full items-center gap-8",
+                    //"pt-3 border border-[transparent] border-t-borderColor"
                 )}>
-                    {!extended &&
-                        <div className="w-2/5">
-                            <Image
-                                alt={article.heading}
-                                className="w-full object-cover object-top aspect-[5/3]"
-                                radius="lg"
-                                shadow="none"
-                                disableSkeleton={false}
-                                src={article.cover}
-                                width="100%"
-                            />
-                        </div>
-                    }
-                    {extended &&
-                        <div className={clsx(
-                            'flex flex-row gap-2 items-center'
-                        )}>
-                            <UserAvatarIcon 
-                                url={author?.icon}
-                                size="sm"
-                                customClassName='aspect-square object-cover'
-                            />
-                            <div className={clsx(
-                                'flex flex-col h-auto'
-                            )}>
-                                <p className={clsx(
-                                    'relative font-interTight font-semibold text text-sm text-primaryText line-clamp-1'
-                                )}>{author?.firstName + " " + author?.lastName}</p>
-                                <p className={clsx(
-                                    'relative font-interTight font-medium text text-sm text-roseText line-clamp-1'
-                                )}>{formatDateExtended(article.createdAt)}</p>
-                            </div>
-                        </div>
-                    }
                     <div className={clsx(
-                        'flex flex-col gap-2',
-                        !extended && 'w-3/5'
+                        'flex flex-row gap-2 items-center'
                     )}>
-                        <div className="flex flex-col gap-1">
+                        <Skeleton isLoaded={isAuthorFetched && author != null} className="bg-emphasizingColor2 rounded-lg">
                             <Tooltip
-                                content='Click to read'
+                                content='See the profile'
                                 closeDelay={0}
                                 classNames={{
-                                    content: 'bg-backgroundColor font-interTight font-semibold text-primaryColor'
+                                    content: 'bg-emphasizingColor2 border border-borderColor font-interTight font-semibold text-primaryColor'
                                 }}
                             >
-                                <Link 
-                                    href={`/${article.slug}`}
+                                <Link
+                                    href={`/users/${author?.username}`} 
                                     className={clsx(
-                                        'sm:hover:opacity-50',
-                                        'active:opacity-50 sm:active:opacity'
+                                        "flex flex-row items-center gap-2",
+                                        "transition-all duration-200",
+                                        "sm:hover:opacity-50",
+                                        "active:opacity-50 sm:active:opacity",
                                     )}
                                 >
-                                    <p className={clsx(
-                                        "font-interTight font-semibold text-primaryText line-clamp-2",
-                                        extended && 'text-base',
-                                        !extended && 'text-sm'
-                                    )}>{parseQueryText(capitalizeText(article.heading), query || '', 'bg-roseText text-primaryText')}</p>
+                                    <UserAvatarIcon
+                                        url={author?.icon}
+                                        size={undefined}
+                                        customClassName='w-5 h-5 aspect-square object-cover'
+                                    />
+                                    <div className={clsx(
+                                        'flex flex-col h-auto'
+                                    )}>
+                                        <p className={clsx(
+                                            'relative font-interTight font-semibold text text-sm text-primaryText line-clamp-1'
+                                        )}>{author?.firstName + " " + author?.lastName}</p>
+                                        {/* <p className={clsx(
+                                            'relative font-interTight font-medium text text-sm text-secondaryText line-clamp-1'
+                                        )}>@{author?.username}</p> */}
+                                    </div>
                                 </Link>
                             </Tooltip>
-                            <p className={clsx(
-                                "font-interTight font-medium text-secondaryText line-clamp-3",
-                                extended && 'text-base',
-                                !extended && 'text-sm' 
-                            )}>{parseQueryText(article.description, query || '', 'bg-roseText text-primaryText')}</p>
-                        </div>
+                        </Skeleton>
+                        <p className="font-interTight font-semibold text-aspectText text-base">·</p>
+                        <p className="font-interTight font-semibold text-aspectText text-sm">{formatDate(article.createdAt)}</p>
                     </div>
                 </div>
-            </CardFooter>
-        </Card>
+                <div className="flex flex-col gap-2 w-full">
+                    <p className="font-interTight font-semibold text-primaryText text-xl">{capitalizeText(article?.heading)}</p>
+                    <p className="font-interTight font-medium text-secondaryText text-base">{article.description}</p>
+                </div>
+                <div className="flex flex-row items-center pb-4 gap-4">
+                    <div className="flex flex-row items-center gap-1">
+                        <div className="h-3 fill-primaryColor">
+                            <ViewIcon />
+                        </div>
+                        <p className="font-interTight font-semibold text-sm text-primaryText">{article.views.length}</p>
+                    </div>
+                    <div className="flex flex-row items-center gap-1">
+                        <LikeIcon className="w-4 h-4 fill-primaryColor" wrapped={false} stroked={true} />
+                        <p className="font-interTight font-semibold text-sm text-primaryText">{article.likes.length}</p>
+                    </div>
+                </div>
+            </div>
+            <div className="flex flex-col gap-1">
+                <ArticleLikeButton article={article} likeMutate={likeMutate} />
+                <ArticleSharePostButton url={window.location.href} />
+            </div>
+        </div>
     );
 }
-
-export default ArticleCover;

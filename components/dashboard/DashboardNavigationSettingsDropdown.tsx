@@ -1,0 +1,139 @@
+import SelectableDropdown from "@/ui/dropdowns/SelectableDropdown";
+import { LogoutIcon } from "@/ui/icons/LogoutIcon";
+import { UserAvatarIcon } from "@/ui/icons/UserAvatarIcon";
+import { useAccount } from "@/hooks/models/useAccount";
+import { useDictionary } from "@/hooks/useDictionary";
+import { RootState } from "@/store/store";
+import clsx from "clsx";
+import React, { useState } from "react"
+import { useSelector } from "react-redux";
+import { DashboardIcon } from "@/ui/icons/DashboardIcon";
+import { Divider, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Skeleton, User } from "@heroui/react";
+import { UnwrappingElementIcon } from "@/ui/icons/UnwrappingElementIcon";
+import { SettingsIcon } from "@/ui/icons/SettingsIcon";
+import { UserModel } from "@/models/user";
+
+export type DashboardNavigationSettingsDropdownProps = React.HTMLProps<HTMLDivElement> & {
+    user?: UserModel
+    isUserFetched: boolean
+}
+
+export const DashboardNavigationSettingsDropdown: React.FC<DashboardNavigationSettingsDropdownProps> = ({
+    user,
+    isUserFetched
+}) => {
+    const { language, translate } = useDictionary();
+
+    const [isOpen, setIsOpen] = useState<boolean>();
+
+    return (
+        <Dropdown
+            className="relative w-auto rounded-lg bg-emphasizingColor2"
+            shouldBlockScroll={false}
+            isDisabled={!isUserFetched || user == null}
+            onOpenChange={setIsOpen}
+        >
+            <DropdownTrigger
+                className={clsx(
+                    "w-auto text-primaryText",
+                    "transition-all duration-200",
+                    "sm:hover:opacity-50",
+                    "active:opacity-50 sm:active:opacity"
+                )}
+            >
+                <Skeleton isLoaded={isUserFetched && user !== undefined} className="bg-emphasizingColor2 rounded-lg">
+                    <User
+                        avatarProps={{
+                            size: "sm",
+                            src: user?.icon,
+                            className: 'w-8 h-8 rounded-lg'
+                        }}
+                        classNames={{
+                            base: 'w-full pl-3 pr-3 pt-2 pb-2 justify-start rounded-md bg-emphasizingColor2',
+                            name: "font-interTight font-semibold text-primaryText text-sm",
+                            description: "font-interTight font-medium text-secondaryText text-xs",
+                        }}
+                        description={`@${user?.username}`}
+                        name={`${user?.firstName} ${user?.lastName}`}
+                    />  
+                </Skeleton>  
+            </DropdownTrigger>
+            <DropdownMenu
+                disallowEmptySelection
+                itemClasses={{
+                    title: 'font-interTight font-medium',
+                    selectedIcon: 'text-aspectText',
+                }}
+                className="p-0"
+                variant="flat"
+                disabledKeys={["profile"]}
+            >
+                <DropdownItem
+                    key='profile'
+                    isReadOnly
+                    classNames={{
+                        base: 'opacity-100',
+                        title: 'text-primaryText'
+                    }}
+                    showDivider
+                >
+                    <User
+                        avatarProps={{
+                            size: "sm",
+                            src: user?.icon,
+                        }}
+                        classNames={{
+                            name: "font-interTight font-semibold text-sm text-primaryText",
+                            description: "font-interTight font-medium text-xs text-secondaryText",
+                        }}
+                        description={`@${user?.username}`}
+                        name={`${user?.firstName} ${user?.lastName}`}
+                    />
+                </DropdownItem>
+                <DropdownItem
+                    key='dashboard'
+                    classNames={{
+                        base: 'gap-1.5',
+                        title: 'font-interTight font-semibold text-primaryText'
+                    }}
+                    startContent={
+                        <div className="w-4 h-4 fill-secondaryColor">
+                            <DashboardIcon wrapped={true} />
+                        </div>
+                    }
+                >
+                    <a href="/dashboard">{translate('common.menu.profile_dropdown.options.dashboard')}</a>
+                </DropdownItem>
+                <DropdownItem
+                    key='settings'
+                    showDivider
+                    classNames={{
+                        base: 'gap-1.5',
+                        title: 'font-interTight font-semibold text-primaryText'
+                    }}
+                    startContent={
+                        <div className="w-4 h-4 fill-secondaryColor">
+                            <SettingsIcon wrapped={true} />
+                        </div>
+                    }
+                >
+                    <a href="/dashboard/settings">{translate('common.menu.profile_dropdown.options.settings')}</a>
+                </DropdownItem>
+                <DropdownItem
+                    key='logout'
+                    classNames={{
+                        base: 'gap-1.5',
+                        title: 'font-interTight font-semibold text-redText'
+                    }}
+                    startContent={
+                        <div className="w-4 h-4 fill-redColor">
+                            <LogoutIcon />
+                        </div>
+                    }
+                >
+                    <a href="/logout">{translate('common.menu.profile_dropdown.options.logout')}</a>
+                </DropdownItem>
+            </DropdownMenu>
+        </Dropdown>
+    );
+}
