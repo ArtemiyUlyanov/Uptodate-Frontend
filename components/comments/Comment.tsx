@@ -41,18 +41,6 @@ export const Comment: React.FC<CommentProps> = ({
 
     const deleteComment = () => {
         deleteMutate({ id: comment.id });
-
-        addToast({
-            title: "Comment deleted!",
-            classNames: {
-                title: 'font-interTight font-semibold text-primaryText',
-                icon: 'h-4 fill-redColor',
-                base: 'bg-emphasizingColor2 border-borderColor'
-            },
-            icon: (
-                <TrashIcon />
-            )
-        });
     }
 
     return (
@@ -96,6 +84,7 @@ export const Comment: React.FC<CommentProps> = ({
                                     isIconOnly
                                     className={clsx(
                                         'bg-[transparent]',
+                                        'data-[hover=true]:bg-emphasizingColor2',
                                         'transition-all duration-200',
                                         !comment.permissionScope.includes('DELETE') && 'hidden'
                                     )}
@@ -119,6 +108,7 @@ export const Comment: React.FC<CommentProps> = ({
                                     isIconOnly
                                     className={clsx(
                                         'bg-[transparent]',
+                                        'data-[hover=true]:bg-emphasizingColor2',
                                         'transition-all duration-200',
                                         !comment.permissionScope.includes('EDIT') && 'hidden'
                                     )}
@@ -141,7 +131,7 @@ export const Comment: React.FC<CommentProps> = ({
                                     key={index} 
                                     src={file} 
                                     alt={`Preview ${index}`} 
-                                    className="w-24 h-24 object-cover rounded-lg border"
+                                    className="w-24 h-24 object-cover rounded-lg"
                                 />
                             )}
                         </div>

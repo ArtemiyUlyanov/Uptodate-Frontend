@@ -13,7 +13,7 @@ import { useEffect, useMemo } from "react";
 import { ArticleSharePostButton } from "./buttons/ArticleSharePostButton";
 import Comments from "../comments/Comments";
 import { UserModel } from "@/models/user";
-import { parseContent } from "@/utils/decoration.utils";
+import { parseContent } from "@/utils/article.content.utils";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { ApiArticleLikeParams, ApiArticleLikeResponse } from "@/services/api/articles.like.endpoint";
 import { ErrorResponse } from "@/services/api/responses.types";
@@ -22,13 +22,16 @@ import RoseLink from "@/ui/links/RoseLink";
 import { useDictionary } from "@/hooks/useDictionary";
 import DefaultLink from "@/ui/links/DefaultLink";
 import { useUser } from "@/hooks/models/useUser";
+import { useAccount } from "@/hooks/models/useAccount";
 
 export type ArticleProps = {
+    user?: UserModel
     article: ArticleModel
     likeMutate: UseMutateFunction<ApiArticleLikeResponse, ErrorResponse, ApiArticleLikeParams, unknown>
 }
 
 const Article: React.FC<ArticleProps> = ({
+    user,
     article,
     likeMutate
 }) => {
@@ -43,8 +46,8 @@ const Article: React.FC<ArticleProps> = ({
     , [article]);
 
     const { user: author, isFetched: isAuthorFetched } = useUser(article.authorId);
-
-    const { translate } = useDictionary();
+    
+    const { translate } = useDictionary(user);
 
     return (
         <div className="flex flex-col items-center gap-4 w-full">

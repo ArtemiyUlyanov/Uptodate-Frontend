@@ -1,6 +1,7 @@
 import { ArticleModel } from "@/models/article"
 import { CloseIcon } from "@/ui/icons/CloseIcon"
 import { Button, Card, CardFooter } from "@heroui/react"
+import clsx from "clsx"
 import { Dispatch, SetStateAction } from "react"
 
 export type DashboardMutationFormCoverProps = React.HTMLProps<HTMLDivElement> & {
@@ -32,7 +33,10 @@ export const DashboardMutationFormCover: React.FC<DashboardMutationFormCoverProp
                     <CardFooter className="flex flex-row justify-end absolute p-1">
                         <Button
                             isIconOnly
-                            className="text-default-400"
+                            className={clsx(
+                                'text-secondaryText',
+                                'data-[hover=true]:bg-emphasizingColor2'
+                            )}
                             size="sm"
                             variant="flat"
                             onPress={() => setIsCoverChanged(true)}
@@ -59,7 +63,10 @@ export const DashboardMutationFormCover: React.FC<DashboardMutationFormCoverProp
                             <CardFooter className="flex flex-row justify-end absolute p-1">
                                 <Button
                                     isIconOnly
-                                    className="text-default-400"
+                                    className={clsx(
+                                        "text-secondaryText",
+                                        'data-[hover=true]:bg-emphasizingColor2'
+                                    )}
                                     size="sm"
                                     variant="flat"
                                     onPress={() => removeFile(file)}

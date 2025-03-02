@@ -11,19 +11,22 @@ import { CloseIcon } from "../../ui/icons/CloseIcon";
 import { SearchIcon } from "../../ui/icons/SearchIcon";
 import IconInput from "../../ui/inputs/IconInput";
 import { CategoriesFilterOption, CategoriesFilterSection } from "./filter.types";
+import { UserModel } from "@/models/user";
 
 export type CategoriesFilterProps = React.HTMLProps<HTMLDivElement> & {
+    user?: UserModel
     name: string
     sections: CategoriesFilterSection[]
 }
 
 export const CategoriesFilter: React.FC<CategoriesFilterProps> = ({
+    user,
     name,
     sections
 }) => {
     const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
 
-    const { translate } = useDictionary();
+    const { translate } = useDictionary(user);
 
     const { searchInput, query, setQuery } = useLocalSearch(
         <IconInput
@@ -78,7 +81,10 @@ export const CategoriesFilter: React.FC<CategoriesFilterProps> = ({
                     >
                         <Button
                             isIconOnly
-                            className="text-default-400"
+                            className={clsx(
+                                "text-secondaryText",
+                                'data-[hover=true]:bg-emphasizingColor2'
+                            )}
                             size="sm"
                             variant="light"
                             onPress={() => setSelectedKeys(new Set([]))}
@@ -130,7 +136,7 @@ export const CategoriesFilter: React.FC<CategoriesFilterProps> = ({
                                 query && !option.name.toLowerCase().includes(query.toLowerCase()) && 'hidden'
                             )}
                         >
-                            {parseQueryText(`${option.name} (${(option as CategoriesFilterOption).count})`, query || '', 'bg-aspectText text-oppositeText')}
+                            {parseQueryText(`${option.name} (${(option as CategoriesFilterOption).count})`, query || '', 'bg-aspectText text-primaryText')}
                         </ListboxItem>
                     )}
                 </ListboxSection>

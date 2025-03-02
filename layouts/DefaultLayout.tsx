@@ -16,7 +16,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({
                 'relative flex flex-col items-center gap-8 w-full h-auto'
             )}>
                 <div className={clsx(
-                    'relative flex flex-col items-center gap-8 sm:gap-16 mt-[60px] pl-16 pr-16 w-full'
+                    'relative flex flex-col items-center gap-8 sm:gap-16 mt-[30px] pl-16 pr-16 w-full'
                 )}>
                     {children}
                 </div>

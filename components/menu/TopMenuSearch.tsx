@@ -17,19 +17,22 @@ import IconInput from "../../ui/inputs/IconInput";
 import DefaultLink from "../../ui/links/DefaultLink";
 import RedLink from "../../ui/links/RedLink";
 import SearchArticleCard from "../articles/cards/SearchArticleCard";
+import { UserModel } from "@/models/user";
 
 export type TopMenuSearchProps = React.HTMLProps<HTMLDivElement> & {
+    user?: UserModel
     onPerformingSearch?: () => void
 }
 
 const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
+    user,
     onPerformingSearch,
     ...props
 }) => {
     const [result, setResult] = useState<ArticleModel[]>([]);
     const router = useRouter();
 
-    const { language, translate } = useDictionary();
+    const { language, translate } = useDictionary(user);
 
     const { history } = useSelector((state: RootState) => state.history);
     const dispatch = useDispatch();
@@ -139,7 +142,10 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
                                             />
                                             <Button
                                                 isIconOnly
-                                                className="text-default-400"
+                                                className={clsx(
+                                                    "text-secondaryText",
+                                                    'data-[hover=true]:bg-emphasizingColor2'
+                                                )}
                                                 size="sm"
                                                 variant="light"
                                                 onPress={() => dispatch(removeQuery({query: query}))}

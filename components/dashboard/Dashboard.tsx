@@ -7,31 +7,21 @@ import { TrashIcon } from "@/ui/icons/TrashIcon";
 import { DashboardContent } from "./DashboardContent";
 import { Spinner } from "@heroui/react";
 import { UserModel } from "@/models/user";
+import { useEffect } from "react";
 
 export type DashboardProps = React.HTMLProps<HTMLDivElement> & {
     user?: UserModel
+    isUserFetched: boolean
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({
-    user
+    user,
+    isUserFetched
 }) => {
     const { articles, likeMutate, deleteMutate } = useArticles({ ids: user?.articlesIds || [] });
-    const { isFetched: isUserFetched } = useAccount();
 
     const deleteArticle = (id: number) => {
         deleteMutate({ id });
-
-        addToast({
-            title: "Article deleted!",
-            classNames: {
-                title: 'font-interTight font-semibold text-primaryText',
-                icon: 'h-4 fill-redColor',
-                base: 'bg-emphasizingColor2 border-borderColor'
-            },
-            icon: (
-                <TrashIcon />
-            )
-        });
     }
 
     return (

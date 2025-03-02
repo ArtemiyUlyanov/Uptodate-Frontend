@@ -14,7 +14,7 @@ export type ApiArticleGetResponse = {
     error?: ErrorResponse
 }
 
-export const getArticleApi = async ({
+export const articleGetApi = async ({
     id,
     slug
 }: ApiArticleGetParams): Promise<ApiArticleGetResponse> => {
@@ -60,7 +60,7 @@ export type ApiArticlesGetResponse = {
     error?: ErrorResponse
 }
 
-export const getArticlesApi = async ({
+export const articlesGetApi = async ({
     ids
 }: ApiArticlesGetParams): Promise<ApiArticlesGetResponse> => {
     try {

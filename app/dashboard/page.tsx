@@ -17,11 +17,12 @@ import { useParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 
 const DashboardPage = () => {
-    const { translate } = useDictionary();
-    const { user, isFetched: isUserFetched } = useAccount();
+    const { user, editMutate, isFetched: isUserFetched } = useAccount();
+    const { translate } = useDictionary(user);
 
     return (
         <DashboardLayout
+            user={user}
             topMenu={
                 <TopMenu 
                     optionTemplates={getTopMenuOptions(translate)}
@@ -29,6 +30,8 @@ const DashboardPage = () => {
             }
             footer={
                 <AppFooter
+                    user={user}
+                    editMutate={editMutate}
                     sectionTemplates={getAppFooterSections(translate)}
                 />
             }
@@ -40,7 +43,7 @@ const DashboardPage = () => {
                 />
             }   
         >
-            <Dashboard user={user} />
+            <Dashboard user={user} isUserFetched={isUserFetched} />
         </DashboardLayout>
     );
 }

@@ -5,17 +5,20 @@ import { useDictionary } from "@/hooks/useDictionary";
 import { DashboardNavigation, getDashboardOptions } from "@/components/dashboard/DashboardNavigation";
 import { DashboardIcon } from "@/ui/icons/DashboardIcon";
 import DefaultLayout from "./DefaultLayout";
+import { UserModel } from "@/models/user";
 
 export type DashboardLayoutProps = LayoutProps & {
+    user?: UserModel
     navigation: React.ReactElement
 };
 
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
+    user,
     footer,
     navigation,
     children
 }) => {
-    const { translate } = useDictionary();
+    const { translate } = useDictionary(user);
 
     return (
         <div className='relative flex flex-col justify-between items-center w-full min-h-[100vh]'>

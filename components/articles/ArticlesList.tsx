@@ -10,11 +10,14 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Filters from "../filters/Filters";
 import { Spinner } from "@heroui/react";
+import { UserModel } from "@/models/user";
 
 export type ArticlesListProps = React.HTMLProps<HTMLDivElement> & {
+    user?: UserModel
 }
 
 const ArticlesList: React.FC<ArticlesListProps> = ({
+    user,
     children
 }) => {
     const { articles, query, setQuery, pages, setPages, totalElements, totalPages, likeMutate, isFetching } = useSearch();
@@ -22,7 +25,7 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
 
     const { filters, setFilter } = useFilters();
 
-    const { language, translate } = useDictionary();
+    const { language, translate } = useDictionary(user);
     const dispath = useDispatch();
 
     useEffect(() => {
@@ -56,7 +59,7 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
                             }
                         </p>
                     </div>
-                    <Filters />
+                    <Filters user={user} />
                 </div>
                 <div className={clsx(
                     'grid grid-cols-3 gap-8 items-start w-full'

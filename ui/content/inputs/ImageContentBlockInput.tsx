@@ -35,6 +35,7 @@ export const ImageContentBlockInput: React.FC<ImageContentBlockInputProps> = ({
                 <Button
                     className={clsx(
                         'justify-start gap-1.5 rounded-lg opacity-100',
+                        'data-[hover=true]:bg-emphasizingColor2',
                         'transition-all duration-200'
                     )}
                     size='sm'
@@ -82,7 +83,10 @@ export const ImageContentBlockInput: React.FC<ImageContentBlockInputProps> = ({
                         <CardFooter className="flex flex-row justify-end absolute p-1">
                             <Button
                                 isIconOnly
-                                className="text-default-400"
+                                className={clsx(
+                                    "text-secondaryText",
+                                    'data-[hover=true]:bg-emphasizingColor2'
+                                )}
                                 size="sm"
                                 variant="flat"
                                 onPress={() => removeContentBlock(index)}
@@ -106,7 +110,10 @@ export const ImageContentBlockInput: React.FC<ImageContentBlockInputProps> = ({
                     <CardFooter className="flex flex-row justify-end absolute p-1">
                         <Button
                             isIconOnly
-                            className="text-default-400"
+                            className={clsx(
+                                "text-secondaryText",
+                                'data-[hover=true]:bg-emphasizingColor2'
+                            )}
                             size="sm"
                             variant="flat"
                             onPress={() => removeContentBlock(index)}
@@ -138,6 +145,7 @@ export const ImageContentBlockInput: React.FC<ImageContentBlockInputProps> = ({
                     isIconOnly
                     className={clsx(
                         'bg-[transparent]',
+                        'data-[hover=true]:bg-emphasizingColor2',
                         'transition-all duration-200',
                     )}
                     onPress={() => removeContentBlock(index)}

@@ -1,16 +1,17 @@
 import clsx from "clsx";
 import { StaticImageData } from "next/image";
 import { CustomButtonProps } from "./button.type";
+import { Button } from "@heroui/react";
 
-export type TransparentIconButtonProps = CustomButtonProps & {
+export type TransparentButtonProps = CustomButtonProps & {
     text?: string
     hoverEffect: 'opacity' | 'background'
-    image: React.ReactNode
+    icon?: React.ReactNode
 }
 
-const TransparentIconButton: React.FC<TransparentIconButtonProps> = ({
+const TransparentButton: React.FC<TransparentButtonProps> = ({
     text,
-    image,
+    icon,
     hoverEffect,
     onClickButton,
     customClassName
@@ -30,10 +31,10 @@ const TransparentIconButton: React.FC<TransparentIconButtonProps> = ({
             )}
             onClick={onClickButton}
         >
-            {image}
+            {icon}
             {text}
         </button>
     );
 }
 
-export default TransparentIconButton;
+export default TransparentButton;

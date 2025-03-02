@@ -71,7 +71,10 @@ export const CentredDrawer: React.FC<CentredDrawerProps> = ({
                                 >
                                     <Button
                                         isIconOnly
-                                        className="text-default-400"
+                                        className={clsx(
+                                            'text-secondaryText',
+                                            'data-[hover=true]:bg-emphasizingColor2'
+                                        )}
                                         size="sm"
                                         variant="light"
                                         onPress={onClose}

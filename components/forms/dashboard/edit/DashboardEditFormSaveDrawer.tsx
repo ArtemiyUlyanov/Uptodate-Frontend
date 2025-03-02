@@ -7,7 +7,7 @@ import { CloseIcon } from "@/ui/icons/CloseIcon";
 import { UploadFileIcon } from "@/ui/icons/UploadFileIcon";
 import { addToast, Button, Card, CardFooter, Tooltip } from "@heroui/react";
 import clsx from "clsx";
-import { FormEvent, useEffect, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react";
 import { DashboardMutationFormCategories } from "../DashboardMutationFormCategories";
 import DefaultTextarea from "@/ui/textareas/DefaultTextarea";
 import { CheckmarkIcon } from "@/ui/icons/CheckmarkIcon";
@@ -17,6 +17,7 @@ import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { ArticleModel } from "@/models/article";
 import { DashboardMutationFormCover } from "../DashboardMutationFormCover";
 import { ApiArticleEditParams, ApiArticleEditResponse, editArticleApi } from "@/services/api/articles.edit.endpoint";
+import { useRouter } from "next/navigation";
 
 export type DashboardEditFormSaveDrawerProps = React.HTMLProps<HTMLDivElement> & {
     heading: string
@@ -24,6 +25,8 @@ export type DashboardEditFormSaveDrawerProps = React.HTMLProps<HTMLDivElement> &
     resources: File[]
     article?: ArticleModel
     isArticleFetched: boolean
+    isFormSent: boolean
+    setIsFormSent: Dispatch<SetStateAction<boolean>>
 }
 
 const useEditArticleQuery = (
@@ -42,12 +45,16 @@ export const DashboardEditFormSaveDrawer: React.FC<DashboardEditFormSaveDrawerPr
     contentBlocks,
     resources,
     article,
-    isArticleFetched
+    isArticleFetched,
+    isFormSent,
+    setIsFormSent
 }) => {
     const [categories, setCategories] = useState<Set<string>>(new Set([]));
     const [description, setDescription] = useState<string>('');
 
     const [isCoverChanged, setIsCoverChanged] = useState<boolean>(false);
+    
+    const router = useRouter();
 
     const { selectedFiles, addFile, removeFile, clearFiles, uploader } = useUploader(
         (onClick) => (
@@ -61,6 +68,7 @@ export const DashboardEditFormSaveDrawer: React.FC<DashboardEditFormSaveDrawerPr
                 <Button
                     className={clsx(
                         'justify-start gap-1.5 rounded-lg opacity-100',
+                        'data-[hover=true]:bg-emphasizingColor2',
                         'transition-all duration-200'
                     )}
                     size='sm'
@@ -109,7 +117,7 @@ export const DashboardEditFormSaveDrawer: React.FC<DashboardEditFormSaveDrawerPr
                         title: "Article has been edited successfully!",
                         classNames: {
                             title: 'font-interTight font-semibold text-primaryText',
-                            icon: 'h-4 fill-primaryColor',
+                            icon: 'h-4 fill-green-500',
                             description: 'font-interTight font-medium text-secondaryText',
                             base: 'bg-emphasizingColor2 border-borderColor'
                         },
@@ -117,6 +125,9 @@ export const DashboardEditFormSaveDrawer: React.FC<DashboardEditFormSaveDrawerPr
                             <CheckmarkIcon />
                         )
                     });
+
+                    setIsFormSent(true);
+                    setTimeout(() => router.push('/dashboard'), 1000);
                 } else {
                     addToast({
                         title: "Unable to edit article!",
@@ -147,7 +158,7 @@ export const DashboardEditFormSaveDrawer: React.FC<DashboardEditFormSaveDrawerPr
                             text='Save'
                             customClassName='font-interTight font-semibold text-sm text-center rounded-md'
                             onPress={onClick}
-                            isDisabled={!heading || contentBlocks.length <= 0}
+                            isDisabled={!heading || contentBlocks.length <= 0 || isFormSent}
                             type="submit"
                             size="sm"
                         />
@@ -193,7 +204,7 @@ export const DashboardEditFormSaveDrawer: React.FC<DashboardEditFormSaveDrawerPr
                                 text='Save the draft'
                                 customClassName='font-interTight font-semibold text-sm text-center rounded-md'
                                 isLoading={isFetching}
-                                isDisabled={categories.size <= 0 || !description || (isCoverChanged && selectedFiles.length <= 0)}
+                                isDisabled={categories.size <= 0 || !description || (isCoverChanged && selectedFiles.length <= 0) || isFormSent}
                                 type="submit"
                                 size="sm"
                             />

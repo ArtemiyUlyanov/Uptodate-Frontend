@@ -1,5 +1,5 @@
 import { ArticleModel } from "@/models/article"
-import { ApiArticleGetParams, ApiArticleGetResponse, ApiArticlesGetParams, ApiArticlesGetResponse, getArticleApi, getArticlesApi } from "@/services/api/articles.get.endpoint"
+import { ApiArticleGetParams, ApiArticleGetResponse, ApiArticlesGetParams, ApiArticlesGetResponse, articlesGetApi } from "@/services/api/articles.get.endpoint"
 import { QueryObserverResult, RefetchOptions, UseMutateFunction, useQuery, UseQueryOptions } from "@tanstack/react-query"
 import { useEffect, useState } from "react"
 import { useArticleLikeMutation } from "./mutations/useArticleLikeMutation"
@@ -30,7 +30,7 @@ const useArticlesQuery = (
 ) => {
     return useQuery<ApiArticlesGetResponse>({
         queryKey: ['articles', params.ids],
-        queryFn: () => getArticlesApi(params),
+        queryFn: () => articlesGetApi(params),
         ...opts,
     });
 }

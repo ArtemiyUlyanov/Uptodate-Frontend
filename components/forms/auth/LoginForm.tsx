@@ -39,8 +39,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
             dispatch(setUser({access_token: response.access_token, refresh_token: response.refresh_token, isAuthenticated: true}));
 
             addToast({
-                title: "You are in!",
-                description: "Now you are authenticated and able to use some of restricted features",
+                title: "Welcome Back!",
+                description: "You’ve successfully logged in! Ready to dive back in and make some magic happen? ✨🔑",
                 classNames: {
                     title: 'font-interTight font-semibold text-primaryText',
                     icon: 'h-4 fill-primaryColor',
@@ -113,9 +113,9 @@ const LoginForm: React.FC<LoginFormProps> = ({
                                 />
                             </div>
                         </div>
-                        <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-2">
                             <div className={clsx(
-                                'flex flex-col gap-2'
+                                'flex flex-col gap-4'
                             )}>
                                 <div className={clsx(
                                     'flex flex-col gap-1'
@@ -174,7 +174,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                                 </div>
                                 <DefaultButton
                                     text={translate('common.login.login_form_sign_in_button')}
-                                    customClassName='font-interTight font-semibold text-base text-center rounded-md'
+                                    customClassName='font-interTight font-semibold text-base text-center rounded-lg'
                                     type='submit'
                                     isLoading={isSubmitting}
                                     isDisabled={!isValid}

@@ -11,6 +11,8 @@ import { ApiCommentsGetResponse } from "@/services/api/comments.get.endpoint";
 import { ApiCommentLikeParams, ApiCommentLikeResponse, likeCommentApi } from "@/services/api/comments.like.endpoint";
 import { ErrorResponse } from "@/services/api/responses.types";
 import { useQuery, useMutation, useQueryClient, UseMutateFunction } from "@tanstack/react-query";
+import { addToast } from "@heroui/toast";
+import { TrashIcon } from "@/ui/icons/TrashIcon";
 
 export type UseArticlesDeleteMutationParams = {
     queryKey: any
@@ -33,7 +35,21 @@ export const useArticlesDeleteMutation = ({ queryKey }: UseArticlesDeleteMutatio
                         article.id !== variables.id
                     )
                 }
-            });  
+            });
+
+            addToast({
+                title: "Gone Without a Trace!",
+                description: "Poof! Your article has vanished into the void. Hope you didn’t get too attached… or did you? 🤔🗑️",
+                classNames: {
+                    title: 'font-interTight font-semibold text-primaryText',
+                    icon: 'h-4 fill-redColor',
+                    description: 'font-interTight font-medium text-secondaryText',
+                    base: 'bg-emphasizingColor2 border-borderColor'
+                },
+                icon: (
+                    <TrashIcon />
+                )
+            });
         },
         onError: () => console.log('sddsds')
     });

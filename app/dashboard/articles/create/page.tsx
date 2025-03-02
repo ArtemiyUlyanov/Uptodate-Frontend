@@ -19,12 +19,15 @@ import { useParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 
 const DashboardArticleCreatePage = () => {
-    const { translate } = useDictionary();
+    const { user, editMutate } = useAccount();
+    const { translate } = useDictionary(user);
 
     return (
         <DefaultLayout
             footer={
                 <AppFooter
+                    user={user}
+                    editMutate={editMutate}
                     sectionTemplates={getAppFooterSections(translate)}
                 />
             }

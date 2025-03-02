@@ -15,6 +15,8 @@ import { UptodateIcon } from "../../ui/icons/UptodateIcon";
 import DefaultLink from "../../ui/links/DefaultLink";
 import { TopMenuOption } from "./TopMenu";
 import TopMenuSearch from "./TopMenuSearch";
+import { useAccount } from "@/hooks/models/useAccount";
+import { useRouter } from "next/navigation";
 
 export type TopMenuContentProps = React.HTMLProps<HTMLDivElement> & {
     optionTemplates: TopMenuOption[]
@@ -25,10 +27,23 @@ const TopMenuContent: React.FC<TopMenuContentProps> = ({
     optionTemplates,
     onTogglingSearch
 }) => {
-    const { language, translate } = useDictionary();
+    const { user, isFetched: isUserFetched, editMutate } = useAccount();
+
+    const { language, translate } = useDictionary(user);
     const dispatch = useDispatch();
 
-    const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+    const changeLanguage = (language: string) => {
+        if (!user) {
+            dispatch(setLanguage({ language }));
+        } else {
+            editMutate({ 
+                firstName: user?.firstName,
+                lastName: user.lastName,
+                username: user.username,
+                settings: {...user.settings, language: language}
+            });
+        }
+    }
 
     return (
         <>
@@ -72,7 +87,7 @@ const TopMenuContent: React.FC<TopMenuContentProps> = ({
             <div className={clsx(
                 'flex flex-row items-center gap-6 w-auto h-[100%] hidden md:flex',
             )}>
-                <TopMenuSearch />
+                <TopMenuSearch user={user} />
                 <SelectableDropdown 
                     selectedKeys={[language]}
                     size='sm'
@@ -85,7 +100,7 @@ const TopMenuContent: React.FC<TopMenuContentProps> = ({
                         trigger: 'text-primaryText',
                         unwrappingElement: 'fill-primaryText'
                     }}
-                    onSelected={(keys) => dispatch(setLanguage({language: Array.from(keys)[0]}))}
+                    onSelected={(keys) => changeLanguage(Array.from(keys)[0])}
                     options={[
                         {
                             name: "English",
@@ -125,7 +140,7 @@ const TopMenuContent: React.FC<TopMenuContentProps> = ({
                         },
                     ]}
                 />
-                {!isAuthenticated &&      
+                {!user &&      
                     <LoginForm 
                         trigger={
                             (onClick) =>
@@ -141,8 +156,8 @@ const TopMenuContent: React.FC<TopMenuContentProps> = ({
                         }
                     />
                 }
-                {isAuthenticated && 
-                    <TopMenuProfileSettingsDropdown />
+                {user && 
+                    <TopMenuProfileSettingsDropdown user={user} isUserFetched={isUserFetched} />
                 }
             </div>
         </>

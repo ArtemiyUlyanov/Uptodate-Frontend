@@ -1,4 +1,5 @@
 import { useDictionary } from "@/hooks/useDictionary";
+import { UserModel } from "@/models/user";
 import { setLanguage } from "@/store/features/language/languageSlice";
 import SelectableDropdown from "@/ui/dropdowns/SelectableDropdown";
 import { FranceFlagIcon } from "@/ui/icons/FranceFlagIcon";
@@ -13,6 +14,7 @@ import { useMemo } from "react";
 import { useDispatch } from "react-redux";
 
 export type AppFooterProps = React.HTMLProps<HTMLDivElement> & {
+    user?: UserModel
     sectionTemplates: AppFooterSection[]
 }
 
@@ -89,9 +91,10 @@ export const getAppFooterSections = (translate: (text: string) => string): AppFo
 ]
 
 const AppFooter: React.FC<AppFooterProps> = ({
+    user,
     sectionTemplates
 }) => {
-    const { language, translate } = useDictionary();
+    const { language, translate } = useDictionary(user);
     const dispatch = useDispatch();
 
     const sections = useMemo(() => 

@@ -1,5 +1,5 @@
 import { ArticleModel } from "@/models/article"
-import { ApiArticleGetParams, ApiArticleGetResponse, getArticleApi } from "@/services/api/articles.get.endpoint"
+import { ApiArticleGetParams, ApiArticleGetResponse } from "@/services/api/articles.get.endpoint"
 import { QueryObserverResult, RefetchOptions, UseMutateFunction, useQuery, UseQueryOptions } from "@tanstack/react-query"
 import { useEffect, useState } from "react"
 import { useArticleLikeMutation } from "./mutations/useArticleLikeMutation"

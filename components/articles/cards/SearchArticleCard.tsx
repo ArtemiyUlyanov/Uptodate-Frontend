@@ -80,9 +80,9 @@ export const SearchArticleCard: React.FC<SearchArticleCardProps> = ({
                                 href={`/${article.slug}`}
                                 className="hover:opacity-50"
                             >
-                                <p className="font-interTight font-semibold text-primaryText text-sm line-clamp-2">{parseQueryText(capitalizeText(article.heading), query || '', 'bg-aspectText text-oppositeText')}</p>
+                                <p className="font-interTight font-semibold text-primaryText text-sm line-clamp-2">{parseQueryText(capitalizeText(article.heading), query || '', 'bg-aspectText text-primaryText')}</p>
                             </Link>
-                            <p className="font-interTight font-medium text-secondaryText text-sm line-clamp-3">{parseQueryText(article.description, query || '', 'bg-aspectText text-oppositeText')}</p>
+                            <p className="font-interTight font-medium text-secondaryText text-sm line-clamp-3">{parseQueryText(article.description, query || '', 'bg-aspectText text-primaryText')}</p>
                         </div>
                     </div>
                 </div>

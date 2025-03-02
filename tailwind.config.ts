@@ -71,7 +71,7 @@ export default {
         secondaryColor2: "#C4C4C4",
         emphasizingColor: "#111115",
         emphasizingColor2: "#1A1A1F",
-        emphasizingColor3: "#202020",
+        emphasizingColor3: "#24242C",
         redColor: "#F44336",
         aspectColor: "#1C77FF",
         warnColor: "#FF4C4C",

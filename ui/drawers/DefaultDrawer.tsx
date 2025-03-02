@@ -2,6 +2,7 @@ import { Button, Drawer, DrawerBody, DrawerContent, DrawerHeader, Tooltip, useDi
 import { CloseIcon } from "../icons/CloseIcon";
 import React, { useEffect, useMemo, useRef } from "react";
 import { DrawerTriggerProps, DrawerBodyProps } from "./drawer_components";
+import clsx from "clsx";
 
 export type DefaultDrawerProps = {
     title: string
@@ -66,7 +67,10 @@ export const DefaultDrawer: React.FC<DefaultDrawerProps> = ({
                                 >
                                     <Button
                                         isIconOnly
-                                        className="text-default-400"
+                                        className={clsx(
+                                            "text-secondaryText",
+                                            'data-[hover=true]:bg-emphasizingColor2'
+                                        )}
                                         size="sm"
                                         variant="light"
                                         onPress={onClose}

@@ -5,7 +5,7 @@ import { CategoriesFilter } from "@/components/filters/CategoriesFilter";
 import { useFilters } from "@/hooks/explore/useFilters";
 import { useDictionary } from "@/hooks/useDictionary";
 import { select_value_by_language } from "@/models/translative_string";
-import TransparentIconButton from "@/ui/buttons/TransparentIconButton";
+import TransparentButton from "@/ui/buttons/TransparentButton";
 import { DefaultDrawer } from "@/ui/drawers/DefaultDrawer";
 import { DrawerBody, DrawerTrigger } from "@/ui/drawers/drawer_components";
 import { FiltersIcon } from "@/ui/icons/FiltersIcon";
@@ -15,15 +15,19 @@ import { Accordion, AccordionItem, Chip } from "@heroui/react";
 import clsx from "clsx";
 import { useMemo } from "react";
 import { useCategories } from "@/hooks/models/useCategories";
+import { UserModel } from "@/models/user";
 
-export type FiltersProps = React.HTMLProps<HTMLDivElement>
+export type FiltersProps = React.HTMLProps<HTMLDivElement> & {
+    user?: UserModel
+}
 
 const Filters: React.FC<FiltersProps> = ({
+    user
 }) => {
     const { categories } = useCategories();
 
     const { filters } = useFilters();
-    const { language, translate } = useDictionary();
+    const { language, translate } = useDictionary(user);
 
     const sortedCategories = useMemo(() =>
         Array.from(
@@ -56,10 +60,10 @@ const Filters: React.FC<FiltersProps> = ({
             >
                 <DrawerTrigger>
                     {(onClick) => (
-                        <TransparentIconButton 
+                        <TransparentButton 
                             text={translate('common.filters.drawer.open_drawer_button')}
                             hoverEffect="opacity"
-                            image={
+                            icon={
                                 <div className="h-3 fill-primaryText">
                                     <FiltersIcon />
                                 </div>
@@ -121,7 +125,7 @@ const Filters: React.FC<FiltersProps> = ({
                                 </div>
                             }
                             startContent={
-                                <div className="w-3 h-3">
+                                <div className="h-5 fill-secondaryText">
                                     <CategoriesFilterIcon 
                                         className="fill-primaryText" 
                                     />
@@ -129,6 +133,7 @@ const Filters: React.FC<FiltersProps> = ({
                             }
                         >
                             <CategoriesFilter 
+                                user={user}
                                 name={translate('common.filters.categories.name')}
                                 sections={sortedCategories}
                             />

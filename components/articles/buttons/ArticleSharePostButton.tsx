@@ -47,6 +47,7 @@ export const ArticleSharePostButton: React.FC<ArticleSharePostButtonProps> = ({
                             isIconOnly
                             className={clsx(
                                 'bg-[transparent]',
+                                'data-[hover=true]:bg-emphasizingColor2',
                                 'transition-all duration-200',
                             )}
                             variant='light'

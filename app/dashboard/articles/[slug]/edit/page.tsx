@@ -16,20 +16,20 @@ import MenuLayout from "@/layouts/MenuLayout";
 import { formatDateToISO } from "@/utils/date.utils";
 import { capitalizeText } from "@/utils/text.utils";
 import { BreadcrumbItem, Breadcrumbs, Spinner } from "@heroui/react";
-import { useParams, useRouter } from "next/navigation";
+import { notFound, useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
 
 const DashboardArticleEditPage = () => {
-    const { translate } = useDictionary();
-
     const { slug } = useParams();
     const { article, refetch, isFetched, likeMutate } = useArticle({ slug: slug?.toString() });
+    const { user, editMutate } = useAccount();
 
+    const { translate } = useDictionary(user);
     const router = useRouter();
 
     useEffect(() => {
-        if (isFetched && article == null) {
-            router.push('/dashboard');
+        if (isFetched && article == undefined) {
+            notFound();
         }
     }, [article, isFetched]);
 
@@ -37,6 +37,8 @@ const DashboardArticleEditPage = () => {
         <DefaultLayout
             footer={
                 <AppFooter
+                    user={user}
+                    editMutate={editMutate}
                     sectionTemplates={getAppFooterSections(translate)}
                 />
             }

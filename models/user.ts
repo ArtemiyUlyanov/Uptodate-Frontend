@@ -2,6 +2,7 @@ import { ArticleModel } from "./article"
 import { ArticleLikeModel } from "./article_like"
 import { CommentModel } from "./comment"
 import { CommentLikeModel } from "./comment_like"
+import { UserSettingsModel } from "./user_settings"
 
 export type UserModel = {
     id: number
@@ -11,6 +12,7 @@ export type UserModel = {
     lastName: string
     icon: string
     roles: Array<UserRole>
+    settings: UserSettingsModel
     likedArticles?: Array<ArticleLikeModel>
     likedComments?: Array<CommentLikeModel>
     articlesIds: Array<number>

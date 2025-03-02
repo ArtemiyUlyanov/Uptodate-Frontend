@@ -38,6 +38,7 @@ export const HeadingContentBlockInput: React.FC<HeadingContentBlockInputProps> =
                 isIconOnly
                 className={clsx(
                     'bg-[transparent]',
+                    'data-[hover=true]:bg-emphasizingColor2',
                     'transition-all duration-200',
                 )}
                 onPress={() => removeContentBlock(index)}

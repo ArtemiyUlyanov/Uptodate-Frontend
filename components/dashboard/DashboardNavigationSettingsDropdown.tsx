@@ -22,7 +22,7 @@ export const DashboardNavigationSettingsDropdown: React.FC<DashboardNavigationSe
     user,
     isUserFetched
 }) => {
-    const { language, translate } = useDictionary();
+    const { language, translate } = useDictionary(user);
 
     const [isOpen, setIsOpen] = useState<boolean>();
 
@@ -75,7 +75,6 @@ export const DashboardNavigationSettingsDropdown: React.FC<DashboardNavigationSe
                         base: 'opacity-100',
                         title: 'text-primaryText'
                     }}
-                    showDivider
                 >
                     <User
                         avatarProps={{
@@ -117,7 +116,7 @@ export const DashboardNavigationSettingsDropdown: React.FC<DashboardNavigationSe
                         </div>
                     }
                 >
-                    <a href="/dashboard/settings">{translate('common.menu.profile_dropdown.options.settings')}</a>
+                    <a href="/settings">{translate('common.menu.profile_dropdown.options.settings')}</a>
                 </DropdownItem>
                 <DropdownItem
                     key='logout'

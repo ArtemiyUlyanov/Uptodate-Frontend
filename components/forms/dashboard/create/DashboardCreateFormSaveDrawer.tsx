@@ -7,18 +7,21 @@ import { CloseIcon } from "@/ui/icons/CloseIcon";
 import { UploadFileIcon } from "@/ui/icons/UploadFileIcon";
 import { addToast, Button, Card, CardFooter, Tooltip } from "@heroui/react";
 import clsx from "clsx";
-import { FormEvent, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { DashboardMutationFormCategories } from "../DashboardMutationFormCategories";
 import DefaultTextarea from "@/ui/textareas/DefaultTextarea";
 import { CheckmarkIcon } from "@/ui/icons/CheckmarkIcon";
 import { PersonalAccountIcon } from "@/ui/icons/PersonalAccountIcon";
 import { ApiArticleCreateParams, ApiArticleCreateResponse, createArticleApi } from "@/services/api/articles.create.endpoint";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 export type DashboardCreateFormSaveDrawerProps = React.HTMLProps<HTMLDivElement> & {
     heading: string
     contentBlocks: ContentBlockModel[]
     resources: File[]
+    isFormSent: boolean
+    setIsFormSent: Dispatch<SetStateAction<boolean>>
 }
 
 const useCreateArticleQuery = (
@@ -35,10 +38,14 @@ const useCreateArticleQuery = (
 export const DashboardCreateFormSaveDrawer: React.FC<DashboardCreateFormSaveDrawerProps> = ({
     heading,
     contentBlocks,
-    resources
+    resources,
+    isFormSent,
+    setIsFormSent
 }) => {
     const [categories, setCategories] = useState<Set<string>>(new Set([]));
     const [description, setDescription] = useState<string>('');
+
+    const router = useRouter();
 
     const { selectedFiles, addFile, removeFile, clearFiles, uploader } = useUploader(
         (onClick) => (
@@ -52,6 +59,7 @@ export const DashboardCreateFormSaveDrawer: React.FC<DashboardCreateFormSaveDraw
                 <Button
                     className={clsx(
                         'justify-start gap-1.5 rounded-lg opacity-100',
+                        'data-[hover=true]:bg-emphasizingColor2',
                         'transition-all duration-200'
                     )}
                     size='sm'
@@ -92,7 +100,7 @@ export const DashboardCreateFormSaveDrawer: React.FC<DashboardCreateFormSaveDraw
                         title: "Article has been created successfully!",
                         classNames: {
                             title: 'font-interTight font-semibold text-primaryText',
-                            icon: 'h-4 fill-primaryColor',
+                            icon: 'h-4 fill-green-500',
                             description: 'font-interTight font-medium text-secondaryText',
                             base: 'bg-emphasizingColor2 border-borderColor'
                         },
@@ -100,6 +108,9 @@ export const DashboardCreateFormSaveDrawer: React.FC<DashboardCreateFormSaveDraw
                             <CheckmarkIcon />
                         )
                     });
+
+                    setIsFormSent(true);
+                    setTimeout(() => router.push('/dashboard'), 1000);
                 } else {
                     addToast({
                         title: "Unable to create article!",
@@ -131,7 +142,7 @@ export const DashboardCreateFormSaveDrawer: React.FC<DashboardCreateFormSaveDraw
                             customClassName='font-interTight font-semibold text-sm text-center rounded-md'
                             onPress={onClick}
                             // isLoading={isEditPending}
-                            isDisabled={!heading || contentBlocks.length <= 0}
+                            isDisabled={!heading || contentBlocks.length <= 0 || isFormSent}
                             type="submit"
                             size="sm"
                         />
@@ -183,7 +194,10 @@ export const DashboardCreateFormSaveDrawer: React.FC<DashboardCreateFormSaveDraw
                                         <CardFooter className="flex flex-row justify-end absolute p-1">
                                             <Button
                                                 isIconOnly
-                                                className="text-default-400"
+                                                className={clsx(
+                                                    "text-secondaryText",
+                                                    'data-[hover=true]:bg-emphasizingColor2'
+                                                )}
                                                 size="sm"
                                                 variant="flat"
                                                 onPress={() => removeFile(file)}
@@ -204,7 +218,7 @@ export const DashboardCreateFormSaveDrawer: React.FC<DashboardCreateFormSaveDraw
                                 text='Save the draft'
                                 customClassName='font-interTight font-semibold text-sm text-center rounded-md'
                                 isLoading={isFetching}
-                                isDisabled={categories.size <= 0 || selectedFiles.length <= 0 || !description}
+                                isDisabled={categories.size <= 0 || selectedFiles.length <= 0 || !description || isFormSent}
                                 type="submit"
                                 size="sm"
                             />

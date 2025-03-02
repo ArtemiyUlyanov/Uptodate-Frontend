@@ -19,7 +19,7 @@ const Comments: React.FC<CommentsProps> = ({
     const { user } = useAccount(); 
 
     const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-    const { translate } = useDictionary();
+    const { translate } = useDictionary(user);
 
     const { comments, likeMutate, deleteMutate, createMutate, editMutate, isCreatePending, isEditPending } = useComments({ articleId: article.id });
 

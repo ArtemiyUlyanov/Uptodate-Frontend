@@ -39,6 +39,7 @@ export const ListContentBlockInput: React.FC<ListContentBlockInputProps> = ({
                 isIconOnly
                 className={clsx(
                     'bg-[transparent]',
+                    'data-[hover=true]:bg-emphasizingColor2',
                     'transition-all duration-200',
                 )}
                 onPress={() => removeContentBlock(index)}

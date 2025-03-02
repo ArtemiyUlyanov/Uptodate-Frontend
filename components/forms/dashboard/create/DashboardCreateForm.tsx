@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
 import { DashboardAddContentPopover } from "../../../dashboard/articles/DashboardAddContentPopover";
 import { ContentBlockModel } from "@/models/content_block";
-import { parseContentInputs } from "@/utils/decoration.utils";
+import { parseContentInputs } from "@/utils/article.content.utils";
 import { DashboardCreateFormSaveDrawer } from "./DashboardCreateFormSaveDrawer";
 import { CheckmarkIcon } from "@/ui/icons/CheckmarkIcon";
 import { ArticleModel } from "@/models/article";
@@ -25,6 +25,7 @@ export const DashboardCreateForm: React.FC<DashboardCreateFormProps> = ({
     const [heading, setHeading] = useState<string>('');
     const [contentBlocks, setContentBlocks] = useState<ContentBlockModel[]>([]);
     const [resources, setResources] = useState<Record<number, File | undefined>>({});
+    const [isFormSent, setIsFormSent] = useState<boolean>(false);
 
     const addContentBlock = (contentBlock: ContentBlockModel) => {
         setContentBlocks(prev => [...prev, contentBlock]);
@@ -73,7 +74,13 @@ export const DashboardCreateForm: React.FC<DashboardCreateFormProps> = ({
                     <DashboardAddContentPopover addContentBlock={addContentBlock} />
                 </div>
             </div>
-            <DashboardCreateFormSaveDrawer heading={heading} contentBlocks={contentBlocks} resources={Object.values(resources).filter(resource => resource !== undefined)} />
+            <DashboardCreateFormSaveDrawer 
+                heading={heading} 
+                contentBlocks={contentBlocks} 
+                resources={Object.values(resources).filter(resource => resource !== undefined)} 
+                isFormSent={isFormSent}
+                setIsFormSent={setIsFormSent}
+            />
         </div>
     );
 }

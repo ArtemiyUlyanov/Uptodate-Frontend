@@ -11,6 +11,7 @@ const DefaultInput: React.FC<DefaultInputProps> = ({
     customClassName,
     fullBordered,
     inputClassName,
+    startContent,
     handleChange,
     ...props
 }) => {
@@ -26,19 +27,20 @@ const DefaultInput: React.FC<DefaultInputProps> = ({
             const newValue = props.value as string;
             
             setValue(newValue);
-            handleChange && handleChange(newValue);
+            // handleChange && handleChange(newValue);
         }
     }, [props.value]);
 
     return (
         <div className={clsx(
             'inline-flex flex-row items-center gap-2',
-            'pl-[10px] pr-[10px] pt-[5px] pb-[5px]',
+            'pl-3 pr-3 pt-2 pb-2 rounded-lg',
             !fullBordered && 'border-b border-b-borderColor',
-            fullBordered && 'border border-borderColor rounded-md',
+            fullBordered && 'border border-borderColor',
             'transition-all duration-200',
             customClassName
         )}>
+            {startContent}
             <input 
                 placeholder={placeholder}
                 value={value}

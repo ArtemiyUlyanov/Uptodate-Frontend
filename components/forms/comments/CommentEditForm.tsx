@@ -97,12 +97,15 @@ export const CommentEditForm: React.FC<CommentEditFormProps> = ({
                                     key={index} 
                                     src={URL.createObjectURL(file)} 
                                     alt={`Preview ${index}`} 
-                                    className="w-24 h-24 object-cover rounded-lg border"
+                                    className="w-24 h-24 object-cover rounded-lg"
                                 />
                                 <CardFooter className="flex flex-row justify-end absolute p-1">
                                     <Button
                                         isIconOnly
-                                        className="text-default-400"
+                                        className={clsx(
+                                            "text-secondaryText",
+                                            'data-[hover=true]:bg-emphasizingColor2'
+                                        )}
                                         size="sm"
                                         variant="flat"
                                         onPress={() => removeFile(file)}

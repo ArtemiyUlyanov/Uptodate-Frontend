@@ -3,20 +3,30 @@
 import AppFooter, { getAppFooterSections } from "@/components/AppFooter";
 import Article from "@/components/articles/Article";
 import TopMenu, { getTopMenuOptions } from "@/components/menu/TopMenu";
+import { useAccount } from "@/hooks/models/useAccount";
 import { useArticle } from "@/hooks/models/useArticle";
 import { useDictionary } from "@/hooks/useDictionary";
 import MenuLayout from "@/layouts/MenuLayout";
 import { formatDateToISO } from "@/utils/date.utils";
 import { capitalizeText } from "@/utils/text.utils";
 import { BreadcrumbItem, Breadcrumbs, Spinner } from "@heroui/react";
-import { useParams } from "next/navigation";
+import { notFound, useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
 
 const DynamicArticlePage = () => {
-    const { translate } = useDictionary();
-
     const { slug } = useParams();
-    const { article, refetch, likeMutate } = useArticle({ slug: slug?.toString() });
+    const { article, refetch, likeMutate, isFetched } = useArticle({ slug: slug?.toString() });
+    const { user, editMutate } = useAccount();
+
+    const router = useRouter();
+
+    const { translate } = useDictionary(user);
+
+    useEffect(() => {
+        if (isFetched && article == undefined) {
+            notFound();
+        }
+    }, [article, isFetched]);
 
     return (
         <MenuLayout
@@ -27,6 +37,8 @@ const DynamicArticlePage = () => {
             }
             footer={
                 <AppFooter
+                    user={user}
+                    editMutate={editMutate}
                     sectionTemplates={getAppFooterSections(translate)}
                 />
             }
@@ -35,7 +47,7 @@ const DynamicArticlePage = () => {
                 <div className="relative flex flex-col gap-8 items-start w-3/4">
                     <div className="relative flex flex-row justify-center gap-8 w-full">
                         {article &&
-                            <Article key={article?.id} article={article} likeMutate={likeMutate} />
+                            <Article user={user} key={article?.id} article={article} likeMutate={likeMutate} />
                         }
                         {!article &&
                             <Spinner color="secondary" />

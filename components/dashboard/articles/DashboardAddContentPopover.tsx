@@ -20,6 +20,7 @@ export const DashboardAddContentPopover: React.FC<DashboardAddContentPopoverProp
                 <Button
                     className={clsx(
                         'justify-start gap-1.5 rounded-lg opacity-100',
+                        'data-[hover=true]:bg-emphasizingColor2',
                         'transition-all duration-200'
                     )}
                     size='sm'
@@ -44,6 +45,7 @@ export const DashboardAddContentPopover: React.FC<DashboardAddContentPopoverProp
                     <Button
                         className={clsx(
                             'justify-start gap-1.5 rounded-lg opacity-100',
+                            'data-[hover=true]:bg-emphasizingColor2',
                             'transition-all duration-200'
                         )}
                         size='sm'
@@ -64,6 +66,7 @@ export const DashboardAddContentPopover: React.FC<DashboardAddContentPopoverProp
                     <Button
                         className={clsx(
                             'justify-start gap-1.5 rounded-lg opacity-100',
+                            'data-[hover=true]:bg-emphasizingColor2',
                             'transition-all duration-200'
                         )}
                         size='sm'
@@ -84,6 +87,7 @@ export const DashboardAddContentPopover: React.FC<DashboardAddContentPopoverProp
                     <Button
                         className={clsx(
                             'justify-start gap-1.5 rounded-lg opacity-100',
+                            'data-[hover=true]:bg-emphasizingColor2',
                             'transition-all duration-200'
                         )}
                         size='sm'
@@ -104,6 +108,7 @@ export const DashboardAddContentPopover: React.FC<DashboardAddContentPopoverProp
                     <Button
                         className={clsx(
                             'justify-start gap-1.5 rounded-lg opacity-100',
+                            'data-[hover=true]:bg-emphasizingColor2',
                             'transition-all duration-200'
                         )}
                         size='sm'

@@ -59,18 +59,6 @@ export const CommentSendForm: React.FC<CommentSendFormProps> = ({
         e.preventDefault();
         createMutate({ content: content, articleId: article.id, resources: selectedFiles });
 
-        addToast({
-            title: "Comment left!",
-            classNames: {
-                title: 'font-interTight font-semibold text-primaryText',
-                icon: 'h-4 fill-primaryColor',
-                base: 'bg-emphasizingColor2 border-borderColor'
-            },
-            icon: (
-                <CheckmarkIcon />
-            )
-        });
-
         clearForm();
     } 
 
@@ -99,12 +87,15 @@ export const CommentSendForm: React.FC<CommentSendFormProps> = ({
                             key={index} 
                             src={URL.createObjectURL(file)} 
                             alt={`Preview ${index}`} 
-                            className="w-24 h-24 object-cover rounded-lg border"
+                            className="w-24 h-24 object-cover rounded-lg"
                         />
                         <CardFooter className="flex flex-row justify-end absolute p-1">
                             <Button
                                 isIconOnly
-                                className="text-default-400"
+                                className={clsx(
+                                    "text-secondaryText",
+                                    'data-[hover=true]:bg-emphasizingColor2'
+                                )}
                                 size="sm"
                                 variant="flat"
                                 onPress={() => removeFile(file)}

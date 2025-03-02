@@ -36,8 +36,8 @@ authorizedAxios.interceptors.response.use(
         if (error.response?.status === 401 && isAuthenticated) {
             store.dispatch(logout());
             addToast({
-                title: "Session timeout!",
-                description: "You need to sign in again",
+                title: "Oops, Session Lost!",
+                description: "Looks like your session slipped away. Don’t worry, just log in again to pick up where you left off! 🔐👋",
                 classNames: {
                     title: 'font-interTight font-semibold text-primaryText',
                     icon: 'h-4 fill-primaryColor',
@@ -53,38 +53,3 @@ authorizedAxios.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-
-// authorizedAxios.interceptors.response.use(
-//     (response) => response,
-//     async (error) => {
-//         const originalRequest = error.config;
-
-//         if (error.response?.status === 401 && !originalRequest._retry) {
-//             originalRequest._retry = true;
-
-//             try {
-//                 const refreshToken = store.getState().auth.refresh_token;
-
-//                 const response = await authorizedAxios.get('/auth/refresh', {
-//                     params: {
-//                         refreshToken: refreshToken || ''
-//                     },
-//                     headers: {
-//                         'Content-Type': 'application/json'
-//                     }
-//                 });
-
-//                 const newAccessToken = response.data.access_token;
-//                 store.dispatch(refresh(newAccessToken));
-
-//                 originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-//                 return authorizedAxios(originalRequest);
-//             } catch (refreshError) {
-//                 store.dispatch(logout());
-//                 return Promise.reject(refreshError);
-//             }
-//         }
-
-//         return Promise.reject(error);
-//     }
-// );

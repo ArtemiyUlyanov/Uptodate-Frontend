@@ -99,9 +99,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
                                 />
                             </div>
                         </div>
-                        <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-2">
                             <div className={clsx(
-                                'flex flex-col gap-2'
+                                'flex flex-col gap-4'
                             )}>
                                 <div className='flex flex-row gap-2'>
                                     <div className={clsx(
@@ -228,7 +228,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
                                         (onClick) =>
                                             <DefaultButton
                                                 text={translate('common.register.register_form_get_started_button')}
-                                                customClassName='font-interTight font-semibold text-base text-center rounded-md'
+                                                customClassName='font-interTight font-semibold text-base text-center rounded-lg'
                                                 type="submit"
                                                 isLoading={isSubmitting}
                                                 isDisabled={!isValid}

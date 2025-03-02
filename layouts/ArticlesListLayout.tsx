@@ -2,15 +2,19 @@ import clsx from "clsx";
 import { LayoutProps } from "./layout.type";
 import MenuLayout from "./MenuLayout";
 import { useDictionary } from "@/hooks/useDictionary";
+import { UserModel } from "@/models/user";
 
-export type ArticlesListLayoutProps = LayoutProps;
+export type ArticlesListLayoutProps = LayoutProps & {
+    user?: UserModel
+};
 
 export const ArticlesListLayout: React.FC<ArticlesListLayoutProps> = ({
+    user,
     topMenu,
     footer,
     children
 }) => {
-    const { translate } = useDictionary();
+    const { translate } = useDictionary(user);
 
     return (
         <MenuLayout

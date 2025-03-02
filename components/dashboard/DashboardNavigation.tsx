@@ -1,5 +1,5 @@
 import { UserModel } from "@/models/user";
-import TransparentIconButton from "@/ui/buttons/TransparentIconButton";
+import TransparentButton from "@/ui/buttons/TransparentButton";
 import { DashboardIcon } from "@/ui/icons/DashboardIcon";
 import { LikeIcon } from "@/ui/icons/LikeIcon";
 import { UptodateIcon } from "@/ui/icons/UptodateIcon";
@@ -24,7 +24,7 @@ export type DashboardOption = {
     link: string
 }
 
-export const getDashboardOptions = (translate: (text: string) => string, selectedKey: 'dashboard' | 'liked', ): DashboardOption[] => {
+export const getDashboardOptions = (translate: (text: string) => string, selectedKey?: 'dashboard' | 'liked-articles', ): DashboardOption[] => {
     return [
         {
             key: 'dashboard',
@@ -36,10 +36,10 @@ export const getDashboardOptions = (translate: (text: string) => string, selecte
             )
         },
         {
-            key: 'liked',
+            key: 'liked-articles',
             text: 'Liked articles',
-            link: '/dashboard/liked',
-            selected: selectedKey === 'liked',
+            link: '/dashboard/liked-articles',
+            selected: selectedKey === 'liked-articles',
             icon: (
                 <LikeIcon wrapped={true} stroked={false} />
             )
@@ -88,13 +88,14 @@ export const DashboardNavigation: React.FC<DashboardNavigationProps> = ({
                                     }}
                                 >
                                     <Button
+                                        as='a'
+                                        href={option.link}
                                         className={clsx(
                                             'justify-start pl-4 pr-4 pt-2 pb-2 h-auto gap-2 rounded-lg opacity-100',
+                                            'data-[hover=true]:bg-emphasizingColor2',
                                             'transition-all duration-200',
                                             option.selected && 'bg-emphasizingColor2 text-primaryText',
                                             !option.selected && 'text-primaryText',
-                                            'sm:hover:bg-emphasizingColor2',
-                                            'active:bg-emphasizingColor2 sm:active:bg',
                                             'transition-all duration-200'
                                         )}
                                         isDisabled={option.selected}

@@ -11,17 +11,19 @@ import { DashboardIcon } from "@/ui/icons/DashboardIcon";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Skeleton, User } from "@heroui/react";
 import { UnwrappingElementIcon } from "@/ui/icons/UnwrappingElementIcon";
 import { SettingsIcon } from "@/ui/icons/SettingsIcon";
+import { UserModel } from "@/models/user";
 
 export type TopMenuProfileSettingsDropdownProps = {
-
+    user?: UserModel
+    isUserFetched: boolean
 }
 
 export const TopMenuProfileSettingsDropdown: React.FC<TopMenuProfileSettingsDropdownProps> = ({
-
+    user,
+    isUserFetched
 }) => {
-    const { language, translate } = useDictionary();
+    const { language, translate } = useDictionary(user);
     const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-    const { user, isFetched: isUserFetched } = useAccount();
 
     const [isOpen, setIsOpen] = useState<boolean>();
 
@@ -84,7 +86,6 @@ export const TopMenuProfileSettingsDropdown: React.FC<TopMenuProfileSettingsDrop
                         base: 'opacity-100',
                         title: 'text-primaryText'
                     }}
-                    showDivider
                 >
                     <User
                         avatarProps={{
@@ -126,7 +127,7 @@ export const TopMenuProfileSettingsDropdown: React.FC<TopMenuProfileSettingsDrop
                         </div>
                     }
                 >
-                    <a href="/dashboard/settings">{translate('common.menu.profile_dropdown.options.settings')}</a>
+                    <a href="/settings">{translate('common.menu.profile_dropdown.options.settings')}</a>
                 </DropdownItem>
                 <DropdownItem
                     key='logout'

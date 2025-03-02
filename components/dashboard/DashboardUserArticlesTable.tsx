@@ -8,6 +8,7 @@ import { EditIcon } from "@/ui/icons/EditIcon";
 import { LikeIcon } from "@/ui/icons/LikeIcon";
 import { TrashIcon } from "@/ui/icons/TrashIcon";
 import { ViewIcon } from "@/ui/icons/ViewIcon";
+import { ConfirmationPopover } from "@/ui/popovers/ConfirmationPopover";
 import { capitalizeText } from "@/utils/text.utils";
 import { addToast, Button, Image, Selection, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from "@heroui/react";
 import { UseMutateFunction } from "@tanstack/react-query";
@@ -47,28 +48,37 @@ export const DashboardUserArticlesTable: React.FC<DashboardUserArticlesTableProp
                     <p className="font-interTight font-semibold text-base text-secondaryText">These are your articles</p>
                 </div>
                 <div className="flex flex-row gap-1">
-                    <Button
-                        className={clsx(
-                            'gap-1.5 bg-[transparent]',
-                            'transition-all duration-200',
-                        )}
-                        onPress={deleteSelectedArticles}
-                        isDisabled={selectedKeys.size <= 0}
-                        size="sm"
-                        variant='light'
-                        startContent={
-                            <div className="h-4 fill-redColor">
-                                <TrashIcon />
-                            </div>
-                        }
+                    <ConfirmationPopover
+                        text="Are you sure you want to delete those articles?"
+                        action={deleteSelectedArticles}
                     >
-                        <p className="font-interTight font-semibold text-sm text-redText">{`Delete all articles (${(selectedKeys as Set<string>).size})`}</p>
-                    </Button>
+                        {(onOpen) => (
+                            <Button
+                                className={clsx(
+                                    'gap-1.5 bg-[transparent]',
+                                    'data-[hover=true]:bg-emphasizingColor2',
+                                    'transition-all duration-200',
+                                )}
+                                onPress={onOpen}
+                                isDisabled={selectedKeys.size <= 0}
+                                size="sm"
+                                variant='light'
+                                startContent={
+                                    <div className="h-4 fill-redColor">
+                                        <TrashIcon />
+                                    </div>
+                                }
+                            >
+                                <p className="font-interTight font-semibold text-sm text-redText">{`Delete all articles (${(selectedKeys as Set<string>).size})`}</p>
+                            </Button>
+                        )}
+                    </ConfirmationPopover>
                     <Button
                         as='a'
                         href={`/dashboard/articles/create`}
                         className={clsx(
                             'gap-1.5 bg-[transparent]',
+                            'data-[hover=true]:bg-emphasizingColor2',
                             'transition-all duration-200',
                         )}
                         // onPress={deleteArticle}
@@ -95,11 +105,11 @@ export const DashboardUserArticlesTable: React.FC<DashboardUserArticlesTableProp
                 onSelectionChange={handleChange}
             >
                 <TableHeader>
-                    <TableColumn className="w-24">ICON</TableColumn>
-                    <TableColumn>HEADING</TableColumn>
-                    <TableColumn>DESCRIPTION</TableColumn>
-                    <TableColumn>ACTIVITY</TableColumn>
-                    <TableColumn>ACTIONS</TableColumn>
+                    <TableColumn className="flex-1 w-24">ICON</TableColumn>
+                    <TableColumn className="flex-1">HEADING</TableColumn>
+                    <TableColumn className="flex-1">DESCRIPTION</TableColumn>
+                    <TableColumn className="flex-1 text-right">ACTIVITY</TableColumn>
+                    <TableColumn className="flex-1 text-right pr-4">ACTIONS</TableColumn>
                 </TableHeader>
                 <TableBody emptyContent={"No articles to show"}>
                     {(articles || []).map(article =>
@@ -122,8 +132,8 @@ export const DashboardUserArticlesTable: React.FC<DashboardUserArticlesTableProp
                             <TableCell>
                                 <p className="font-interTight font-medium text-primaryColor">{article.description}</p>
                             </TableCell>
-                            <TableCell>
-                                <div className="flex flex-row items-center gap-4">
+                            <TableCell className="justify-end">
+                                <div className="flex flex-row justify-end items-center gap-4">
                                     <div className="flex flex-row items-center gap-1">
                                         <div className="h-3 fill-primaryText">
                                             <ViewIcon />
@@ -140,8 +150,8 @@ export const DashboardUserArticlesTable: React.FC<DashboardUserArticlesTableProp
                                     </div>
                                 </div>
                             </TableCell>
-                            <TableCell className="justify-end">
-                                <div className="flex flex-row gap-1">
+                            <TableCell className="items-end">
+                                <div className="flex flex-row justify-end gap-1">
                                     <Tooltip
                                         content='View the article'
                                         closeDelay={0}
@@ -155,6 +165,7 @@ export const DashboardUserArticlesTable: React.FC<DashboardUserArticlesTableProp
                                             isIconOnly
                                             className={clsx(
                                                 'bg-[transparent]',
+                                                'data-[hover=true]:bg-emphasizingColor2',
                                                 'transition-all duration-200',
                                                 !article.permissionScope.includes('DELETE') && 'hidden'
                                             )}
@@ -179,8 +190,9 @@ export const DashboardUserArticlesTable: React.FC<DashboardUserArticlesTableProp
                                             isIconOnly
                                             className={clsx(
                                                 'bg-[transparent]',
+                                                'data-[hover=true]:bg-emphasizingColor2',
                                                 'transition-all duration-200',
-                                                !article.permissionScope.includes('DELETE') && 'hidden'
+                                                !article.permissionScope.includes('EDIT') && 'hidden'
                                             )}
                                             size="sm"
                                             variant='light'
@@ -190,29 +202,29 @@ export const DashboardUserArticlesTable: React.FC<DashboardUserArticlesTableProp
                                             </div>
                                         </Button>
                                     </Tooltip>
-                                    <Tooltip
-                                        content='Delete the article'
-                                        closeDelay={0}
-                                        classNames={{
-                                            content: 'bg-emphasizingColor2 border border-borderColor font-interTight font-semibold text-primaryColor'
-                                        }}
+                                    <ConfirmationPopover
+                                        text="Are you sure you want to delete this article?"
+                                        action={() => deleteArticle(article.id)}
                                     >
-                                        <Button
-                                            isIconOnly
-                                            className={clsx(
-                                                'bg-[transparent]',
-                                                'transition-all duration-200',
-                                                !article.permissionScope.includes('DELETE') && 'hidden'
-                                            )}
-                                            onPress={() => deleteArticle(article.id)}
-                                            size="sm"
-                                            variant='light'
-                                        >
-                                            <div className="h-4 fill-redColor">
-                                                <TrashIcon />
-                                            </div>
-                                        </Button>
-                                    </Tooltip>
+                                        {(onOpen) => (
+                                            <Button
+                                                isIconOnly
+                                                className={clsx(
+                                                    'bg-[transparent]',
+                                                    'data-[hover=true]:bg-emphasizingColor2',
+                                                    'transition-all duration-200',
+                                                    !article.permissionScope.includes('DELETE') && 'hidden'
+                                                )}
+                                                onPress={onOpen}
+                                                size="sm"
+                                                variant='light'
+                                            >
+                                                <div className="h-4 fill-redColor">
+                                                    <TrashIcon />
+                                                </div>
+                                            </Button>
+                                        )}
+                                    </ConfirmationPopover>
                                 </div>
                             </TableCell>
                         </TableRow>
