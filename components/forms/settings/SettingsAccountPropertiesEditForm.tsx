@@ -1,6 +1,6 @@
 import { UserModel } from "@/models/user"
-import { SettingsAccountIconChangeForm } from "./SettingsAccountIconChangeForm";
-import { useEffect, useState } from "react";
+import { SettingsAccountIconChangeForm } from "./icon/SettingsAccountIconChangeForm";
+import { useEffect, useMemo, useState } from "react";
 import { SettingsAccountNameProperty } from "./SettingsAccountNameProperty";
 import DefaultButton from "@/ui/buttons/DefaultButton";
 import { SettingsAccountCustomizationProperty } from "./SettingsAccountCustomizationProperty";
@@ -14,6 +14,8 @@ import { ApiAccountIconDeleteParams, ApiAccountIconDeleteResponse } from "@/serv
 import { ApiAccountEditParams, ApiAccountEditResponse } from "@/services/api/account.edit.endpoint";
 import { Divider } from "@heroui/react";
 import { useRouter } from "next/navigation";
+import { ApiAccountEmailConfirmParams, ApiAccountEmailConfirmResponse } from "@/services/api/account.email.confirm.endpoint";
+import { SettingsAccountChangeEmailForm } from "./email/SettingsAccountChangeEmailForm";
 
 export type SettingsAccountPropertiesEditFormProps = React.HTMLProps<HTMLDivElement> & {
     user?: UserModel
@@ -21,6 +23,8 @@ export type SettingsAccountPropertiesEditFormProps = React.HTMLProps<HTMLDivElem
     uploadIconMutate: UseMutateFunction<ApiAccountIconUploadResponse, ErrorResponse, ApiAccountIconUploadParams, unknown>
     deleteIconMutate: UseMutateFunction<ApiAccountIconDeleteResponse, ErrorResponse, ApiAccountIconDeleteParams, unknown>
     editMutate: UseMutateFunction<ApiAccountEditResponse, ErrorResponse, ApiAccountEditParams, unknown>
+    confirmEmailMutate: UseMutateFunction<ApiAccountEmailConfirmResponse, ErrorResponse, ApiAccountEmailConfirmParams, unknown>
+    isEditPending: boolean
 }
 
 const useAccountChangesAvailableQuery = (
@@ -39,10 +43,10 @@ export const SettingsAccountPropertiesEditForm: React.FC<SettingsAccountProperti
     isUserFetched,
     uploadIconMutate,
     deleteIconMutate,
-    editMutate
+    editMutate,
+    confirmEmailMutate,
+    isEditPending
 }) => {
-    const [isUserChanged, setIsUserChanged] = useState<boolean>(false);
-    
     const [firstName, setFirstName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
     const [username, setUsername] = useState<string>('');
@@ -52,10 +56,15 @@ export const SettingsAccountPropertiesEditForm: React.FC<SettingsAccountProperti
     const debouncedUsername = useDebounced<string>(username);
     const debouncedEmail = useDebounced<string>(email);
 
-    const { data: changesAvailableData, refetch: refetchChangesAvailableData } = useAccountChangesAvailableQuery({
+    const { data: changesAvailableData } = useAccountChangesAvailableQuery({
         username: debouncedUsername,
         email: debouncedEmail
     });
+
+    const isUserChanged = useMemo(() => {
+        if (user == undefined) return false;
+        return firstName !== user.firstName || lastName !== user.lastName || debouncedUsername !== user.username || settings !== user.settings;  
+    }, [firstName, lastName, debouncedUsername, settings, user]);
 
     const sendForm = () => {
         if (settings) {
@@ -71,36 +80,36 @@ export const SettingsAccountPropertiesEditForm: React.FC<SettingsAccountProperti
             setEmail(user.email);
             setSettings(user.settings);
         }
-    }, [isUserFetched]);
+    }, [user, isUserFetched]);
 
     return (
         <div className="flex flex-col">
-            <Divider />
             <SettingsAccountIconChangeForm 
                 user={user} 
                 uploadIconMutate={uploadIconMutate}
                 deleteIconMutate={deleteIconMutate}
             />
-            <Divider />
+            <SettingsAccountChangeEmailForm
+                user={user}
+                email={email}
+                debouncedEmail={debouncedEmail}
+                setEmail={setEmail}
+                confirmEmailMutate={confirmEmailMutate} 
+                conflictedColumns={changesAvailableData?.conflictedColumns}
+                changesAvailable={changesAvailableData?.changesAvailable}
+            />
             <SettingsAccountNameProperty 
                 user={user} 
-                isUserChanged={isUserChanged} 
-                setIsUserChanged={setIsUserChanged}
                 firstName={firstName}
                 setFirstName={setFirstName}
                 lastName={lastName}
                 setLastName={setLastName}
                 username={username}
                 setUsername={setUsername}
-                email={email}
-                setEmail={setEmail}
                 conflictedColumns={changesAvailableData?.conflictedColumns}
             />
-            <Divider />
             <SettingsAccountCustomizationProperty 
                 user={user} 
-                isUserChanged={isUserChanged} 
-                setIsUserChanged={setIsUserChanged}
                 settings={settings}
                 setSettings={setSettings}
             />
@@ -109,7 +118,8 @@ export const SettingsAccountPropertiesEditForm: React.FC<SettingsAccountProperti
                     text='Save'
                     customClassName='font-interTight font-semibold text-sm text-center rounded-md'
                     onPress={sendForm}
-                    isDisabled={!isUserChanged || !email || !username || !firstName || !lastName || !settings?.language || !settings.timezone || !changesAvailableData?.changesAvailable}
+                    isLoading={isEditPending}
+                    isDisabled={isEditPending || !isUserChanged || !username || !firstName || !lastName || !settings?.language || !settings.timezone || !changesAvailableData?.changesAvailable}
                     type="submit"
                     size="sm"
                 />

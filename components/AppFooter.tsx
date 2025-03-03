@@ -1,5 +1,7 @@
 import { useDictionary } from "@/hooks/useDictionary";
 import { UserModel } from "@/models/user";
+import { ApiAccountEditParams, ApiAccountEditResponse } from "@/services/api/account.edit.endpoint";
+import { ErrorResponse } from "@/services/api/responses.types";
 import { setLanguage } from "@/store/features/language/languageSlice";
 import SelectableDropdown from "@/ui/dropdowns/SelectableDropdown";
 import { FranceFlagIcon } from "@/ui/icons/FranceFlagIcon";
@@ -8,6 +10,7 @@ import { RussiaFlagIcon } from "@/ui/icons/RussiaFlagIcon";
 import { UKFlagIcon } from "@/ui/icons/UKFlagIcon";
 import { UptodateIcon } from "@/ui/icons/UptodateIcon";
 import DefaultLink from "@/ui/links/DefaultLink";
+import { UseMutateFunction } from "@tanstack/react-query";
 import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo } from "react";
@@ -15,6 +18,7 @@ import { useDispatch } from "react-redux";
 
 export type AppFooterProps = React.HTMLProps<HTMLDivElement> & {
     user?: UserModel
+    editMutate: UseMutateFunction<ApiAccountEditResponse, ErrorResponse, ApiAccountEditParams, unknown>
     sectionTemplates: AppFooterSection[]
 }
 
@@ -92,10 +96,24 @@ export const getAppFooterSections = (translate: (text: string) => string): AppFo
 
 const AppFooter: React.FC<AppFooterProps> = ({
     user,
+    editMutate,
     sectionTemplates
 }) => {
     const { language, translate } = useDictionary(user);
     const dispatch = useDispatch();
+
+    const changeLanguage = (language: string) => {
+        if (!user) {
+            dispatch(setLanguage({ language }));
+        } else {
+            editMutate({ 
+                firstName: user?.firstName,
+                lastName: user.lastName,
+                username: user.username,
+                settings: {...user.settings, language: language}
+            });
+        }
+    }
 
     const sections = useMemo(() => 
         sectionTemplates.map((section) =>
@@ -169,7 +187,7 @@ const AppFooter: React.FC<AppFooterProps> = ({
                         trigger: 'text-primaryText',
                         unwrappingElement: 'fill-primaryText'
                     }}
-                    onSelected={(keys) => dispatch(setLanguage({language: Array.from(keys)[0]}))}
+                    onSelected={(keys) => changeLanguage(Array.from(keys)[0])}
                     options={[
                         {
                             name: "English",

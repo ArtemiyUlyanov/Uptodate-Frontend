@@ -6,6 +6,7 @@ import { ErrorResponse } from "@/services/api/responses.types"
 import { UseMutateFunction } from "@tanstack/react-query"
 import { ApiAccountIconDeleteParams, ApiAccountIconDeleteResponse } from "@/services/api/account.icon.delete.endpoint"
 import { ApiAccountEditParams, ApiAccountEditResponse } from "@/services/api/account.edit.endpoint"
+import { ApiAccountEmailConfirmParams, ApiAccountEmailConfirmResponse } from "@/services/api/account.email.confirm.endpoint"
 
 export type SettingsProps = React.HTMLProps<HTMLDivElement> & {
     user?: UserModel
@@ -13,6 +14,8 @@ export type SettingsProps = React.HTMLProps<HTMLDivElement> & {
     uploadIconMutate: UseMutateFunction<ApiAccountIconUploadResponse, ErrorResponse, ApiAccountIconUploadParams, unknown>
     deleteIconMutate: UseMutateFunction<ApiAccountIconDeleteResponse, ErrorResponse, ApiAccountIconDeleteParams, unknown>
     editMutate: UseMutateFunction<ApiAccountEditResponse, ErrorResponse, ApiAccountEditParams, unknown>
+    confirmEmailMutate: UseMutateFunction<ApiAccountEmailConfirmResponse, ErrorResponse, ApiAccountEmailConfirmParams, unknown>
+    isEditPending: boolean
 }
 
 export const Settings: React.FC<SettingsProps> = ({
@@ -20,11 +23,21 @@ export const Settings: React.FC<SettingsProps> = ({
     isUserFetched,
     uploadIconMutate,
     deleteIconMutate,
-    editMutate
+    editMutate,
+    confirmEmailMutate,
+    isEditPending
 }) => {
     return (
         (isUserFetched ?
-            <SettingsContent user={user} isUserFetched={isUserFetched} uploadIconMutate={uploadIconMutate} deleteIconMutate={deleteIconMutate} editMutate={editMutate} />
+            <SettingsContent 
+                user={user} 
+                isUserFetched={isUserFetched} 
+                uploadIconMutate={uploadIconMutate} 
+                deleteIconMutate={deleteIconMutate} 
+                editMutate={editMutate}
+                confirmEmailMutate={confirmEmailMutate} 
+                isEditPending={isEditPending}
+            />
         :
             <div className="flex flex-col gap-4 items-center justify-center w-full h-full">
                 <Spinner color="secondary" />

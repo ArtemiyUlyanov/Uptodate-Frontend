@@ -18,8 +18,6 @@ const DynamicArticlePage = () => {
     const { article, refetch, likeMutate, isFetched } = useArticle({ slug: slug?.toString() });
     const { user, editMutate } = useAccount();
 
-    const router = useRouter();
-
     const { translate } = useDictionary(user);
 
     useEffect(() => {

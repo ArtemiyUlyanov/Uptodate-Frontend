@@ -11,6 +11,8 @@ import { ApiAccountIconDeleteParams, ApiAccountIconDeleteResponse } from "@/serv
 import { useAccountDeleteIconMutation } from "./mutations/useAccountDeleteIconMutation";
 import { useAccountEditMutation } from "./mutations/useAccountEditMutation";
 import { ApiAccountEditParams, ApiAccountEditResponse } from "@/services/api/account.edit.endpoint";
+import { useAccountConfirmEmailMutation } from "./mutations/useAccountConfirmEmailMutation";
+import { ApiAccountEmailConfirmParams, ApiAccountEmailConfirmResponse } from "@/services/api/account.email.confirm.endpoint";
 
 const useAccountQuery = (
     params: ApiAccountInfoParams,
@@ -24,7 +26,7 @@ const useAccountQuery = (
 }
 
 export type UseAccountResponse = {
-    user?: UserModel,
+    user?: UserModel
     error?: ErrorResponse
     refetch: () => void
     isFetched: boolean
@@ -32,6 +34,8 @@ export type UseAccountResponse = {
     uploadIconMutate: UseMutateFunction<ApiAccountIconUploadResponse, ErrorResponse, ApiAccountIconUploadParams, unknown>
     deleteIconMutate: UseMutateFunction<ApiAccountIconDeleteResponse, ErrorResponse, ApiAccountIconDeleteParams, unknown>
     editMutate: UseMutateFunction<ApiAccountEditResponse, ErrorResponse, ApiAccountEditParams, unknown>
+    confirmEmailMutate: UseMutateFunction<ApiAccountEmailConfirmResponse, ErrorResponse, ApiAccountEmailConfirmParams, unknown>
+    isEditPending: boolean
 }
 
 export const useAccount = (): UseAccountResponse => {
@@ -42,7 +46,8 @@ export const useAccount = (): UseAccountResponse => {
 
     const { uploadIconMutate } = useAccountUploadIconMutation({ queryKey: ['account', isAuthenticated, access_token] });
     const { deleteIconMutate } = useAccountDeleteIconMutation({ queryKey: ['account', isAuthenticated, access_token] });
-    const { editMutate } = useAccountEditMutation({ queryKey: ['account', isAuthenticated, access_token] });
+    const { editMutate, isEditPending } = useAccountEditMutation({ queryKey: ['account', isAuthenticated, access_token] });
+    const { confirmEmailMutate } = useAccountConfirmEmailMutation({ queryKey: ['account', isAuthenticated, access_token] });
 
-    return { user: data?.model, error: data?.error, refetch, isFetched, uploadIconMutate, deleteIconMutate, editMutate };
+    return { user: data?.model, error: data?.error, refetch, isFetched, uploadIconMutate, deleteIconMutate, editMutate, confirmEmailMutate, isEditPending };
 };

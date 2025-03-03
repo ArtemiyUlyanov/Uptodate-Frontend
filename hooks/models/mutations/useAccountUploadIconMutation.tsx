@@ -8,6 +8,7 @@ import { ApiArticleGetParams, ApiArticleGetResponse } from "@/services/api/artic
 import { ApiArticleLikeParams, ApiArticleLikeResponse, likeArticleApi } from "@/services/api/articles.like.endpoint";
 import { ErrorResponse } from "@/services/api/responses.types";
 import { CheckmarkIcon } from "@/ui/icons/CheckmarkIcon";
+import { CloseIcon } from "@/ui/icons/CloseIcon";
 import { LikeIcon } from "@/ui/icons/LikeIcon";
 import { queryClient } from "@/utils/queryClient";
 import { addToast } from "@heroui/toast";
@@ -25,24 +26,40 @@ export const useAccountUploadIconMutation = ({ queryKey }: UseAccountUploadIconM
     const { mutate: uploadIconMutate } = useMutation<ApiAccountIconUploadResponse, ErrorResponse, ApiAccountIconUploadParams>({
         mutationFn: accountUploadIconApi,
         onSuccess: (data) => {
-            queryClient.setQueryData(queryKey, (oldData: ApiAccountInfoResponse | undefined) => {
-                if (!oldData) return oldData;
-                return { ...oldData, model: data.model };
-            });
-
-            addToast({
-                title: "New profile pic, who dis? 🤳",
-                description: "Looking fresh! Your new icon is live—hope it’s your best angle. 😉",
-                classNames: {
-                    title: 'font-interTight font-semibold text-primaryText',
-                    icon: 'h-4 fill-green-500',
-                    description: 'font-interTight font-medium text-secondaryText',
-                    base: 'bg-emphasizingColor2 border-borderColor'
-                },
-                icon: (
-                    <CheckmarkIcon />
-                )
-            });
+            if (data.model) {
+                queryClient.setQueryData(queryKey, (oldData: ApiAccountInfoResponse | undefined) => {
+                    if (!oldData) return oldData;
+                    return { ...oldData, model: data.model };
+                });
+    
+                addToast({
+                    title: "New profile pic, who dis? 🤳",
+                    description: "Looking fresh! Your new icon is live—hope it’s your best angle. 😉",
+                    classNames: {
+                        title: 'font-interTight font-semibold text-primaryText',
+                        icon: 'h-4 fill-green-500',
+                        description: 'font-interTight font-medium text-secondaryText',
+                        base: 'bg-emphasizingColor2 border-borderColor'
+                    },
+                    icon: (
+                        <CheckmarkIcon />
+                    )
+                });
+            } else {
+                addToast({
+                    title: "Something went wrong",
+                    description: "Unable to edit icon ❌",
+                    classNames: {
+                        title: 'font-interTight font-semibold text-primaryText',
+                        icon: 'h-4 fill-redColor',
+                        description: 'font-interTight font-medium text-secondaryText',
+                        base: 'bg-emphasizingColor2 border-borderColor'
+                    },
+                    icon: (
+                        <CloseIcon />
+                    )
+                });
+            }
 
             // if (user?.username && !data.model?.likedUsernames.includes(user?.username)) {
             //     addToast({

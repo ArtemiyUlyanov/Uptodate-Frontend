@@ -17,16 +17,12 @@ import { Dispatch, SetStateAction, useMemo, useState } from "react";
 
 export type SettingsAccountCustomizationPropertyProps = React.HTMLProps<HTMLDivElement> & {
     user?: UserModel
-    isUserChanged: boolean
-    setIsUserChanged: Dispatch<SetStateAction<boolean>>
     settings: UserSettingsModel | undefined
     setSettings: Dispatch<SetStateAction<UserSettingsModel | undefined>>
 }
 
 export const SettingsAccountCustomizationProperty: React.FC<SettingsAccountCustomizationPropertyProps> = ({
     user,
-    isUserChanged,
-    setIsUserChanged,
     settings,
     setSettings
 }) => {
@@ -48,25 +44,25 @@ export const SettingsAccountCustomizationProperty: React.FC<SettingsAccountCusto
             <div className="flex flex-col items-start gap-4">
                 <Autocomplete 
                     className={clsx(
-                        "max-w-xs",
-                        "font-interTight font-medium text-base text-primaryText"
+                        "max-w-xs"
                     )}
                     inputProps={{
                         classNames: {
-                            base: "placeholder-red-500",
-                            inputWrapper: "rounded-lg border border-borderColor data-[focus=true]:border-borderColor data-[focus-visible=true]:border-borderColor data-[hover=true]:border-borderColor data-[active=true]:border-borderColor outline-none ring-0 data-[focus=true]:outline-none"
+                            input: 'font-interTight font-regular text-base text-primaryText placeholder:text-secondaryText',
+                            inputWrapper: "rounded-lg !border !border-borderColor outline-none ring-0"
                         }
                     }}
                     listboxProps={{
                         itemClasses: {
                             title: 'font-interTight font-medium text-primaryText',
                             base: 'data-[hover=true]:bg-emphasizingColor2',
-                            selectedIcon: 'text-secondary'
+                            selectedIcon: 'text-aspectText'
                         }
                     }}
                     classNames={{
                         popoverContent: 'bg-emphasizingColor border border-borderColor',
-                        selectorButton: 'text-roseColor'
+                        clearButton: 'text-secondaryText',
+                        selectorButton: 'text-secondaryText'
                     }}
                     label={
                         <p className="font-interTight font-semibold text-secondaryText">Timezone</p>
@@ -76,7 +72,6 @@ export const SettingsAccountCustomizationProperty: React.FC<SettingsAccountCusto
                     allowsEmptyCollection={false}
                     selectedKey={settings?.timezone}
                     onSelectionChange={(value) => setSettings(prev => {
-                        setIsUserChanged(true);
                         if (prev == undefined) return prev;
                         return {...prev, timezone: value as string};
                     })}
@@ -104,20 +99,21 @@ export const SettingsAccountCustomizationProperty: React.FC<SettingsAccountCusto
                     )}
                     inputProps={{
                         classNames: {
-                            base: "placeholder-red-500",
-                            inputWrapper: "rounded-lg border border-borderColor data-[focus=true]:border-borderColor data-[focus-visible=true]:border-borderColor data-[hover=true]:border-borderColor data-[active=true]:border-borderColor outline-none ring-0 data-[focus=true]:outline-none"
+                            input: 'font-interTight font-regular text-base text-primaryText placeholder:text-secondaryText',
+                            inputWrapper: "rounded-lg !border !border-borderColor outline-none ring-0"
                         }
                     }}
                     listboxProps={{
                         itemClasses: {
                             title: 'font-interTight font-medium text-primaryText',
                             base: 'data-[hover=true]:bg-emphasizingColor2',
-                            selectedIcon: 'text-secondary'
+                            selectedIcon: 'text-aspectText'
                         }
                     }}
                     classNames={{
                         popoverContent: 'bg-emphasizingColor border border-borderColor',
-                        selectorButton: 'text-roseColor'
+                        clearButton: 'text-secondaryText',
+                        selectorButton: 'text-secondaryText'
                     }}
                     label={
                         <p className="font-interTight font-semibold text-secondaryText">Language</p>
@@ -127,7 +123,6 @@ export const SettingsAccountCustomizationProperty: React.FC<SettingsAccountCusto
                     allowsEmptyCollection={false}
                     selectedKey={settings?.language}
                     onSelectionChange={(value) => setSettings(prev => {
-                        setIsUserChanged(true);
                         if (prev == undefined) return prev;
                         return {...prev, language: value as string};
                     })}

@@ -17,7 +17,7 @@ export const ArticleSharePostButton: React.FC<ArticleSharePostButtonProps> = ({
     url
 }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [state, copyToClipboard] = useCopyToClipboard();
+    const [_, copyToClipboard] = useCopyToClipboard();
 
     useEffect(() => {
         if (isOpen) {

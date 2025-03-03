@@ -12,11 +12,11 @@ export type ApiAccountEmailEditResponse = {
     error?: ErrorResponse
 }
 
-export const accounEmailEditApi = async ({
+export const accountEmailEditApi = async ({
     email
 }: ApiAccountEmailEditParams): Promise<ApiAccountEmailEditResponse> => {
     try {
-        const response = await authorizedAxios.put("/account/email", {
+        const response = await authorizedAxios.patch("/account/email", null, {
             params: {
                 email: email
             },

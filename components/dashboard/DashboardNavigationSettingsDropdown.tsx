@@ -24,14 +24,11 @@ export const DashboardNavigationSettingsDropdown: React.FC<DashboardNavigationSe
 }) => {
     const { language, translate } = useDictionary(user);
 
-    const [isOpen, setIsOpen] = useState<boolean>();
-
     return (
         <Dropdown
             className="relative w-auto rounded-lg bg-emphasizingColor2"
             shouldBlockScroll={false}
             isDisabled={!isUserFetched || user == null}
-            onOpenChange={setIsOpen}
         >
             <DropdownTrigger
                 className={clsx(

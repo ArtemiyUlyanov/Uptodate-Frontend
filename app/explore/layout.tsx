@@ -2,7 +2,6 @@
 
 import { FiltersProvider } from "@/hooks/explore/useFilters";
 import { SearchProvider } from "@/hooks/models/useSearch";
-import { CategoriesProvider } from "@/hooks/models/useCategories";
 
 const ExploreLayout = ({
     children
@@ -10,9 +9,7 @@ const ExploreLayout = ({
     return (
         <FiltersProvider>
             <SearchProvider>
-                <CategoriesProvider>
-                    {children}
-                </CategoriesProvider>
+                {children}
             </SearchProvider>
         </FiltersProvider>
     );

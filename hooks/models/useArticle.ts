@@ -37,12 +37,17 @@ export const useArticle = ({
     slug
 }: UseArticleParams): UseArticleResponse => {
     const { user } = useAccount();
-    const { data, refetch, isFetched } = useArticleQuery({ id, slug });
+    const { data, refetch, isFetched } = useArticleQuery({ id, slug }, {
+        staleTime: 1000 * 60 * 5, // Кешируем данные на 5 минут
+        // cacheTime: 1000 * 60 * 10, // Удаляем кеш через 10 минут
+        retry: 2, // Повторять запрос 2 раза при ошибке
+        refetchOnWindowFocus: false, // Отключаем рефетч при фокусе окна
+    });
     const { likeMutate } = useArticleLikeMutation({ queryKey: ['article', id, slug] });
 
-    useEffect(() => {
-        refetch();
-    }, [user]);
+    // useEffect(() => {
+    //     refetch();
+    // }, [user]);
 
     return { article: data?.model, error: data?.error, refetch, likeMutate, isFetched };
 }

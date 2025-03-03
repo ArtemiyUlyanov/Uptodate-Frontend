@@ -13,12 +13,12 @@ export type ApiAccountEmailConfirmResponse = {
     error?: ErrorResponse
 }
 
-export const accounEmailConfirmApi = async ({
+export const accountEmailConfirmApi = async ({
     email,
     code
 }: ApiAccountEmailConfirmParams): Promise<ApiAccountEmailConfirmResponse> => {
     try {
-        const response = await authorizedAxios.post("/account/email", {
+        const response = await authorizedAxios.post("/account/email", null, {
             params: {
                 email: email,
                 code: code

@@ -34,7 +34,7 @@ authorizedAxios.interceptors.response.use(
         const isAuthenticated = store.getState().auth.isAuthenticated;
 
         if (error.response?.status === 401 && isAuthenticated) {
-            store.dispatch(logout());
+            setTimeout(() => store.dispatch(logout()), 1000);
             addToast({
                 title: "Oops, Session Lost!",
                 description: "Looks like your session slipped away. Don’t worry, just log in again to pick up where you left off! 🔐👋",

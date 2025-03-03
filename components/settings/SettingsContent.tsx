@@ -10,6 +10,7 @@ import { ApiAccountIconUploadParams, ApiAccountIconUploadResponse } from "@/serv
 import { ErrorResponse } from "@/services/api/responses.types";
 import { ApiAccountIconDeleteParams, ApiAccountIconDeleteResponse } from "@/services/api/account.icon.delete.endpoint";
 import { ApiAccountEditParams, ApiAccountEditResponse } from "@/services/api/account.edit.endpoint";
+import { ApiAccountEmailConfirmParams, ApiAccountEmailConfirmResponse } from "@/services/api/account.email.confirm.endpoint";
 
 export type SettingsContentProps = React.HTMLProps<HTMLDivElement> & {
     user?: UserModel
@@ -17,6 +18,8 @@ export type SettingsContentProps = React.HTMLProps<HTMLDivElement> & {
     uploadIconMutate: UseMutateFunction<ApiAccountIconUploadResponse, ErrorResponse, ApiAccountIconUploadParams, unknown>
     deleteIconMutate: UseMutateFunction<ApiAccountIconDeleteResponse, ErrorResponse, ApiAccountIconDeleteParams, unknown>
     editMutate: UseMutateFunction<ApiAccountEditResponse, ErrorResponse, ApiAccountEditParams, unknown>
+    confirmEmailMutate: UseMutateFunction<ApiAccountEmailConfirmResponse, ErrorResponse, ApiAccountEmailConfirmParams, unknown>
+    isEditPending: boolean
 }
 
 export const SettingsContent: React.FC<SettingsContentProps> = ({
@@ -24,7 +27,9 @@ export const SettingsContent: React.FC<SettingsContentProps> = ({
     isUserFetched,
     uploadIconMutate,
     deleteIconMutate,
-    editMutate
+    editMutate,
+    confirmEmailMutate,
+    isEditPending
 }) => {
     const router = useRouter();
 
@@ -50,7 +55,7 @@ export const SettingsContent: React.FC<SettingsContentProps> = ({
                     <p className="font-interTight font-semibold text-lg text-primaryText">Settings</p>
                 </div>
             </div>
-            <SettingsAccountPropertiesEditForm user={user} isUserFetched={isUserFetched} uploadIconMutate={uploadIconMutate} deleteIconMutate={deleteIconMutate} editMutate={editMutate} />
+            <SettingsAccountPropertiesEditForm user={user} isUserFetched={isUserFetched} uploadIconMutate={uploadIconMutate} deleteIconMutate={deleteIconMutate} editMutate={editMutate} confirmEmailMutate={confirmEmailMutate} isEditPending={isEditPending} />
         </div>
     );
 }

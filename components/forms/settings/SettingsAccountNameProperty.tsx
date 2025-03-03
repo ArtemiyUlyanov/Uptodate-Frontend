@@ -8,34 +8,27 @@ import DefaultInput from "@/ui/inputs/DefaultInput";
 import { Button, Tooltip } from "@heroui/react";
 import clsx from "clsx";
 import { Dispatch, SetStateAction, useState } from "react";
+import { SettingsAccountChangeEmailForm } from "./email/SettingsAccountChangeEmailForm";
 
 export type SettingsAccountNamePropertyProps = React.HTMLProps<HTMLDivElement> & {
     user?: UserModel
-    isUserChanged: boolean
-    setIsUserChanged: Dispatch<SetStateAction<boolean>>
     firstName: string
     setFirstName: Dispatch<SetStateAction<string>>
     lastName: string
     setLastName: Dispatch<SetStateAction<string>>
     username: string
     setUsername: Dispatch<SetStateAction<string>>
-    email: string
-    setEmail: Dispatch<SetStateAction<string>>
     conflictedColumns?: Array<'USERNAME' | 'EMAIL'>
 }
 
 export const SettingsAccountNameProperty: React.FC<SettingsAccountNamePropertyProps> = ({
     user,
-    isUserChanged,
-    setIsUserChanged,
     firstName,
     setFirstName,
     lastName,
     setLastName,
     username,
     setUsername,
-    email,
-    setEmail,
     conflictedColumns
 }) => {    
     return (
@@ -51,10 +44,7 @@ export const SettingsAccountNameProperty: React.FC<SettingsAccountNamePropertyPr
                         inputClassName='text-base'
                         fullBordered={true}
                         value={firstName}
-                        handleChange={(value) => {
-                            setIsUserChanged(true);
-                            setFirstName(value);
-                        }}
+                        handleChange={setFirstName}
                         required
                     />
                     <DefaultInput
@@ -65,10 +55,7 @@ export const SettingsAccountNameProperty: React.FC<SettingsAccountNamePropertyPr
                         inputClassName='text-base'
                         fullBordered={true}
                         value={lastName}
-                        handleChange={(value) => {
-                            setIsUserChanged(true);
-                            setLastName(value);
-                        }}
+                        handleChange={setLastName}
                         required
                     />
                 </div>
@@ -85,41 +72,18 @@ export const SettingsAccountNameProperty: React.FC<SettingsAccountNamePropertyPr
                         inputClassName='text-base'
                         fullBordered={true}
                         value={username}
-                        handleChange={(value) => {
-                            setIsUserChanged(true);
-                            setUsername(value);
-                        }}
+                        handleChange={setUsername}
                         required
                     />
+                    <p className={clsx(
+                        "font-interTight font-medium text-sm text-redColor",
+                        username === user?.username && 'hidden'
+                    )}>You will have to auth again after changing username</p>  
                     <p className={clsx(
                         "font-interTight font-medium text-sm text-redColor",
                         !conflictedColumns?.includes('USERNAME') && 'hidden'
                     )}>The user with such username already exists!</p>                
                 </div>
-                {/* <div className="flex flex-col gap-1 w-full">
-                    <DefaultInput
-                        placeholder='Email'
-                        customClassName={clsx(
-                            'flex-2 w-full',
-                            conflictedColumns?.includes('EMAIL') && 'ring-1 ring-redColor'
-                        )}
-                        // startContent={
-                        //     <p className="font-interTight font-semibold text-base text-secondaryText">@</p>
-                        // }
-                        inputClassName='text-base'
-                        fullBordered={true}
-                        value={email}
-                        handleChange={(value) => {
-                            setIsUserChanged(true);
-                            setEmail(value);
-                        }}
-                        required
-                    />
-                    <p className={clsx(
-                        "font-interTight font-medium text-sm text-redColor",
-                        !conflictedColumns?.includes('EMAIL') && 'hidden'
-                    )}>The user with such email already exists!</p>
-                </div> */}
             </div>
         </div>
     );

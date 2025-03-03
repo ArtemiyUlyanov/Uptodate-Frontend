@@ -14,37 +14,12 @@ const useCategoriesQuery = (
     });
 }
 
-type CategoriesContextType = {
+export type UseCategoriesResponse = {
     categories: CategoryModel[]
 }
 
-const defaultContext: CategoriesContextType = {
-    categories: []
+export const useCategories = (): UseCategoriesResponse => {
+    const { data, refetch } = useCategoriesQuery({});
+
+    return { categories: data?.categories || [] };
 }
-
-export const CategoriesContext = createContext<CategoriesContextType>(defaultContext);
-
-export type CategoriesProviderProps = React.HTMLProps<HTMLDivElement>
-
-export const CategoriesProvider: React.FC<CategoriesProviderProps> = ({
-    children
-}) => {
-    const [categories, setCategories] = useState<CategoryModel[]>([]);
-    const categoriesQuery = useCategoriesQuery({});
-
-    useEffect(() => {
-        categoriesQuery.refetch();
-    }, []);
-
-    useEffect(() => {
-        categoriesQuery.data && setCategories(categoriesQuery.data?.categories);
-    }, [categoriesQuery.data])
-
-    return (
-        <CategoriesContext.Provider value={{ categories }}>
-            {children}
-        </CategoriesContext.Provider>
-    );
-}
-
-export const useCategories = () => useContext(CategoriesContext);

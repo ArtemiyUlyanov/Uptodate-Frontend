@@ -7,6 +7,7 @@ export type UseUploaderResponse = {
     removeFile: (file: File) => void
     addFile: (file: File) => void
     clearFiles: () => void
+    onSelectionChange?: (selectedFiles: File[]) => void
 }
 
 export type UseUploaderProps = {
@@ -43,7 +44,7 @@ export const useUploader = (trigger: (onClick: () => void) => React.ReactNode, p
     }
 
     const removeFile = (file: File) => {
-        setSelectedFiles(prev => [...prev.filter(obj => obj.name !== file.name)]);
+        setSelectedFiles(prev => prev.filter(obj => obj.name !== file.name));
     }
 
     const addFile = (file: File) => {
