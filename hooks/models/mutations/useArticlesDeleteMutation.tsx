@@ -50,8 +50,7 @@ export const useArticlesDeleteMutation = ({ queryKey }: UseArticlesDeleteMutatio
                     <TrashIcon />
                 )
             });
-        },
-        onError: () => console.log('sddsds')
+        }
     });
 
     return { deleteMutate: mutate };

@@ -49,8 +49,7 @@ export const useCommentsDeleteMutation = ({ queryKey }: UseCommentsDeleteMutatio
                     <TrashIcon />
                 )
             });
-        },
-        onError: () => console.log('sddsds')
+        }
     });
 
     return { deleteMutate: mutate };

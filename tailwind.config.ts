@@ -65,22 +65,22 @@ export default {
 
         // darkText: "#151516",
 
-        backgroundColor: "#0B0B0E",
+        backgroundColor: "#111113",
         primaryColor: "#EFEEEC",
         secondaryColor: "#5F5F5F",
         secondaryColor2: "#C4C4C4",
-        emphasizingColor: "#111115",
-        emphasizingColor2: "#1A1A1F",
-        emphasizingColor3: "#24242C",
+        emphasizingColor: "#111113",
+        emphasizingColor2: "#1E1E22",
+        emphasizingColor3: "#313136",
         redColor: "#F44336",
-        aspectColor: "#1C77FF",
+        aspectColor: "#1A8CFF",
         warnColor: "#FF4C4C",
 
-        borderColor: "#1D1D24",
+        borderColor: "#2C2C2C",
         
         primaryText: "#EFEEEC",
         redText: "#F44336",
-        aspectText: "#1C77FF",
+        aspectText: "#1A8CFF",
         secondaryText: "#5F5F5F",
         secondaryText2: "#C4C4C4",
 

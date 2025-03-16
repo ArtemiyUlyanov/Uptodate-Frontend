@@ -19,7 +19,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 
 const SettingsPage = () => {
-    const { user, isFetched: isUserFetched, uploadIconMutate, deleteIconMutate, editMutate, confirmEmailMutate, isEditPending } = useAccount();
+    const { user, isFetched: isUserFetched, uploadIconMutate, deleteIconMutate, editMutate, deleteMutate, confirmEmailMutate, confirmPasswordMutate, isEditPending, isDeletePending } = useAccount();
     const { translate } = useDictionary(user);
 
     return (
@@ -39,7 +39,10 @@ const SettingsPage = () => {
                 deleteIconMutate={deleteIconMutate} 
                 editMutate={editMutate} 
                 confirmEmailMutate={confirmEmailMutate}
+                confirmPasswordMutate={confirmPasswordMutate}
+                deleteMutate={deleteMutate}
                 isEditPending={isEditPending}
+                isDeletePending={isDeletePending}
             />
         </DefaultLayout>
     );

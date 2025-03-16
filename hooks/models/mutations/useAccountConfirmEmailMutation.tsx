@@ -6,7 +6,7 @@ import { accountEditApi, ApiAccountEditParams, ApiAccountEditResponse } from "@/
 import { accountEmailConfirmApi, ApiAccountEmailConfirmParams, ApiAccountEmailConfirmResponse } from "@/services/api/account.email.confirm.endpoint";
 import { accountDeleteIconApi, ApiAccountIconDeleteParams, ApiAccountIconDeleteResponse } from "@/services/api/account.icon.delete.endpoint";
 import { accountUploadIconApi, ApiAccountIconUploadParams, ApiAccountIconUploadResponse } from "@/services/api/account.icon.upload.endpoint";
-import { ApiAccountInfoResponse } from "@/services/api/account.info.endpoint";
+import { ApiAccountMeResponse } from "@/services/api/account.me.endpoint";
 import { ApiArticleGetParams, ApiArticleGetResponse } from "@/services/api/articles.get.endpoint";
 import { ApiArticleLikeParams, ApiArticleLikeResponse, likeArticleApi } from "@/services/api/articles.like.endpoint";
 import { ErrorResponse } from "@/services/api/responses.types";
@@ -32,7 +32,7 @@ export const useAccountConfirmEmailMutation = ({ queryKey }: UseAccountConfirmEm
         mutationFn: accountEmailConfirmApi,
         onSuccess: (data) => {
             if (data.model) {
-                queryClient.setQueryData(queryKey, (oldData: ApiAccountInfoResponse | undefined) => {
+                queryClient.setQueryData(queryKey, (oldData: ApiAccountMeResponse | undefined) => {
                     if (!oldData) return oldData;
                     return { ...oldData, model: data.model };
                 });

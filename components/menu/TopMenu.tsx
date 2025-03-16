@@ -72,6 +72,7 @@ const TopMenu: React.FC<TopMenuProps> = ({
         <div 
             className={clsx(
                 'fixed w-full z-[9999]',
+                'flex flex-row justify-center',
                 'transition-all duration-500',
                 !isSearchUnwrapped && 'h-auto max-h-auto bg-black/0',
                 isSearchUnwrapped && 'h-full max-h-full bg-black/15'
@@ -79,7 +80,7 @@ const TopMenu: React.FC<TopMenuProps> = ({
         >
             <div 
                 className={clsx(
-                    'flex w-full pr-16 pl-16 justify-between h-[60px] z-[9999] bg-backgroundColor',
+                    'flex pl-16 pr-16 w-full justify-between h-[60px] z-[9999] bg-backgroundColor',
                     'border-b border-b-borderColor'
                 )}
             >

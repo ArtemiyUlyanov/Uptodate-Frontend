@@ -36,8 +36,7 @@ export const useCommentsEditMutation = ({ queryKey }: UseCommentsEditMutationPar
                     )
                 }
             });
-        },
-        onError: () => console.log('sddsds')
+        }
     });
 
     return { editMutate: mutate, isEditPending: isPending };

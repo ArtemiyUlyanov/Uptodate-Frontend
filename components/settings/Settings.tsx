@@ -7,6 +7,8 @@ import { UseMutateFunction } from "@tanstack/react-query"
 import { ApiAccountIconDeleteParams, ApiAccountIconDeleteResponse } from "@/services/api/account.icon.delete.endpoint"
 import { ApiAccountEditParams, ApiAccountEditResponse } from "@/services/api/account.edit.endpoint"
 import { ApiAccountEmailConfirmParams, ApiAccountEmailConfirmResponse } from "@/services/api/account.email.confirm.endpoint"
+import { ApiAccountDeleteParams, ApiAccountDeleteResponse } from "@/services/api/account.delete.endpoint"
+import { ApiAccountPasswordConfirmParams, ApiAccountPasswordConfirmResponse } from "@/services/api/account.password.confirm.endpoint"
 
 export type SettingsProps = React.HTMLProps<HTMLDivElement> & {
     user?: UserModel
@@ -15,7 +17,10 @@ export type SettingsProps = React.HTMLProps<HTMLDivElement> & {
     deleteIconMutate: UseMutateFunction<ApiAccountIconDeleteResponse, ErrorResponse, ApiAccountIconDeleteParams, unknown>
     editMutate: UseMutateFunction<ApiAccountEditResponse, ErrorResponse, ApiAccountEditParams, unknown>
     confirmEmailMutate: UseMutateFunction<ApiAccountEmailConfirmResponse, ErrorResponse, ApiAccountEmailConfirmParams, unknown>
+    confirmPasswordMutate: UseMutateFunction<ApiAccountPasswordConfirmResponse, ErrorResponse, ApiAccountPasswordConfirmParams, unknown>
+    deleteMutate: UseMutateFunction<ApiAccountDeleteResponse, ErrorResponse, ApiAccountDeleteParams, unknown>
     isEditPending: boolean
+    isDeletePending: boolean
 }
 
 export const Settings: React.FC<SettingsProps> = ({
@@ -24,8 +29,11 @@ export const Settings: React.FC<SettingsProps> = ({
     uploadIconMutate,
     deleteIconMutate,
     editMutate,
+    deleteMutate,
     confirmEmailMutate,
-    isEditPending
+    confirmPasswordMutate,
+    isEditPending,
+    isDeletePending
 }) => {
     return (
         (isUserFetched ?
@@ -35,8 +43,11 @@ export const Settings: React.FC<SettingsProps> = ({
                 uploadIconMutate={uploadIconMutate} 
                 deleteIconMutate={deleteIconMutate} 
                 editMutate={editMutate}
+                deleteMutate={deleteMutate}
                 confirmEmailMutate={confirmEmailMutate} 
+                confirmPasswordMutate={confirmPasswordMutate}
                 isEditPending={isEditPending}
+                isDeletePending={isDeletePending}
             />
         :
             <div className="flex flex-col gap-4 items-center justify-center w-full h-full">

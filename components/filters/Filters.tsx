@@ -16,6 +16,7 @@ import clsx from "clsx";
 import { useMemo } from "react";
 import { useCategories } from "@/hooks/models/useCategories";
 import { UserModel } from "@/models/user";
+import { UnwrappingElementIcon } from "@/ui/icons/UnwrappingElementIcon";
 
 export type FiltersProps = React.HTMLProps<HTMLDivElement> & {
     user?: UserModel
@@ -87,6 +88,18 @@ const Filters: React.FC<FiltersProps> = ({
                                     <SortbyFilterIcon />
                                 </div>
                             }
+                            indicator={
+                                <div className={clsx(
+                                    'h-1'
+                                )}>
+                                    <UnwrappingElementIcon
+                                        className={clsx(
+                                            'w-auto h-full fill-secondaryColor',
+                                            'transition-all duration-200 rotate-90',
+                                        )}
+                                    />
+                                </div>
+                            }
                         >
                             <SortFilter 
                                 name={translate('common.filters.sort_by.name')}
@@ -128,6 +141,18 @@ const Filters: React.FC<FiltersProps> = ({
                                 <div className="h-5 fill-secondaryText">
                                     <CategoriesFilterIcon 
                                         className="fill-primaryText" 
+                                    />
+                                </div>
+                            }
+                            indicator={
+                                <div className={clsx(
+                                    'h-1'
+                                )}>
+                                    <UnwrappingElementIcon
+                                        className={clsx(
+                                            'w-auto h-full fill-secondaryColor',
+                                            'transition-all duration-200 rotate-90',
+                                        )}
                                     />
                                 </div>
                             }

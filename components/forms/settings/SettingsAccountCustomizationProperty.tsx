@@ -156,7 +156,7 @@ export const SettingsAccountCustomizationProperty: React.FC<SettingsAccountCusto
                         }
                         key='ru'
                     >
-                        Russian
+                        Русский
                     </AutocompleteItem>
                 </Autocomplete>
             </div>

@@ -26,20 +26,6 @@ export const DashboardLikedArticlesTable: React.FC<DashboardLikedArticlesTablePr
     articles,
     likeMutate
 }) => {
-    // const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set([]));
-
-    // const handleChange = (keys: Selection) => {
-    //     if (keys == 'all') {
-    //         setSelectedKeys(new Set(articles?.map(article => article.id.toString())));
-    //     } else {
-    //         setSelectedKeys(keys as Set<string>);
-    //     }
-    // }
-
-    const toggleLikeOnSelectedArticles = () => {
-
-    }
-
     const toggleLikeOnArticle = (id: number) => {
         likeMutate({ id });
     }
@@ -56,14 +42,14 @@ export const DashboardLikedArticlesTable: React.FC<DashboardLikedArticlesTablePr
                 removeWrapper 
                 aria-label="Table with images"
                 classNames={{
-                    th: 'rounded-none font-interTight font-semibold text-xs text-primaryText bg-emphasizingColor2'
+                    th: 'rounded-none font-interTight font-semibold text-sm text-primaryText bg-emphasizingColor2'
                 }}
             >
                 <TableHeader>
-                    <TableColumn className="flex-1 pl-4 w-24">ICON</TableColumn>
-                    <TableColumn className="flex-1">HEADING</TableColumn>
-                    <TableColumn className="flex-1">DESCRIPTION</TableColumn>
-                    <TableColumn className="flex-1 text-right pr-4">ACTIONS</TableColumn>
+                    <TableColumn className="flex-1 pl-4 w-24">Icon</TableColumn>
+                    <TableColumn className="flex-1">Heading</TableColumn>
+                    <TableColumn className="flex-1">Description</TableColumn>
+                    <TableColumn className="flex-1 text-right pr-4">Actions</TableColumn>
                 </TableHeader>
                 <TableBody emptyContent={"No articles to show"}>
                     {(articles || []).map(article =>

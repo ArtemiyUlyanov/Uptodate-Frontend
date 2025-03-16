@@ -121,7 +121,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                                     'flex flex-col gap-1'
                                 )}>
                                     <p className={clsx(
-                                        'font-interTight font-semibold text-sm text-primaryText'
+                                        'font-interTight font-semibold text-sm text-secondaryText'
                                     )}>{translate('common.login.fields.username.name')}</p>
                                     <DefaultInput
                                         {...register('username', { required: translate('common.login.errors.username_field_incorrect') })}
@@ -141,7 +141,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                                     'flex flex-col gap-1'
                                 )}>
                                     <p className={clsx(
-                                        'font-interTight font-semibold text-sm text-primaryText'
+                                        'font-interTight font-semibold text-sm text-secondaryText'
                                     )}>{translate('common.login.fields.password.name')}</p>
                                     <DefaultInput
                                         {...register('password', { required: translate('common.login.errors.password_field_incorrect') })}

@@ -18,6 +18,7 @@ import DefaultLink from "../../ui/links/DefaultLink";
 import RedLink from "../../ui/links/RedLink";
 import SearchArticleCard from "../articles/cards/SearchArticleCard";
 import { UserModel } from "@/models/user";
+import { UnwrappingElementIcon } from "@/ui/icons/UnwrappingElementIcon";
 
 export type TopMenuSearchProps = React.HTMLProps<HTMLDivElement> & {
     user?: UserModel
@@ -116,6 +117,18 @@ const TopMenuSearch: React.FC<TopMenuSearchProps> = ({
                 >
                     <AccordionItem
                         title={translate('common.search.recent_queries_text')}
+                        indicator={
+                            <div className={clsx(
+                                'h-1'
+                            )}>
+                                <UnwrappingElementIcon
+                                    className={clsx(
+                                        'w-auto h-full fill-secondaryColor',
+                                        'transition-all duration-200 rotate-90',
+                                    )}
+                                />
+                            </div>
+                        }
                     >
                         <div className={clsx(
                             'flex flex-col w-full gap-2'

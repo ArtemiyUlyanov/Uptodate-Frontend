@@ -3,7 +3,7 @@ import { ArticleModel } from "@/models/article";
 import { ArticleLikeModel } from "@/models/article_like";
 import { UserModel } from "@/models/user";
 import { accountUploadIconApi, ApiAccountIconUploadParams, ApiAccountIconUploadResponse } from "@/services/api/account.icon.upload.endpoint";
-import { ApiAccountInfoResponse } from "@/services/api/account.info.endpoint";
+import { ApiAccountMeResponse } from "@/services/api/account.me.endpoint";
 import { ApiArticleGetParams, ApiArticleGetResponse } from "@/services/api/articles.get.endpoint";
 import { ApiArticleLikeParams, ApiArticleLikeResponse, likeArticleApi } from "@/services/api/articles.like.endpoint";
 import { ErrorResponse } from "@/services/api/responses.types";
@@ -27,7 +27,7 @@ export const useAccountUploadIconMutation = ({ queryKey }: UseAccountUploadIconM
         mutationFn: accountUploadIconApi,
         onSuccess: (data) => {
             if (data.model) {
-                queryClient.setQueryData(queryKey, (oldData: ApiAccountInfoResponse | undefined) => {
+                queryClient.setQueryData(queryKey, (oldData: ApiAccountMeResponse | undefined) => {
                     if (!oldData) return oldData;
                     return { ...oldData, model: data.model };
                 });

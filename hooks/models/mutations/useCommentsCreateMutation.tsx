@@ -49,8 +49,7 @@ export const useCommentsCreateMutation = ({ queryKey }: UseCommentsCreateMutatio
                     <CheckmarkIcon />
                 )
             });
-        },
-        onError: () => console.log('sddsds')
+        }
     });
 
     return { createMutate: mutate, isCreatePending: isPending };

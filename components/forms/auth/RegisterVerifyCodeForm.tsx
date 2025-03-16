@@ -94,7 +94,7 @@ const RegisterVerifyCodeForm: React.FC<RegisterVerifyCodeFormProps> = ({
                                     'flex flex-col gap-1'
                                 )}>
                                     <p className={clsx(
-                                        'font-interTight font-semibold text-sm text-primaryText'
+                                        'font-interTight font-semibold text-sm text-secondaryText'
                                     )}>{translate('common.registerVerifyCode.fields.code.name')}</p>
                                     <DefaultInputOtp 
                                         {...register('code', { required: translate('common.register.errors.email_field_incorrect') })}

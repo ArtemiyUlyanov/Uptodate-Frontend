@@ -26,7 +26,7 @@ export const SettingsAccountChangeEmailConfirmationForm: React.FC<SettingsAccoun
 }) => {
     const { register, handleSubmit, setError, watch, setValue, formState: { errors, isSubmitting, isSubmitSuccessful, isValid } } = useForm<SettingsAccountChangeEmailConfirmationFormData>();
 
-    const executeVerifyingCode = async (data: SettingsAccountChangeEmailConfirmationFormData) => {
+    const executeConfirmingCode = async (data: SettingsAccountChangeEmailConfirmationFormData) => {
         confirmEmailMutate({ code: data.code, email });
         
         setValue('code', '');
@@ -47,7 +47,7 @@ export const SettingsAccountChangeEmailConfirmationForm: React.FC<SettingsAccoun
                 isDisabled={isSubmitting}
                 length={6}
                 handleChange={(value) => setValue('code', value)}
-                handleComplete={handleSubmit(executeVerifyingCode)}
+                handleComplete={handleSubmit(executeConfirmingCode)}
             />
             <div className={clsx(
                 'flex flex-col'

@@ -50,7 +50,7 @@ const SelectableDropdown: React.FC<SelectableDropdownProps> = ({
                 classNames?.trigger
             )}>{name}</p>
             <div className={clsx(
-                'h-1.5'
+                'h-1'
             )}>
                 <UnwrappingElementIcon
                     className={clsx(

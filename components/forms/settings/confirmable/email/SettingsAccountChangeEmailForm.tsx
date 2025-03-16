@@ -11,6 +11,7 @@ import { SettingsAccountChangeEmailConfirmationForm } from "./SettingsAccountCha
 import { accountEmailEditApi, ApiAccountEmailEditParams, ApiAccountEmailEditResponse } from "@/services/api/account.email.edit.endpoint";
 import { KeyIcon } from "@/ui/icons/KeyIcon";
 import { CloseIcon } from "@/ui/icons/CloseIcon";
+import { checkEmailValid } from "@/utils/input.utils";
 
 export type SettingsAccountChangeEmailFormProps = React.HTMLProps<HTMLDivElement> & {
     user?: UserModel
@@ -47,8 +48,6 @@ export const SettingsAccountChangeEmailForm: React.FC<SettingsAccountChangeEmail
 
     const isEmailChanged = useMemo(() => email !== user?.email, [user, email]);
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
     const { data, refetch, isFetching } = useAccountEditEmailQuery({ email }, {
         enabled: false
     })
@@ -61,7 +60,7 @@ export const SettingsAccountChangeEmailForm: React.FC<SettingsAccountChangeEmail
 
                     addToast({
                         title: "Confirm your email",
-                        description: "A 6-digit verification code has been sent to your email 🔑",
+                        description: "A 6-digit confirmation code has been sent to your email 🔑",
                         classNames: {
                             title: 'font-interTight font-semibold text-primaryText',
                             icon: 'h-4 fill-primaryColor',
@@ -73,8 +72,6 @@ export const SettingsAccountChangeEmailForm: React.FC<SettingsAccountChangeEmail
                         )
                     });
                 } else {
-                    console.log(response.data?.error);
-
                     addToast({
                         title: "Something went wrong",
                         description: "Unable to confirm email ❌",
@@ -93,37 +90,12 @@ export const SettingsAccountChangeEmailForm: React.FC<SettingsAccountChangeEmail
     }
 
     useEffect(() => {
-        setIsEmailValid(emailRegex.test(email));
+        setIsEmailValid(checkEmailValid(email));
     }, [email]);
 
     return (
         <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-2 pt-4 pb-4">
             <p className="font-interTight font-semibold text-sm text-secondaryText">Email</p>
-            <div className="flex flex-col gap-1 w-full">
-                <DefaultInput
-                    placeholder='Email'
-                    customClassName={clsx(
-                        'flex-2 w-full',
-                        (conflictedColumns?.includes('EMAIL') || !isEmailValid) && 'ring-1 ring-redColor'
-                    )}
-                    // startContent={
-                    //     <p className="font-interTight font-semibold text-base text-secondaryText">@</p>
-                    // }
-                    inputClassName='text-base'
-                    fullBordered={true}
-                    value={email}
-                    handleChange={setEmail}
-                    required
-                />
-                <p className={clsx(
-                    "font-interTight font-medium text-sm text-redColor",
-                    !conflictedColumns?.includes('EMAIL') && 'hidden'
-                )}>The user with such email already exists!</p>
-                <p className={clsx(
-                    "font-interTight font-medium text-sm text-redColor",
-                    isEmailValid && 'hidden'
-                )}>The email is invalid!</p>
-            </div>
             {isEmailWaitingConfirmed &&
                 <SettingsAccountChangeEmailConfirmationForm
                     email={email}
@@ -132,16 +104,43 @@ export const SettingsAccountChangeEmailForm: React.FC<SettingsAccountChangeEmail
                 />
             }
             {!isEmailWaitingConfirmed && 
-                <div>
-                    <DefaultButton
-                        text='Save'
-                        customClassName='font-interTight font-semibold text-sm text-center rounded-md'
-                        onPress={sendForm}
-                        isLoading={isFetching}
-                        isDisabled={isFetching || !isEmailChanged || !isEmailValid || !email || !changesAvailable || isEmailWaitingConfirmed}
-                        type="submit"
-                        size="sm"
-                    />
+                <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-1 w-full">
+                        <DefaultInput
+                            placeholder='Enter your email'
+                            customClassName={clsx(
+                                'flex-2 w-full',
+                                (conflictedColumns?.includes('EMAIL') || !isEmailValid) && 'ring-1 ring-redColor'
+                            )}
+                            // startContent={
+                            //     <p className="font-interTight font-semibold text-base text-secondaryText">@</p>
+                            // }
+                            inputClassName='text-base'
+                            fullBordered={true}
+                            value={email}
+                            handleChange={setEmail}
+                            required
+                        />
+                        <p className={clsx(
+                            "font-interTight font-medium text-sm text-redColor",
+                            !conflictedColumns?.includes('EMAIL') && 'hidden'
+                        )}>The user with such email already exists!</p>
+                        <p className={clsx(
+                            "font-interTight font-medium text-sm text-redColor",
+                            isEmailValid && 'hidden'
+                        )}>The email is invalid!</p>
+                    </div>
+                    <div>
+                        <DefaultButton
+                            text='Save'
+                            customClassName='font-interTight font-semibold text-sm text-center rounded-md'
+                            onPress={sendForm}
+                            isLoading={isFetching}
+                            isDisabled={isFetching || !isEmailChanged || !isEmailValid || !email || !changesAvailable || isEmailWaitingConfirmed}
+                            type="submit"
+                            size="sm"
+                        />
+                    </div>
                 </div>
             }
         </form>

@@ -86,7 +86,7 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
                 </p>
                 <DefaultButton
                     text={translate('explore.articles_see_more_button')}
-                    customClassName='font-interTight pl-2 pr-2 pt-4 pb-4 font-semibold rounded-md text-sm'
+                    customClassName='font-interTight font-semibold rounded-lg text-sm'
                     size="sm"
                     type='submit'
                     onClickButton={() => setPages((prev) => prev + 1)}

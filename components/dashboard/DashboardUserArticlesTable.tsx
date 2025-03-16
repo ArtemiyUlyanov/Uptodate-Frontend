@@ -98,18 +98,18 @@ export const DashboardUserArticlesTable: React.FC<DashboardUserArticlesTableProp
                 removeWrapper 
                 aria-label="Table with images"
                 classNames={{
-                    th: 'rounded-none font-interTight font-semibold text-xs text-primaryText bg-emphasizingColor2'
+                    th: 'rounded-none font-interTight font-semibold text-sm text-primaryText bg-emphasizingColor2'
                 }}
                 selectionMode="multiple"
                 selectedKeys={selectedKeys}
                 onSelectionChange={handleChange}
             >
                 <TableHeader>
-                    <TableColumn className="flex-1 w-24">ICON</TableColumn>
-                    <TableColumn className="flex-1">HEADING</TableColumn>
-                    <TableColumn className="flex-1">DESCRIPTION</TableColumn>
-                    <TableColumn className="flex-1 text-right">ACTIVITY</TableColumn>
-                    <TableColumn className="flex-1 text-right pr-4">ACTIONS</TableColumn>
+                    <TableColumn className="flex-1 w-24">Icon</TableColumn>
+                    <TableColumn className="flex-1">Heading</TableColumn>
+                    <TableColumn className="flex-1">Description</TableColumn>
+                    <TableColumn className="flex-1 text-right">Activity</TableColumn>
+                    <TableColumn className="flex-1 text-right pr-4">Actions</TableColumn>
                 </TableHeader>
                 <TableBody emptyContent={"No articles to show"}>
                     {(articles || []).map(article =>
@@ -127,10 +127,10 @@ export const DashboardUserArticlesTable: React.FC<DashboardUserArticlesTableProp
                                 />
                             </TableCell>
                             <TableCell>
-                                <p className="font-interTight font-medium text-primaryColor">{capitalizeText(article.heading)}</p>
+                                <p className="font-interTight font-medium text-primaryText">{capitalizeText(article.heading)}</p>
                             </TableCell>
                             <TableCell>
-                                <p className="font-interTight font-medium text-primaryColor">{article.description}</p>
+                                <p className="font-interTight font-medium text-primaryText">{article.description}</p>
                             </TableCell>
                             <TableCell className="justify-end">
                                 <div className="flex flex-row justify-end items-center gap-4">
@@ -142,7 +142,7 @@ export const DashboardUserArticlesTable: React.FC<DashboardUserArticlesTableProp
                                     </div>
                                     <div className="flex flex-row items-center gap-1">
                                         <LikeIcon 
-                                            className="w-4 h-4 fill-primaryText" 
+                                            className="h-3.5 fill-primaryText" 
                                             wrapped={false}
                                             stroked={true} 
                                         />

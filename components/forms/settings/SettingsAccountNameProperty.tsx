@@ -8,7 +8,7 @@ import DefaultInput from "@/ui/inputs/DefaultInput";
 import { Button, Tooltip } from "@heroui/react";
 import clsx from "clsx";
 import { Dispatch, SetStateAction, useState } from "react";
-import { SettingsAccountChangeEmailForm } from "./email/SettingsAccountChangeEmailForm";
+import { SettingsAccountChangeEmailForm } from "./confirmable/email/SettingsAccountChangeEmailForm";
 
 export type SettingsAccountNamePropertyProps = React.HTMLProps<HTMLDivElement> & {
     user?: UserModel

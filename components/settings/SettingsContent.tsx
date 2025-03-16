@@ -11,6 +11,8 @@ import { ErrorResponse } from "@/services/api/responses.types";
 import { ApiAccountIconDeleteParams, ApiAccountIconDeleteResponse } from "@/services/api/account.icon.delete.endpoint";
 import { ApiAccountEditParams, ApiAccountEditResponse } from "@/services/api/account.edit.endpoint";
 import { ApiAccountEmailConfirmParams, ApiAccountEmailConfirmResponse } from "@/services/api/account.email.confirm.endpoint";
+import { ApiAccountDeleteParams, ApiAccountDeleteResponse } from "@/services/api/account.delete.endpoint";
+import { ApiAccountPasswordConfirmParams, ApiAccountPasswordConfirmResponse } from "@/services/api/account.password.confirm.endpoint";
 
 export type SettingsContentProps = React.HTMLProps<HTMLDivElement> & {
     user?: UserModel
@@ -18,8 +20,11 @@ export type SettingsContentProps = React.HTMLProps<HTMLDivElement> & {
     uploadIconMutate: UseMutateFunction<ApiAccountIconUploadResponse, ErrorResponse, ApiAccountIconUploadParams, unknown>
     deleteIconMutate: UseMutateFunction<ApiAccountIconDeleteResponse, ErrorResponse, ApiAccountIconDeleteParams, unknown>
     editMutate: UseMutateFunction<ApiAccountEditResponse, ErrorResponse, ApiAccountEditParams, unknown>
+    deleteMutate: UseMutateFunction<ApiAccountDeleteResponse, ErrorResponse, ApiAccountDeleteParams, unknown>
     confirmEmailMutate: UseMutateFunction<ApiAccountEmailConfirmResponse, ErrorResponse, ApiAccountEmailConfirmParams, unknown>
+    confirmPasswordMutate: UseMutateFunction<ApiAccountPasswordConfirmResponse, ErrorResponse, ApiAccountPasswordConfirmParams, unknown>
     isEditPending: boolean
+    isDeletePending: boolean
 }
 
 export const SettingsContent: React.FC<SettingsContentProps> = ({
@@ -28,8 +33,11 @@ export const SettingsContent: React.FC<SettingsContentProps> = ({
     uploadIconMutate,
     deleteIconMutate,
     editMutate,
+    deleteMutate,
     confirmEmailMutate,
-    isEditPending
+    confirmPasswordMutate,
+    isEditPending,
+    isDeletePending
 }) => {
     const router = useRouter();
 
@@ -55,7 +63,18 @@ export const SettingsContent: React.FC<SettingsContentProps> = ({
                     <p className="font-interTight font-semibold text-lg text-primaryText">Settings</p>
                 </div>
             </div>
-            <SettingsAccountPropertiesEditForm user={user} isUserFetched={isUserFetched} uploadIconMutate={uploadIconMutate} deleteIconMutate={deleteIconMutate} editMutate={editMutate} confirmEmailMutate={confirmEmailMutate} isEditPending={isEditPending} />
+            <SettingsAccountPropertiesEditForm 
+                user={user} 
+                isUserFetched={isUserFetched} 
+                uploadIconMutate={uploadIconMutate} 
+                deleteIconMutate={deleteIconMutate} 
+                editMutate={editMutate} 
+                deleteMutate={deleteMutate}
+                confirmEmailMutate={confirmEmailMutate} 
+                confirmPasswordMutate={confirmPasswordMutate}
+                isEditPending={isEditPending} 
+                isDeletePending={isDeletePending}
+            />
         </div>
     );
 }

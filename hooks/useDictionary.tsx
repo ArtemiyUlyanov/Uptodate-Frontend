@@ -16,7 +16,7 @@ export type UseDictionaryResponse = {
 
 export const useDictionary = (user?: UserModel): UseDictionaryResponse => {
     const { language: selectorLanguage } = useSelector((state: RootState) => state.language);
-    const language = useMemo(() => user ? user.settings.language : selectorLanguage, [user]);
+    const language = useMemo(() => user && user.settings ? user.settings?.language : selectorLanguage, [user, selectorLanguage]);
     const [dictionary, setDictionary] = useState<any>({});
     
     const { data, refetch } = useQuery({

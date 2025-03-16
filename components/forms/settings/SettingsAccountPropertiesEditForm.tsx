@@ -15,7 +15,11 @@ import { ApiAccountEditParams, ApiAccountEditResponse } from "@/services/api/acc
 import { Divider } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { ApiAccountEmailConfirmParams, ApiAccountEmailConfirmResponse } from "@/services/api/account.email.confirm.endpoint";
-import { SettingsAccountChangeEmailForm } from "./email/SettingsAccountChangeEmailForm";
+import { SettingsAccountChangeEmailForm } from "./confirmable/email/SettingsAccountChangeEmailForm";
+import { ApiAccountDeleteParams, ApiAccountDeleteResponse } from "@/services/api/account.delete.endpoint";
+import { SettingsAccountDeleteProfileForm } from "./delete/SettingsAccountDeleteProfileForm";
+import { ApiAccountPasswordConfirmParams, ApiAccountPasswordConfirmResponse } from "@/services/api/account.password.confirm.endpoint";
+import { SettingsAccountChangePasswordForm } from "./confirmable/password/SettingsAccountChangePasswordForm";
 
 export type SettingsAccountPropertiesEditFormProps = React.HTMLProps<HTMLDivElement> & {
     user?: UserModel
@@ -23,8 +27,11 @@ export type SettingsAccountPropertiesEditFormProps = React.HTMLProps<HTMLDivElem
     uploadIconMutate: UseMutateFunction<ApiAccountIconUploadResponse, ErrorResponse, ApiAccountIconUploadParams, unknown>
     deleteIconMutate: UseMutateFunction<ApiAccountIconDeleteResponse, ErrorResponse, ApiAccountIconDeleteParams, unknown>
     editMutate: UseMutateFunction<ApiAccountEditResponse, ErrorResponse, ApiAccountEditParams, unknown>
+    deleteMutate: UseMutateFunction<ApiAccountDeleteResponse, ErrorResponse, ApiAccountDeleteParams, unknown>
     confirmEmailMutate: UseMutateFunction<ApiAccountEmailConfirmResponse, ErrorResponse, ApiAccountEmailConfirmParams, unknown>
+    confirmPasswordMutate: UseMutateFunction<ApiAccountPasswordConfirmResponse, ErrorResponse, ApiAccountPasswordConfirmParams, unknown>
     isEditPending: boolean
+    isDeletePending: boolean
 }
 
 const useAccountChangesAvailableQuery = (
@@ -44,8 +51,11 @@ export const SettingsAccountPropertiesEditForm: React.FC<SettingsAccountProperti
     uploadIconMutate,
     deleteIconMutate,
     editMutate,
+    deleteMutate,
     confirmEmailMutate,
-    isEditPending
+    confirmPasswordMutate,
+    isEditPending,
+    isDeletePending
 }) => {
     const [firstName, setFirstName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
@@ -98,6 +108,10 @@ export const SettingsAccountPropertiesEditForm: React.FC<SettingsAccountProperti
                 conflictedColumns={changesAvailableData?.conflictedColumns}
                 changesAvailable={changesAvailableData?.changesAvailable}
             />
+            <SettingsAccountChangePasswordForm
+                user={user}
+                confirmPasswordMutate={confirmPasswordMutate}
+            />
             <SettingsAccountNameProperty 
                 user={user} 
                 firstName={firstName}
@@ -124,6 +138,11 @@ export const SettingsAccountPropertiesEditForm: React.FC<SettingsAccountProperti
                     size="sm"
                 />
             </div>
+            <SettingsAccountDeleteProfileForm 
+                user={user}
+                deleteMutate={deleteMutate}
+                isDeletePending={isDeletePending}
+            />
         </div>
     );
 }

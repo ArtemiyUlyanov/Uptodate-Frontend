@@ -29,14 +29,8 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                     'relative flex flex-col items-center w-full'
                 )}>
                     <div className="relative flex flex-row w-full">
-                        <div className="relative w-1/6 bg-emphasizingColor border-r border-r-borderColor">
-                            {navigation}
-                        </div>
-                        <div className="relative w-5/6 min-h-[100vh]">
-                            <div className="relative w-full h-full">
-                                {children}
-                            </div>
-                        </div>
+                        {navigation}
+                        {children}
                     </div>
                 </div>
             </div>

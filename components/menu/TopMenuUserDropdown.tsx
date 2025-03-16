@@ -8,27 +8,33 @@ import clsx from "clsx";
 import React, { useState } from "react"
 import { useSelector } from "react-redux";
 import { DashboardIcon } from "@/ui/icons/DashboardIcon";
-import { Divider, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Skeleton, User } from "@heroui/react";
+import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Skeleton, User } from "@heroui/react";
 import { UnwrappingElementIcon } from "@/ui/icons/UnwrappingElementIcon";
 import { SettingsIcon } from "@/ui/icons/SettingsIcon";
 import { UserModel } from "@/models/user";
+import { DefaultUser } from "@/ui/users/DefaultUser";
+import empty_icon from '@/public/images/user_empty_icon.png';
 
-export type DashboardNavigationSettingsDropdownProps = React.HTMLProps<HTMLDivElement> & {
+export type TopMenuUserDropdownProps = {
     user?: UserModel
     isUserFetched: boolean
 }
 
-export const DashboardNavigationSettingsDropdown: React.FC<DashboardNavigationSettingsDropdownProps> = ({
+export const TopMenuUserDropdown: React.FC<TopMenuUserDropdownProps> = ({
     user,
     isUserFetched
 }) => {
     const { language, translate } = useDictionary(user);
+    const { isAuthenticated } = useSelector((state: RootState) => state.auth);
 
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    
     return (
         <Dropdown
             className="relative w-auto rounded-lg bg-emphasizingColor2"
-            shouldBlockScroll={false}
             isDisabled={!isUserFetched || user == null}
+            shouldBlockScroll={false}
+            onOpenChange={setIsOpen}
         >
             <DropdownTrigger
                 className={clsx(
@@ -39,21 +45,31 @@ export const DashboardNavigationSettingsDropdown: React.FC<DashboardNavigationSe
                 )}
             >
                 <Skeleton isLoaded={isUserFetched && user !== undefined} className="bg-emphasizingColor2 rounded-lg">
-                    <User
-                        avatarProps={{
-                            size: "sm",
-                            src: user?.icon,
-                            className: 'w-8 h-8 rounded-lg'
-                        }}
-                        classNames={{
-                            base: 'w-full pl-3 pr-3 pt-2 pb-2 justify-start rounded-md bg-emphasizingColor2',
-                            name: "font-interTight font-semibold text-primaryText text-sm",
-                            description: "font-interTight font-medium text-secondaryText text-xs",
-                        }}
-                        description={`@${user?.username}`}
-                        name={`${user?.firstName} ${user?.lastName}`}
-                    />  
-                </Skeleton>  
+                    <div className={clsx(
+                        'flex flex-row items-center gap-2',
+                        'font-interTight font-semibold'
+                    )}>
+                        <UserAvatarIcon
+                            url={user?.icon}
+                            size={undefined}
+                            customClassName='w-4 h-4 rounded-full aspect-square object-cover'
+                        />
+                        <p className={clsx(
+                            `text-sm`
+                        )}>{`${user?.firstName} ${user?.lastName}`}</p>
+                        <div className={clsx(
+                            'h-1'
+                        )}>
+                            <UnwrappingElementIcon
+                                className={clsx(
+                                    'w-auto h-full fill-primaryColor',
+                                    'transition-all duration-200',
+                                    isOpen && 'rotate-180'
+                                )}
+                            />
+                        </div>
+                    </div>
+                </Skeleton>   
             </DropdownTrigger>
             <DropdownMenu
                 disallowEmptySelection
@@ -73,10 +89,10 @@ export const DashboardNavigationSettingsDropdown: React.FC<DashboardNavigationSe
                         title: 'text-primaryText'
                     }}
                 >
-                    <User
+                    <DefaultUser
                         avatarProps={{
                             size: "sm",
-                            src: user?.icon,
+                            src: user?.icon
                         }}
                         classNames={{
                             name: "font-interTight font-semibold text-sm text-primaryText",
@@ -94,7 +110,7 @@ export const DashboardNavigationSettingsDropdown: React.FC<DashboardNavigationSe
                     }}
                     startContent={
                         <div className="w-4 h-4 fill-secondaryColor">
-                            <DashboardIcon wrapped={true} />
+                            <DashboardIcon wrapped={false} />
                         </div>
                     }
                 >
@@ -109,7 +125,7 @@ export const DashboardNavigationSettingsDropdown: React.FC<DashboardNavigationSe
                     }}
                     startContent={
                         <div className="w-4 h-4 fill-secondaryColor">
-                            <SettingsIcon wrapped={true} />
+                            <SettingsIcon wrapped={false} />
                         </div>
                     }
                 >

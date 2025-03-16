@@ -108,7 +108,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
                                         'flex flex-col gap-1'
                                     )}>
                                         <p className={clsx(
-                                            'font-interTight font-semibold text-sm text-primaryText'
+                                            'font-interTight font-semibold text-sm text-secondaryText'
                                         )}>{translate('common.register.fields.firstName.name')}</p>
                                         <DefaultInput
                                             {...register('firstName', { required: translate('common.register.errors.first_name_field_incorrect') })}
@@ -128,7 +128,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
                                         'flex flex-col gap-1'
                                     )}>
                                         <p className={clsx(
-                                            'font-interTight font-semibold text-sm text-primaryText'
+                                            'font-interTight font-semibold text-sm text-secondaryText'
                                         )}>{translate('common.register.fields.lastName.name')}</p>
                                         <DefaultInput
                                             {...register('lastName', { required: translate('common.register.errors.last_name_field_incorrect') })}
@@ -149,7 +149,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
                                     'flex flex-col gap-1'
                                 )}>
                                     <p className={clsx(
-                                        'font-interTight font-semibold text-sm text-primaryText'
+                                        'font-interTight font-semibold text-sm text-secondaryText'
                                     )}>{translate('common.register.fields.email.name')}</p>
                                     <DefaultInput
                                         {...register('email', { required: translate('common.register.errors.email_field_incorrect') })}
@@ -170,7 +170,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
                                     'flex flex-col gap-1'
                                 )}>
                                     <p className={clsx(
-                                        'font-interTight font-semibold text-sm text-primaryText'
+                                        'font-interTight font-semibold text-sm text-secondaryText'
                                     )}>{translate('common.register.fields.username.name')}</p>
                                     <DefaultInput
                                         {...register('username', { required: translate('common.register.errors.username_field_incorrect') })}
@@ -190,7 +190,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
                                     'flex flex-col gap-1'
                                 )}>
                                     <p className={clsx(
-                                        'font-interTight font-semibold text-sm text-primaryText'
+                                        'font-interTight font-semibold text-sm text-secondaryText'
                                     )}>{translate('common.register.fields.password.name')}</p>
                                     <DefaultInput
                                         {...register('password', { required: translate('common.register.errors.password_field_incorrect') })}

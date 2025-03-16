@@ -1,5 +1,5 @@
 import LoginForm from "@/components/forms/auth/LoginForm";
-import { TopMenuProfileSettingsDropdown } from "@/components/menu/TopMenuProfileSettingsDropdown";
+import { TopMenuUserDropdown } from "@/components/menu/TopMenuUserDropdown";
 import { useDictionary } from "@/hooks/useDictionary";
 import { setLanguage } from "@/store/features/language/languageSlice";
 import { RootState } from "@/store/store";
@@ -64,7 +64,7 @@ const TopMenuContent: React.FC<TopMenuContentProps> = ({
                     />
                 </Link>
                 <div className={clsx(
-                    'flex flex-row items-center gap-4 hidden md:flex'
+                    'flex flex-row items-center gap-6 hidden md:flex'
                 )}>
                     {optionTemplates.map((option) => 
                         <DefaultLink
@@ -157,7 +157,7 @@ const TopMenuContent: React.FC<TopMenuContentProps> = ({
                     />
                 }
                 {user && 
-                    <TopMenuProfileSettingsDropdown user={user} isUserFetched={isUserFetched} />
+                    <TopMenuUserDropdown user={user} isUserFetched={isUserFetched} />
                 }
             </div>
         </>

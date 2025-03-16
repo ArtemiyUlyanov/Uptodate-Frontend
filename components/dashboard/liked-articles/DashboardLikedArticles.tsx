@@ -3,6 +3,11 @@ import { UserModel } from "@/models/user";
 import { Spinner } from "@heroui/react";
 import React from "react";
 import { DashboardLikedArticlesContent } from "./DashboardLikedArticlesContent";
+import { ArticleModel } from "@/models/article";
+import { UseMutateFunction } from "@tanstack/react-query";
+import { ApiArticleLikeParams, ApiArticleLikeResponse } from "@/services/api/articles.like.endpoint";
+import { ErrorResponse } from "@/services/api/responses.types";
+import { ApiArticleDeleteParams, ApiArticleDeleteResponse } from "@/services/api/articles.delete.endpoint";
 
 export type DashboardLikedArticlesProps = React.HTMLProps<HTMLDivElement> & {
     user?: UserModel

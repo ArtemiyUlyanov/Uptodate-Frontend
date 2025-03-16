@@ -1,5 +1,5 @@
 import { UserModel } from "@/models/user";
-import { accountInfoApi, ApiAccountInfoParams, ApiAccountInfoResponse } from "@/services/api/account.info.endpoint";
+import { accountMeApi, ApiAccountMeParams, ApiAccountMeResponse } from "@/services/api/account.me.endpoint";
 import { ErrorResponse } from "@/services/api/responses.types";
 import { RootState } from "@/store/store";
 import { UseMutateFunction, useQuery, UseQueryOptions } from "@tanstack/react-query";
@@ -13,14 +13,18 @@ import { useAccountEditMutation } from "./mutations/useAccountEditMutation";
 import { ApiAccountEditParams, ApiAccountEditResponse } from "@/services/api/account.edit.endpoint";
 import { useAccountConfirmEmailMutation } from "./mutations/useAccountConfirmEmailMutation";
 import { ApiAccountEmailConfirmParams, ApiAccountEmailConfirmResponse } from "@/services/api/account.email.confirm.endpoint";
+import { ApiAccountDeleteParams, ApiAccountDeleteResponse } from "@/services/api/account.delete.endpoint";
+import { useAccountDeleteMutation } from "./mutations/useAccountDeleteMutation";
+import { ApiAccountPasswordConfirmParams, ApiAccountPasswordConfirmResponse } from "@/services/api/account.password.confirm.endpoint";
+import { useAccountConfirmPasswordMutation } from "./mutations/useAccountConfirmPasswordMutation";
 
 const useAccountQuery = (
-    params: ApiAccountInfoParams,
-    opts: Partial<UseQueryOptions<ApiAccountInfoResponse>> = {},
+    params: ApiAccountMeParams,
+    opts: Partial<UseQueryOptions<ApiAccountMeResponse>> = {},
 ) => {
-    return useQuery<ApiAccountInfoResponse>({
+    return useQuery<ApiAccountMeResponse>({
       queryKey: ['account', params.isAuthenticated, params.access_token],
-      queryFn: () => accountInfoApi(params),
+      queryFn: () => accountMeApi(params),
       ...opts,
     });
 }
@@ -35,7 +39,10 @@ export type UseAccountResponse = {
     deleteIconMutate: UseMutateFunction<ApiAccountIconDeleteResponse, ErrorResponse, ApiAccountIconDeleteParams, unknown>
     editMutate: UseMutateFunction<ApiAccountEditResponse, ErrorResponse, ApiAccountEditParams, unknown>
     confirmEmailMutate: UseMutateFunction<ApiAccountEmailConfirmResponse, ErrorResponse, ApiAccountEmailConfirmParams, unknown>
+    confirmPasswordMutate: UseMutateFunction<ApiAccountPasswordConfirmResponse, ErrorResponse, ApiAccountPasswordConfirmParams, unknown>
+    deleteMutate: UseMutateFunction<ApiAccountDeleteResponse, ErrorResponse, ApiAccountDeleteParams, unknown>
     isEditPending: boolean
+    isDeletePending: boolean
 }
 
 export const useAccount = (): UseAccountResponse => {
@@ -48,6 +55,8 @@ export const useAccount = (): UseAccountResponse => {
     const { deleteIconMutate } = useAccountDeleteIconMutation({ queryKey: ['account', isAuthenticated, access_token] });
     const { editMutate, isEditPending } = useAccountEditMutation({ queryKey: ['account', isAuthenticated, access_token] });
     const { confirmEmailMutate } = useAccountConfirmEmailMutation({ queryKey: ['account', isAuthenticated, access_token] });
+    const { confirmPasswordMutate } = useAccountConfirmPasswordMutation({ queryKey: ['account', isAuthenticated, access_token] });
+    const { deleteMutate, isDeletePending } = useAccountDeleteMutation({ queryKey: ['account', isAuthenticated, access_token] });
 
-    return { user: data?.model, error: data?.error, refetch, isFetched, uploadIconMutate, deleteIconMutate, editMutate, confirmEmailMutate, isEditPending };
+    return { user: data?.model, error: data?.error, refetch, isFetched, uploadIconMutate, deleteIconMutate, editMutate, deleteMutate, confirmEmailMutate, confirmPasswordMutate, isEditPending, isDeletePending };
 };

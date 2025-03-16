@@ -66,8 +66,7 @@ export const useArticlesLikeMutation = ({ queryKey }: UseArticlesLikeMutationPar
                     )
                 });
             }
-        },
-        onError: () => console.log('sddsds')
+        }
     });
 
     return { likeMutate: mutate };

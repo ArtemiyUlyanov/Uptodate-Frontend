@@ -66,8 +66,7 @@ export const useCommentsLikeMutation = ({ queryKey }: UseCommentsLikeMutationPar
                     )
                 });
             }
-        },
-        onError: () => console.log('sddsds')
+        }
     });
 
     return { likeMutate: mutate };

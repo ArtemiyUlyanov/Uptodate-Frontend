@@ -5,7 +5,7 @@ import { UserModel } from "@/models/user";
 import { accountEditApi, ApiAccountEditParams, ApiAccountEditResponse } from "@/services/api/account.edit.endpoint";
 import { accountDeleteIconApi, ApiAccountIconDeleteParams, ApiAccountIconDeleteResponse } from "@/services/api/account.icon.delete.endpoint";
 import { accountUploadIconApi, ApiAccountIconUploadParams, ApiAccountIconUploadResponse } from "@/services/api/account.icon.upload.endpoint";
-import { ApiAccountInfoResponse } from "@/services/api/account.info.endpoint";
+import { ApiAccountMeResponse } from "@/services/api/account.me.endpoint";
 import { ApiArticleGetParams, ApiArticleGetResponse } from "@/services/api/articles.get.endpoint";
 import { ApiArticleLikeParams, ApiArticleLikeResponse, likeArticleApi } from "@/services/api/articles.like.endpoint";
 import { ErrorResponse } from "@/services/api/responses.types";
@@ -22,23 +22,23 @@ import { useQuery, useMutation, useQueryClient, UseMutateFunction } from "@tanst
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 
-export type UseAccountDeleteIconMutationParams = {
+export type UseAccountEditMutationParams = {
     queryKey: any
 }
 
-export type UseAccountDeleteIconMutationResponse = {
+export type UseAccountEditMutationResponse = {
     editMutate: UseMutateFunction<ApiAccountEditResponse, ErrorResponse, ApiAccountEditParams, unknown>
     isEditPending: boolean
 }
 
-export const useAccountEditMutation = ({ queryKey }: UseAccountDeleteIconMutationParams): UseAccountDeleteIconMutationResponse => {
+export const useAccountEditMutation = ({ queryKey }: UseAccountEditMutationParams): UseAccountEditMutationResponse => {
     const dispatch = useDispatch();
 
     const { mutate: editMutate, isPending: isEditPending } = useMutation<ApiAccountEditResponse, ErrorResponse, ApiAccountEditParams>({
         mutationFn: accountEditApi,
         onSuccess: (data) => {
             if (data.model) {
-                queryClient.setQueryData(queryKey, (oldData: ApiAccountInfoResponse | undefined) => {
+                queryClient.setQueryData(queryKey, (oldData: ApiAccountMeResponse | undefined) => {
                     if (!oldData) return oldData;
 
                     if (oldData.model?.username !== data.model?.username) {
